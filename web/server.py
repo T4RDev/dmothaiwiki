@@ -432,10 +432,14 @@ def build_cache():
             CACHE["jogress_quests"] = []
     try:
         CACHE["decks"] = build_decks(dex, CACHE["digimon"])
+        if not CACHE["decks"]:
+            dk_cache = Path(__file__).resolve().parent / "decks_cache.json"
+            if dk_cache.exists():
+                CACHE["decks"] = json.loads(dk_cache.read_text(encoding="utf-8"))
         in_deck = {}
         for dk in CACHE["decks"]:
-            for m in dk["members"]:
-                if m["slug"] and all(x["id"] != dk["id"] for x in in_deck.get(m["slug"], [])):
+            for m in dk.get("members", []):
+                if m.get("slug") and all(x["id"] != dk["id"] for x in in_deck.get(m["slug"], [])):
                     in_deck.setdefault(m["slug"], []).append({"id": dk["id"], "name": dk["name"]})
         for p in CACHE["digimon"]:
             p["decks"] = in_deck.get(p["slug"], [])
@@ -471,6 +475,11 @@ def build_cache():
     try:
         sm_payload = build_seals()
         seals = sm_payload.get("seals", [])
+        if not seals:
+            sm_cache = Path(__file__).resolve().parent / "seals_cache.json"
+            if sm_cache.exists():
+                sm_payload = json.loads(sm_cache.read_text(encoding="utf-8"))
+                seals = sm_payload.get("seals", [])
         CACHE["seal_master"] = sm_payload
         CACHE["seals"] = seals
         CACHE["seals_by_slug"] = {s["slug"]: s for s in seals}
@@ -488,6 +497,11 @@ def build_cache():
             CACHE["seals_by_slug"] = {s["slug"]: s for s in seals}
             for s in seals:
                 CACHE["seals_by_slug"][str(s["id"])] = s
+        else:
+            seals = []
+            CACHE["seal_master"] = {"seals": [], "stat_totals": [], "worlds": [], "maps": [], "tier_meta": [], "opener_closer_rules": {}}
+            CACHE["seals"] = []
+            CACHE["seals_by_slug"] = {}
         else:
             seals = []
             CACHE["seal_master"] = {"seals": [], "stat_totals": [], "worlds": [], "maps": [], "tier_meta": [], "opener_closer_rules": {}}
@@ -597,22 +611,26 @@ def build_cache():
     CACHE["dungeons"] = list(dungeons_dict.values())
     # The Thai client is the source for dungeons (list, entry NPCs, monsters + HP, loot, quests, exchange NPCs)
     try:
-        from dungeons_client import build as build_client_dungeons
-        cd = build_client_dungeons()
-        if cd:
-            def loose_th(s):
-                return re.sub(r"[่้๊๋์]", "", re.sub(r"\s+", "", s or "")).replace("ร", "ล")
-            by_th = {}
-            for d in digimon_list:
-                if d.get("thai_name"):
-                    by_th.setdefault(loose_th(d["thai_name"]), d)
-            for dg in cd:
-                for m in dg["monsters"] + [st["monster"] for st in dg["steps"] if st.get("monster")]:
-                    d = by_th.get(loose_th(m["name"]))
-                    if d:
-                        m["slug"] = d["slug"]
-                        m["icon"] = m["icon"] or d.get("icon", "")
-            CACHE["dungeons"] = cd
+        dg_cache = Path(__file__).resolve().parent / "dungeons_client_cache.json"
+        if dg_cache.exists():
+            CACHE["dungeons"] = json.loads(dg_cache.read_text(encoding="utf-8"))
+        else:
+            from dungeons_client import build as build_client_dungeons
+            cd = build_client_dungeons()
+            if cd:
+                def loose_th(s):
+                    return re.sub(r"[่้๊๋์]", "", re.sub(r"\s+", "", s or "")).replace("ร", "ล")
+                by_th = {}
+                for d in digimon_list:
+                    if d.get("thai_name"):
+                        by_th.setdefault(loose_th(d["thai_name"]), d)
+                for dg in cd:
+                    for m in dg["monsters"] + [st["monster"] for st in dg["steps"] if st.get("monster")]:
+                        d = by_th.get(loose_th(m["name"]))
+                        if d:
+                            m["slug"] = d["slug"]
+                            m["icon"] = m["icon"] or d.get("icon", "")
+                CACHE["dungeons"] = cd
     except Exception as ex:
         print("[WARN] client dungeons failed, keeping dmowiki list:", ex)
     print(f"[INIT] Cached {len(CACHE['dungeons'])} Dungeons")
@@ -647,7 +665,11 @@ def build_cache():
     print(f"[INIT] Cached {len(crafts)} Craft recipes!")
 
     try:
-        t_payload = build_tamers()
+        t_cache = Path(__file__).resolve().parent / "tamers_cache.json"
+        if t_cache.exists():
+            t_payload = json.loads(t_cache.read_text(encoding="utf-8"))
+        else:
+            t_payload = build_tamers()
         if isinstance(t_payload, dict):
             CACHE["tamers"] = t_payload.get("tamers", [])
             CACHE["tamer_skill_system"] = t_payload.get("skill_system", {})

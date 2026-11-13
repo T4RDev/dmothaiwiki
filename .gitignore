@@ -35,6 +35,22 @@ output/images/quickmenu_dump/
 !output/images/tamers/
 !output/images/sealmaster/
 !output/images/items/
+!output/images/*Icon*.png
+!output/images/*icon*.png
+!output/images/*Rank*.png
+!output/images/*rank*.png
+!output/images/*Attribute*.png
+!output/images/*attribute*.png
+!output/images/*Element*.png
+!output/images/*element*.png
+!output/images/*Family*.png
+!output/images/*family*.png
+!output/images/*Logo*.png
+!output/images/*logo*.png
+!output/images/*Jogress*.png
+!output/images/*jogress*.png
+!output/images/exp_icon.png
+!output/images/money_icon.png
 
 # OS & Editor
 .DS_Store
