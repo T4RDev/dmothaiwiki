@@ -204,9 +204,10 @@
 
         // 15. /api/patches/:id
         if (path.startsWith('/api/patches/')) {
-          const pid = decodeURIComponent(path.slice('/api/patches/'.length)).trim();
+          const rawPid = path.slice('/api/patches/'.length);
+          const pid = String(decodeURIComponent(rawPid)).trim();
           const p = await loadData('patches', '/data/patches.json');
-          const meta = p.find(x => x.id === pid);
+          const meta = p.find(x => String(x.id) === pid);
           if (!meta) return jsonResponse({ detail: 'Patch not found' }, 404);
 
           let htmlContent = '';
@@ -332,5 +333,26 @@
     return originalFetch.apply(this, arguments);
   };
 
-  console.log('[CLIENT_API] ⚡ Serverless Client-Side API Engine Ready (v1.1.0)!');
+  // Background Cache Warmup: prefetch essential datasets so clicking tabs is 0ms
+  if (typeof window !== 'undefined') {
+    const warmUp = () => {
+      setTimeout(() => {
+        loadData('filters', '/data/filters.json');
+        loadData('patches', '/data/patches.json');
+        loadData('stats', '/data/stats.json');
+      }, 50);
+      setTimeout(() => {
+        loadData('digimon', '/data/digimon.json');
+        loadData('dungeons', '/data/dungeons.json');
+        loadData('tamers', '/data/tamers.json');
+      }, 300);
+    };
+    if (document.readyState === 'complete') {
+      warmUp();
+    } else {
+      window.addEventListener('load', warmUp);
+    }
+  }
+
+  console.log('[CLIENT_API] ⚡ Serverless Client-Side API Engine Ready (v1.3.0 with Preloader)!');
 })();

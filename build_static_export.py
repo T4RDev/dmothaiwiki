@@ -83,27 +83,31 @@ for src_name, dst_name in caches:
         (DATA_DIR / dst_name).write_text("[]", encoding="utf-8")
 
 # 4. Patches
-patch_json_file = WEB_DIR / "thai_patch_data.json"
-if patch_json_file.exists():
+patch_arch_idx = BASE_DIR / "output" / "thai_patch_archive" / "index.json"
+if patch_arch_idx.exists():
     try:
-        p_raw = json.loads(patch_json_file.read_text(encoding="utf-8"))
-        # Check if list or dict
-        p_items = p_raw if isinstance(p_raw, list) else p_raw.get("items", [])
+        raw_idx = json.loads(patch_arch_idx.read_text(encoding="utf-8"))
+        p_items = []
+        for p in raw_idx:
+            item = {k: v for k, v in p.items() if k != "search"}
+            item["id"] = str(item["id"])
+            p_items.append(item)
         (DATA_DIR / "patches.json").write_text(json.dumps(p_items, ensure_ascii=False), encoding="utf-8")
-        print(f"  -> Wrote data/patches.json ({len(p_items)} articles)")
+        print(f"  -> Wrote data/patches.json ({len(p_items)} articles with valid IDs)")
     except Exception as e:
-        print(f"  [WARN] Failed to load thai_patch_data.json: {e}")
+        print(f"  [WARN] Failed to load patch archive index: {e}")
         (DATA_DIR / "patches.json").write_text("[]", encoding="utf-8")
 else:
-    sys.path.insert(0, str(WEB_DIR))
-    try:
-        import thai_patch as thai_patch_syncer
-        patches_list = thai_patch_syncer.list_articles()
-        (DATA_DIR / "patches.json").write_text(json.dumps(patches_list, ensure_ascii=False), encoding="utf-8")
-        print(f"  -> Wrote data/patches.json ({len(patches_list)} articles)")
-    except Exception as e:
-        print(f"  [WARN] Could not load patches: {e}")
-        (DATA_DIR / "patches.json").write_text("[]", encoding="utf-8")
+    patch_json_file = WEB_DIR / "thai_patch_data.json"
+    if patch_json_file.exists():
+        try:
+            p_raw = json.loads(patch_json_file.read_text(encoding="utf-8"))
+            p_items = p_raw if isinstance(p_raw, list) else p_raw.get("items", [])
+            (DATA_DIR / "patches.json").write_text(json.dumps(p_items, ensure_ascii=False), encoding="utf-8")
+            print(f"  -> Wrote data/patches.json ({len(p_items)} articles)")
+        except Exception as e:
+            print(f"  [WARN] Failed to load thai_patch_data.json: {e}")
+            (DATA_DIR / "patches.json").write_text("[]", encoding="utf-8")
 
 # 5. Stats
 stats_data = {

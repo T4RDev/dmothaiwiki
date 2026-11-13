@@ -48,3 +48,4 @@ with ThreadPoolExecutor(max_workers=20) as ex:
             print("Error:", e)
 
 print(f"[+] Done! Successfully uploaded {success}/{len(tasks)} files to R2!")
+
