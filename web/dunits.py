@@ -14,7 +14,11 @@ import re
 import struct
 from pathlib import Path
 
-CRACK = Path(r"C:\Users\T4R\Desktop\AllWorks\CrackDMO")
+CRACK = Path(__file__).resolve().parent.parent.parent / "CrackDMO"
+if not (CRACK / "out_decrypted").exists():
+    CRACK = Path(__file__).resolve().parent.parent / "CrackDMO"
+if not (CRACK / "out_decrypted").exists():
+    CRACK = Path(r"C:\Users\T4R\Desktop\AllWorks\CrackDMO")
 
 # 25 Filters categorized into 3 sections matching client UI (Images 3, 4, 5)
 FILTER_SECTIONS = [

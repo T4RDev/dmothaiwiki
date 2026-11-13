@@ -15,7 +15,11 @@ import shutil
 import struct
 from pathlib import Path
 
-CRACK = Path(r"C:\Users\T4R\Desktop\AllWorks\CrackDMO")
+CRACK = Path(__file__).resolve().parent.parent.parent / "CrackDMO"
+if not (CRACK / "out_decrypted").exists():
+    CRACK = Path(__file__).resolve().parent.parent / "CrackDMO"
+if not (CRACK / "out_decrypted").exists():
+    CRACK = Path(r"C:\Users\T4R\Desktop\AllWorks\CrackDMO")
 HERE = Path(__file__).resolve().parent
 OUT = HERE / "thai_evo_unlock.json"
 ICON_OUT = HERE.parent / "output" / "images" / "client_items"

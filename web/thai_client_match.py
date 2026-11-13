@@ -18,7 +18,11 @@ try:
 except ImportError:
     from web.dex_builder import awaken_th
 
-CRACK = Path(r"C:\Users\T4R\Desktop\AllWorks\CrackDMO")
+CRACK = Path(__file__).resolve().parent.parent.parent / "CrackDMO"
+if not (CRACK / "out_decrypted").exists():
+    CRACK = Path(__file__).resolve().parent.parent / "CrackDMO"
+if not (CRACK / "out_decrypted").exists():
+    CRACK = Path(r"C:\Users\T4R\Desktop\AllWorks\CrackDMO")
 HERE = Path(__file__).resolve().parent
 
 STAGE_SUFFIX = r"\s*\((?:เมก้า|แชมเปี้ยน|อัลติเมท|รุคกี้|ร่างเด็ก|ทารก|เบบี้|อินเทรนนิ่ง|ร่างสุดยอด|ร่างสมบูรณ์|ร่างเจริญวัย)\)"
