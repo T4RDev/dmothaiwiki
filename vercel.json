@@ -2,7 +2,6 @@
   "version": 2,
   "framework": null,
   "outputDirectory": "web/static",
-  "cleanUrls": true,
   "headers": [
     {
       "source": "/(.*)",
@@ -16,27 +15,27 @@
   ],
   "rewrites": [
     {
-      "source": "/api/:path*",
-      "destination": "https://dmothaiwiki.onrender.com/api/:path*"
+      "source": "/api/(.*)",
+      "destination": "https://dmothaiwiki.onrender.com/api/$1"
     },
     {
-      "source": "/images/patch/:path*",
-      "destination": "https://dmothaiwiki.onrender.com/images/patch/:path*"
+      "source": "/images/patch/(.*)",
+      "destination": "https://dmothaiwiki.onrender.com/images/patch/$1"
     },
     {
-      "source": "/images/:path*",
-      "destination": "https://pub-f7d271edf6e24f25b6b06f2767a3dfe3.r2.dev/images/:path*"
+      "source": "/images/(.*)",
+      "destination": "https://pub-f7d271edf6e24f25b6b06f2767a3dfe3.r2.dev/images/$1"
     },
     {
-      "source": "/models/:path*",
-      "destination": "https://pub-f7d271edf6e24f25b6b06f2767a3dfe3.r2.dev/models/:path*"
+      "source": "/models/(.*)",
+      "destination": "https://pub-f7d271edf6e24f25b6b06f2767a3dfe3.r2.dev/models/$1"
     },
     {
-      "source": "/static/:path*",
-      "destination": "/:path*"
+      "source": "/static/(.*)",
+      "destination": "/$1"
     },
     {
-      "source": "/:path*",
+      "source": "/(.*)",
       "destination": "/index.html"
     }
   ]
