@@ -502,11 +502,6 @@ def build_cache():
             CACHE["seal_master"] = {"seals": [], "stat_totals": [], "worlds": [], "maps": [], "tier_meta": [], "opener_closer_rules": {}}
             CACHE["seals"] = []
             CACHE["seals_by_slug"] = {}
-        else:
-            seals = []
-            CACHE["seal_master"] = {"seals": [], "stat_totals": [], "worlds": [], "maps": [], "tier_meta": [], "opener_closer_rules": {}}
-            CACHE["seals"] = []
-            CACHE["seals_by_slug"] = {}
 
     # 2b. D-Unit Caching (CrackDMO Binary tables + Thai Strings)
     try:
