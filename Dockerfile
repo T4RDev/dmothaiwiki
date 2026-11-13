@@ -14,9 +14,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy source code and assets
 COPY . .
 
-# Expose default port
-EXPOSE 8001
-ENV PORT=8001
+# Expose default port (7860 for Hugging Face Spaces & dynamic for cloud)
+EXPOSE 7860
+ENV PORT=7860
 
 # Start FastAPI server
 CMD ["python", "web/server.py"]

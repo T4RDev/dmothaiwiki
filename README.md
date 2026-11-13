@@ -1,3 +1,13 @@
+---
+title: DMO Thai Wiki
+emoji: 🦖
+colorFrom: blue
+colorTo: indigo
+sdk: docker
+app_port: 7860
+pinned: false
+---
+
 # 🦖 DMO Thai Wiki (Digimon Masters Online Thailand Database)
 
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://python.org)
