@@ -26,7 +26,12 @@ except Exception:
         mhd = None
 
 ROOT = Path(__file__).resolve().parent.parent
-CRACK_TAMER = Path(r"C:\Users\T4R\Desktop\AllWorks\CrackDMO\out_pack01\Data\Tamer")
+_crack_root = Path(__file__).resolve().parent.parent.parent / "CrackDMO"
+if not (_crack_root / "out_pack01").exists():
+    _crack_root = Path(__file__).resolve().parent.parent / "CrackDMO"
+if not (_crack_root / "out_pack01").exists():
+    _crack_root = Path(r"C:\Users\T4R\Desktop\AllWorks\CrackDMO")
+CRACK_TAMER = _crack_root / "out_pack01" / "Data" / "Tamer"
 MODEL_OUT = ROOT / "output" / "models" / "tamers"
 
 PART_NAMES = ("head", "up", "down", "hand", "shoes")

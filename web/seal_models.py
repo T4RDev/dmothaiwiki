@@ -26,7 +26,13 @@ except ImportError:
     from web import mesh_hd as mhd
 
 ROOT = Path(__file__).resolve().parent.parent
-CRACKDMO = Path(os.environ.get("CRACKDMO_DIR", r"C:\Users\T4R\Desktop\AllWorks\CrackDMO"))
+CRACKDMO = Path(os.environ.get("CRACKDMO_DIR", ""))
+if not (CRACKDMO / "out_decrypted").exists():
+    CRACKDMO = Path(__file__).resolve().parent.parent.parent / "CrackDMO"
+if not (CRACKDMO / "out_decrypted").exists():
+    CRACKDMO = Path(__file__).resolve().parent.parent / "CrackDMO"
+if not (CRACKDMO / "out_decrypted").exists():
+    CRACKDMO = Path(r"C:\Users\T4R\Desktop\AllWorks\CrackDMO")
 PACK01 = CRACKDMO / "out_pack01"
 TBL_DIR = CRACKDMO / "out_decrypted" / "data" / "bin" / "table"
 SEAL_MODEL_OUT = ROOT / "output" / "models" / "seals"

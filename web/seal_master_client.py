@@ -16,7 +16,13 @@ except ImportError:
     from web.seal_models import build_all_seal_models
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-CRACKDMO_DIR = Path(os.environ.get("CRACKDMO_DIR", r"C:\Users\T4R\Desktop\AllWorks\CrackDMO"))
+CRACKDMO_DIR = Path(os.environ.get("CRACKDMO_DIR", ""))
+if not (CRACKDMO_DIR / "out_decrypted").exists():
+    CRACKDMO_DIR = Path(__file__).resolve().parent.parent.parent / "CrackDMO"
+if not (CRACKDMO_DIR / "out_decrypted").exists():
+    CRACKDMO_DIR = Path(__file__).resolve().parent.parent / "CrackDMO"
+if not (CRACKDMO_DIR / "out_decrypted").exists():
+    CRACKDMO_DIR = Path(r"C:\Users\T4R\Desktop\AllWorks\CrackDMO")
 TBL_DIR = CRACKDMO_DIR / "out_decrypted" / "data" / "bin" / "table"
 LANG_DIR = CRACKDMO_DIR / "out_json" / "language"
 SEAL_IMG_DISK = BASE_DIR / "output" / "images" / "sealmaster" / "sealimage"

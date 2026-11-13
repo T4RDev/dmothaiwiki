@@ -171,6 +171,24 @@ def main():
     digimon_in_thai = [d for d in digimon_list if d.get("in_thai", True)]
     not_in_thai = sorted(d["title"] for d in digimon_list if not d.get("in_thai", True))
 
+    jq_cache = WEB / "jogress_quests_cache.json"
+    if jq_cache.exists():
+        jq_data = json.loads(jq_cache.read_text(encoding="utf-8"))
+        jq_slugs = {g["slug"] for g in jq_data}
+        for p in digimon_in_thai:
+            p["has_jogress_quest"] = p["slug"] in jq_slugs
+
+    dk_cache = WEB / "decks_cache.json"
+    if dk_cache.exists():
+        dk_data = json.loads(dk_cache.read_text(encoding="utf-8"))
+        in_deck = {}
+        for dk in dk_data:
+            for m in dk.get("members", []):
+                if m.get("slug") and all(x["id"] != dk["id"] for x in in_deck.get(m["slug"], [])):
+                    in_deck.setdefault(m["slug"], []).append({"id": dk["id"], "name": dk["name"]})
+        for p in digimon_in_thai:
+            p["decks"] = in_deck.get(p["slug"], [])
+
     cache_payload = {
         "digimon": digimon_in_thai,
         "not_in_thai": not_in_thai,

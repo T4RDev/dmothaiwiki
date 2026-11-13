@@ -24,3 +24,4 @@ for k, v in translations.items():
 
 p.write_text(json.dumps(d, ensure_ascii=False, indent=2), encoding="utf-8")
 print(f"[OK] Added {len(translations)} Goddramon translations to th_text.json")
+
