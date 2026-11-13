@@ -3670,7 +3670,10 @@ async function getSealLeaderTamers() {
     const res = await fetch('/api/tamers');
     if (!res.ok) return [];
     const data = await res.json();
-    const list = (data.items || []).filter(t => t && t.model_url);
+    const list = (data.items || []).map(t => {
+      if (t && !t.model_url && t.id) t.model_url = `/models/tamers/${t.id}.glb`;
+      return t;
+    }).filter(t => t && t.model_url);
     SEAL_LEADER_TAMERS = list;
     return list;
   } catch (e) {
@@ -3877,6 +3880,9 @@ function changeSealLeaderTamer(tamerId) {
 function _loadSealLeaderTamerInto(st, tamerId) {
   const tamers = st.tamers || [];
   const tamer = tamers.find(t => String(t.id) === String(tamerId)) || tamers[0];
+  if (tamer && !tamer.model_url && tamer.id) {
+    tamer.model_url = `/models/tamers/${tamer.id}.glb`;
+  }
   const statusEl = document.getElementById('seal-leader-status');
   if (!tamer || !tamer.model_url) {
     if (statusEl) statusEl.textContent = 'ไม่พบโมเดล 3D ของเทมเมอร์';

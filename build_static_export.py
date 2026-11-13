@@ -74,8 +74,11 @@ for src_name, dst_name in caches:
     src_file = WEB_DIR / src_name
     if src_file.exists():
         content = src_file.read_text(encoding="utf-8")
-        # Ensure it's valid JSON
         parsed = json.loads(content)
+        if dst_name == "tamers.json" and isinstance(parsed, dict) and "tamers" in parsed:
+            for tm in parsed["tamers"]:
+                if tm.get("id"):
+                    tm["model_url"] = f"/models/tamers/{tm['id']}.glb"
         (DATA_DIR / dst_name).write_text(json.dumps(parsed, ensure_ascii=False), encoding="utf-8")
         print(f"  -> Wrote data/{dst_name}")
     else:

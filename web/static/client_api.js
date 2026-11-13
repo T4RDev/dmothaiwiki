@@ -132,6 +132,9 @@
         if (path === '/api/tamers') {
           const raw = await loadData('tamers', '/data/tamers.json');
           const tList = raw.tamers || (Array.isArray(raw) ? raw : []);
+          for (const t of tList) {
+            if (!t.model_url && t.id) t.model_url = `/models/tamers/${t.id}.glb`;
+          }
           const seriesList = [...new Set(tList.map(t => t.series).filter(Boolean))].sort();
           return jsonResponse({
             total: tList.length,
@@ -156,6 +159,7 @@
             (t.slug && t.slug.toLowerCase().replace(/_/g, ' ') === ref)
           );
           if (!found) return jsonResponse({ detail: 'Not found' }, 404);
+          if (!found.model_url && found.id) found.model_url = `/models/tamers/${found.id}.glb`;
           return jsonResponse({
             tamer: found,
             skill_system: raw.skill_system || {},
