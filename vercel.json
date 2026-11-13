@@ -15,12 +15,8 @@
   ],
   "rewrites": [
     {
-      "source": "/images/patch/promo-dmo/(.*)",
+      "source": "/images/patch/promo-dmo_(.*)",
       "destination": "https://37bt4.upcloudobjects.com/promo-dmo/$1"
-    },
-    {
-      "source": "/images/patch/(.*)",
-      "destination": "https://vplay.in.th/images/patch/$1"
     },
     {
       "source": "/images/(.*)",
