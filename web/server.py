@@ -14,6 +14,7 @@ from fastapi.responses import FileResponse, JSONResponse, HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from dex_builder import Dex, RANK_ORDER
 from effects import parse_effects, GROUPS as EFFECT_GROUPS
