@@ -1,0 +1,40 @@
+{
+  "version": 2,
+  "headers": [
+    {
+      "source": "/static/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600, must-revalidate"
+        }
+      ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/static/:path*",
+      "destination": "/web/static/:path*"
+    },
+    {
+      "source": "/favicon.ico",
+      "destination": "/web/static/favicon.ico"
+    },
+    {
+      "source": "/api/:path*",
+      "destination": "https://dmothaiwiki.onrender.com/api/:path*"
+    },
+    {
+      "source": "/images/:path*",
+      "destination": "https://dmothaiwiki.onrender.com/images/:path*"
+    },
+    {
+      "source": "/models/:path*",
+      "destination": "https://dmothaiwiki.onrender.com/models/:path*"
+    },
+    {
+      "source": "/((?!api|images|models|static|favicon).*)$",
+      "destination": "/web/static/index.html"
+    }
+  ]
+}

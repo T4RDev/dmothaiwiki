@@ -1,0 +1,7 @@
+.git
+output/
+__pycache__
+*.pyc
+venv/
+cloudflared.exe
+*.log
