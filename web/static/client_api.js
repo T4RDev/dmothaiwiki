@@ -31,10 +31,10 @@
       CACHE[key] = data;
       return data;
     } catch (err) {
-      console.warn(`[CLIENT_API] Failed to load ${path}, trying R2 fallback...`, err);
+      console.warn(`[CLIENT_API] Local fetch failed for ${path}, trying CDN fallback...`, err);
       try {
-        const r2Path = `https://pub-f7d271edf6e24f25b6b06f2767a3dfe3.r2.dev${path}`;
-        const res2 = await originalFetch(r2Path);
+        const cdnPath = `https://pub-f7d271edf6e24f25b6b06f2767a3dfe3.r2.dev${path}`;
+        const res2 = await originalFetch(cdnPath);
         const data2 = await res2.json();
         CACHE[key] = data2;
         return data2;
@@ -55,15 +55,22 @@
     });
   }
 
-  window.fetch = async function (input, init) {
+  function getPathAndParams(input) {
     let url = typeof input === 'string' ? input : (input && input.url ? input.url : '');
+    try {
+      const u = new URL(url, window.location.origin);
+      return { path: u.pathname, params: u.searchParams };
+    } catch (e) {
+      const [p, q] = url.split('?');
+      return { path: p, params: new URLSearchParams(q || '') };
+    }
+  }
 
-    if (url.startsWith('/api/')) {
+  window.fetch = async function (input, init) {
+    const { path, params } = getPathAndParams(input);
+
+    if (path && path.startsWith('/api/')) {
       try {
-        const u = new URL(url, window.location.origin);
-        const path = u.pathname;
-        const params = u.searchParams;
-
         // 1. /api/stats
         if (path === '/api/stats') {
           const stats = await loadData('stats', '/data/stats.json');
@@ -123,15 +130,30 @@
         // 10. /api/tamers
         if (path === '/api/tamers') {
           const raw = await loadData('tamers', '/data/tamers.json');
-          return jsonResponse(raw.tamers || raw);
+          const tList = raw.tamers || (Array.isArray(raw) ? raw : []);
+          const seriesList = [...new Set(tList.map(t => t.series).filter(Boolean))].sort();
+          return jsonResponse({
+            total: tList.length,
+            series: seriesList,
+            items: tList,
+            skill_system: raw.skill_system || {},
+            tamer_status: raw.tamer_status || {}
+          });
         }
 
         // 11. /api/tamers/:ref
         if (path.startsWith('/api/tamers/')) {
-          const ref = decodeURIComponent(path.slice('/api/tamers/'.length)).toLowerCase().trim();
+          const rawRef = path.slice('/api/tamers/'.length);
+          const ref = decodeURIComponent(rawRef).toLowerCase().trim();
           const raw = await loadData('tamers', '/data/tamers.json');
-          const tList = raw.tamers || raw;
-          const found = tList.find(t => String(t.id) === ref || (t.slug && t.slug.toLowerCase() === ref) || (t.name && t.name.toLowerCase() === ref));
+          const tList = raw.tamers || (Array.isArray(raw) ? raw : []);
+          const found = tList.find(t =>
+            String(t.id) === ref ||
+            (t.slug && t.slug.toLowerCase() === ref) ||
+            (t.name_th && t.name_th.toLowerCase() === ref) ||
+            (t.name_en && t.name_en.toLowerCase() === ref) ||
+            (t.slug && t.slug.toLowerCase().replace(/_/g, ' ') === ref)
+          );
           if (!found) return jsonResponse({ detail: 'Not found' }, 404);
           return jsonResponse({
             tamer: found,
@@ -143,15 +165,32 @@
         // 12. /api/seals
         if (path === '/api/seals') {
           const s = await loadData('seals', '/data/seals.json');
-          return jsonResponse(s);
+          const sealsList = s.seals || (Array.isArray(s) ? s : []);
+          return jsonResponse({
+            total: sealsList.length,
+            all_total: s.total || sealsList.length,
+            stat_totals: s.stat_totals || [],
+            worlds: s.worlds || [],
+            maps: s.maps || [],
+            tier_meta: s.tier_meta || [],
+            opener_closer_rules: s.opener_closer_rules || {},
+            items: sealsList
+          });
         }
 
         // 13. /api/seals/:ref
         if (path.startsWith('/api/seals/')) {
-          const ref = decodeURIComponent(path.slice('/api/seals/'.length)).toLowerCase().trim();
+          const rawRef = path.slice('/api/seals/'.length);
+          const ref = decodeURIComponent(rawRef).toLowerCase().trim();
           const s = await loadData('seals', '/data/seals.json');
-          const sealsList = s.seals || [];
-          const found = sealsList.find(x => String(x.id) === ref || (x.slug && x.slug.toLowerCase() === ref) || (x.name && x.name.toLowerCase() === ref));
+          const sealsList = s.seals || (Array.isArray(s) ? s : []);
+          const found = sealsList.find(x =>
+            String(x.id) === ref ||
+            (x.slug && x.slug.toLowerCase() === ref) ||
+            (x.name && x.name.toLowerCase() === ref) ||
+            (x.name_th && x.name_th.toLowerCase() === ref) ||
+            (x.name_en && x.name_en.toLowerCase() === ref)
+          );
           if (!found) return jsonResponse({ detail: 'Not found' }, 404);
           return jsonResponse(found);
         }
@@ -193,16 +232,38 @@
 
         // 17. /api/digimon/:slug
         if (path.startsWith('/api/digimon/')) {
-          const slug = decodeURIComponent(path.slice('/api/digimon/'.length)).toLowerCase().trim();
+          const rawSlug = path.slice('/api/digimon/'.length);
+          const slug = decodeURIComponent(rawSlug).trim().toLowerCase();
           const digiList = await loadData('digimon', '/data/digimon.json');
+
           if (CACHE.digimonBySlug.size === 0) {
             for (const d of digiList) {
-              if (d.slug) CACHE.digimonBySlug.set(d.slug.toLowerCase(), d);
-              if (d.title) CACHE.digimonBySlug.set(d.title.toLowerCase(), d);
+              if (d.slug) {
+                const sl = d.slug.toLowerCase();
+                CACHE.digimonBySlug.set(sl, d);
+                CACHE.digimonBySlug.set(sl.replace(/_/g, ' '), d);
+                CACHE.digimonBySlug.set(sl.replace(/ /g, '_'), d);
+              }
+              if (d.title) {
+                const tl = d.title.toLowerCase();
+                CACHE.digimonBySlug.set(tl, d);
+                CACHE.digimonBySlug.set(tl.replace(/_/g, ' '), d);
+                CACHE.digimonBySlug.set(tl.replace(/ /g, '_'), d);
+              }
+              if (d.thai_name) {
+                CACHE.digimonBySlug.set(d.thai_name.toLowerCase(), d);
+              }
             }
           }
-          const found = CACHE.digimonBySlug.get(slug);
-          if (!found) return jsonResponse({ detail: 'Digimon not found' }, 404);
+
+          const found = CACHE.digimonBySlug.get(slug) ||
+                        CACHE.digimonBySlug.get(slug.replace(/_/g, ' ')) ||
+                        CACHE.digimonBySlug.get(slug.replace(/ /g, '_'));
+
+          if (!found) {
+            console.warn('[CLIENT_API] Digimon not found for slug:', slug);
+            return jsonResponse({ detail: 'Digimon not found' }, 404);
+          }
           return jsonResponse({ digimon: found });
         }
 
@@ -263,12 +324,12 @@
           return jsonResponse({ total, items: pagedItems });
         }
       } catch (err) {
-        console.error('[CLIENT_API] Error processing API request:', url, err);
+        console.error('[CLIENT_API] Error processing API request:', path, err);
       }
     }
 
     return originalFetch.apply(this, arguments);
   };
 
-  console.log('[CLIENT_API] ⚡ Serverless Client-Side API Engine Ready!');
+  console.log('[CLIENT_API] ⚡ Serverless Client-Side API Engine Ready (v1.1.0)!');
 })();
