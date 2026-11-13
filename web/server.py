@@ -23,7 +23,11 @@ from eggs import build_eggs
 from decks import build as build_decks
 from jogress_quests import build_groups as build_jogress_quests
 from tamers_client import build as build_tamers
-from tamer_models import build_all as build_tamer_models
+try:
+    from tamer_models import build_all as build_tamer_models
+except Exception as _tme:
+    def build_tamer_models():
+        return {}
 from seal_master_client import build_seals
 import thai_patch as thai_patch_syncer
 from thai_patch_apply import ThaiPatch

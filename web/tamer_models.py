@@ -19,8 +19,11 @@ from typing import Any
 from PIL import Image
 try:
     import mesh_hd as mhd
-except ImportError:
-    from web import mesh_hd as mhd
+except Exception:
+    try:
+        from web import mesh_hd as mhd
+    except Exception:
+        mhd = None
 
 ROOT = Path(__file__).resolve().parent.parent
 CRACK_TAMER = Path(r"C:\Users\T4R\Desktop\AllWorks\CrackDMO\out_pack01\Data\Tamer")
