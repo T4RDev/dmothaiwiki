@@ -15,12 +15,12 @@
   ],
   "rewrites": [
     {
-      "source": "/api/(.*)",
-      "destination": "https://dmothaiwiki.onrender.com/api/$1"
+      "source": "/images/patch/promo-dmo/(.*)",
+      "destination": "https://37bt4.upcloudobjects.com/promo-dmo/$1"
     },
     {
       "source": "/images/patch/(.*)",
-      "destination": "https://dmothaiwiki.onrender.com/images/patch/$1"
+      "destination": "https://vplay.in.th/images/patch/$1"
     },
     {
       "source": "/images/(.*)",
