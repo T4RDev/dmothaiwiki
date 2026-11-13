@@ -2,6 +2,7 @@
   "version": 2,
   "framework": null,
   "outputDirectory": "web/static",
+  "cleanUrls": true,
   "headers": [
     {
       "source": "/(.*)",
@@ -14,14 +15,6 @@
     }
   ],
   "rewrites": [
-    {
-      "source": "/static/:path*",
-      "destination": "/:path*"
-    },
-    {
-      "source": "/favicon.ico",
-      "destination": "/favicon.ico"
-    },
     {
       "source": "/api/:path*",
       "destination": "https://dmothaiwiki.onrender.com/api/:path*"
@@ -39,7 +32,11 @@
       "destination": "https://pub-f7d271edf6e24f25b6b06f2767a3dfe3.r2.dev/models/:path*"
     },
     {
-      "source": "/((?!api|images|models|static|favicon).*)$",
+      "source": "/static/:path*",
+      "destination": "/:path*"
+    },
+    {
+      "source": "/:path*",
       "destination": "/index.html"
     }
   ]
