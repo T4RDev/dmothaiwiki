@@ -10,7 +10,7 @@ from pathlib import Path
 from typing import Optional, List, Dict, Any
 from fastapi import FastAPI, Query, HTTPException
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse, JSONResponse, HTMLResponse
+from fastapi.responses import FileResponse, JSONResponse, HTMLResponse, RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
@@ -264,7 +264,8 @@ def build_cache():
                 ("dungeons", "dungeons_client_cache.json"),
                 ("jogress_quests", "jogress_quests_cache.json"),
                 ("eggs", "eggs_cache.json"),
-                ("dunits", "dunits_cache.json")
+                ("dunits", "dunits_cache.json"),
+                ("npc_exchanges", "npc_exchanges_cache.json")
             ]:
                 f = base / filename
                 if f.exists():
@@ -771,8 +772,16 @@ def get_stats():
 @app.get("/api/npc-exchange/{npc_id}")
 def get_npc_exchange(npc_id: int):
     """Every item an exchange NPC trades (Thai client itemcreation.bin)."""
-    import dungeons_client
-    return dungeons_client.EXCHANGES.get(npc_id, [])
+    exchanges = CACHE.get("npc_exchanges", {})
+    if not exchanges:
+        f = Path(__file__).resolve().parent / "npc_exchanges_cache.json"
+        if f.exists():
+            try:
+                exchanges = json.loads(f.read_text(encoding="utf-8"))
+                CACHE["npc_exchanges"] = exchanges
+            except Exception:
+                exchanges = {}
+    return exchanges.get(str(npc_id), exchanges.get(npc_id, []))
 
 
 @app.get("/api/decks")
@@ -1175,6 +1184,21 @@ def calculate_currency(
             "bit": round(tera_val * 100000000, 0)
         }
     return {"rate": rate, "message": "Specify ?tera= or ?thb="}
+
+@app.get("/images/patch/{filename:path}")
+def get_patch_media(filename: str):
+    patch_dir = IMAGES_DIR / "patch"
+    local_f = patch_dir / filename
+    if local_f.exists():
+        return FileResponse(str(local_f))
+    # Stream high-speed videos and images directly from UpCloud / vplay CDN
+    if filename.startswith("promo-dmo_"):
+        real_name = filename[len("promo-dmo_"):]
+        return RedirectResponse(f"https://37bt4.upcloudobjects.com/promo-dmo/{real_name}", status_code=307)
+    m = re.match(r"^(\d{4})_(\d{2})_(.+)$", filename)
+    if m:
+        return RedirectResponse(f"https://vplay.in.th/wp-content/uploads/{m.group(1)}/{m.group(2)}/{m.group(3)}", status_code=307)
+    return RedirectResponse(f"https://vplay.in.th/wp-content/uploads/{filename}", status_code=307)
 
 if IMAGES_DIR.exists():
     app.mount("/images", StaticFiles(directory=str(IMAGES_DIR)), name="images")
