@@ -5,10 +5,30 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 import mimetypes
 
-ACCOUNT_ID = "8b69ff4c369eef7750f59e8b91c3947f"
-ACCESS_KEY_ID = "2dce185e223f2034a93a75d4b7ede7f1"
-SECRET_ACCESS_KEY = "8e7710f1b1d881c57b3185827f2e47e1fc073677ca6d16fa3f353e5597a3e62d"
-BUCKET_NAME = "dmo-assets"
+import sys
+
+ACCOUNT_ID = os.environ.get("R2_ACCOUNT_ID", "")
+ACCESS_KEY_ID = os.environ.get("R2_ACCESS_KEY_ID", "")
+SECRET_ACCESS_KEY = os.environ.get("R2_SECRET_ACCESS_KEY", "")
+BUCKET_NAME = os.environ.get("R2_BUCKET_NAME", "dmo-assets")
+
+if not (ACCOUNT_ID and ACCESS_KEY_ID and SECRET_ACCESS_KEY):
+    env_file = Path(__file__).resolve().parent / ".env"
+    if env_file.exists():
+        with open(env_file, "r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith("#") and "=" in line:
+                    k, v = line.split("=", 1)
+                    k, v = k.strip(), v.strip().strip('"').strip("'")
+                    if k == "R2_ACCOUNT_ID" and not ACCOUNT_ID: ACCOUNT_ID = v
+                    elif k == "R2_ACCESS_KEY_ID" and not ACCESS_KEY_ID: ACCESS_KEY_ID = v
+                    elif k == "R2_SECRET_ACCESS_KEY" and not SECRET_ACCESS_KEY: SECRET_ACCESS_KEY = v
+                    elif k == "R2_BUCKET_NAME" and not BUCKET_NAME: BUCKET_NAME = v
+
+if not (ACCOUNT_ID and ACCESS_KEY_ID and SECRET_ACCESS_KEY):
+    print("[ERROR] R2 credentials missing. Please set R2_ACCOUNT_ID, R2_ACCESS_KEY_ID, and R2_SECRET_ACCESS_KEY in environment or .env file.")
+    sys.exit(1)
 ENDPOINT_URL = f"https://{ACCOUNT_ID}.r2.cloudflarestorage.com"
 
 client = boto3.client(
