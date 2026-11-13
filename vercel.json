@@ -40,7 +40,7 @@
       ]
     },
     {
-      "source": "/(.*)",
+      "source": "/((?!images|models|static|data).*)",
       "headers": [
         {
           "key": "Cache-Control",
