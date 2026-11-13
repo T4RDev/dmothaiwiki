@@ -1,0 +1,93 @@
+{
+  "_help": "ชุดเควสโจเกรสในไฟล์เกม (ชื่อชุดเควส, regex) -> หน้าดิจิมอนโจเกรสปลายทางใน dmowiki. อ่านจากบนลงล่าง ข้อแรกที่ตรงชนะ",
+  "rules": [
+    [
+      "^<Jogress>$|โอเมกามอน-(อากูมอน|กาบูมอน)",
+      "Omegamon"
+    ],
+    [
+      "อัลฟามอนโอริวเคน\\s*\\(?X",
+      "Alphamon Ouryuken (X-Antibody System)"
+    ],
+    [
+      "(?i)alphamon|ouryu|ouryuu",
+      "Alphamon Ouryuken"
+    ],
+    [
+      "(?i)เอ็กซามอน|examon",
+      "Examon"
+    ],
+    [
+      "ชัคโคมอน|พาตามอน|อาร์มาดิมอน",
+      "Shakkoumon (Jogress)"
+    ],
+    [
+      "ชิลฟีมอน",
+      "Silphymon (Jogress)"
+    ],
+    [
+      "ไพล์ดรามอน",
+      "Paildramon (Jogress)"
+    ],
+    [
+      "อิมพีเรียลดรามอน ไฟเตอร์",
+      "Imperialdramon (Fighter Mode)(Jogress)"
+    ],
+    [
+      "อิมพีเรียลดรามอน",
+      "Imperialdramon (Dragon Mode)(Jogress)"
+    ],
+    [
+      "ฟานลอนมอน",
+      "Fanglongmon"
+    ],
+    [
+      "ซูซาโนะโอมอน",
+      "Susanoomon"
+    ],
+    [
+      "ซี๊ดมิลเลนเนียมมอน|ซีดมิลเลนเนียมมอน",
+      "ZeedMillenniummon"
+    ],
+    [
+      "มูนมิลเลนเนียมมอน",
+      "Moon Millenniumon"
+    ],
+    [
+      "มิลเลนเนียมมอน",
+      "Millenniumon"
+    ],
+    [
+      "สวอร์ธ\\s*D|สวอร์ทD",
+      "Omegamon Zwart D"
+    ],
+    [
+      "โอเมกามอน สวอร์ธ",
+      "Omegamon Zwart"
+    ],
+    [
+      "อัลเทอร์-B",
+      "Omegamon Alter-B"
+    ],
+    [
+      "อัลเทอร์-S",
+      "Omegamon Alter-S"
+    ],
+    [
+      "โอเมกามอนX",
+      "Omegamon X"
+    ],
+    [
+      "คาออสมอน",
+      "Chaosmon"
+    ],
+    [
+      "ซีคเกรย์มอน",
+      "ZekeGreymon"
+    ],
+    [
+      "วัลคารีมอน",
+      "Valkyrimon"
+    ]
+  ]
+}

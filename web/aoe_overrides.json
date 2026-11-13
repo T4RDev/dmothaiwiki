@@ -1,0 +1,6 @@
+{
+  "_help": "แก้ข้อมูลสกิลหมู่ตามเซิฟไทย ใช้ชื่อดิจิมอนภาษาอังกฤษตามหน้าเว็บ (title). add = ช่องสกิลที่เป็นสกิลหมู่ (shape: self=รอบตัวเรา, target=รอบเป้าหมาย, line=แนวเส้นตรง; size: Small/Medium/Wide/Maximum ใส่หรือไม่ใส่ก็ได้). remove = ช่องที่ไม่ใช่สกิลหมู่",
+  "_example": {
+    "Omegamon X": { "add": { "3": { "shape": "self", "size": "Maximum" } }, "remove": [] }
+  }
+}

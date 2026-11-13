@@ -1,0 +1,17 @@
+{
+  "_help": "แก้ผลตรวจเซิร์ฟไทยด้วยมือ: ใส่ชื่อดิจิมอน (ชื่ออังกฤษตาม dmowiki) ใน include เพื่อบังคับให้แสดง หรือ exclude เพื่อบังคับซ่อน แล้วรีสตาร์ทเซิร์ฟเวอร์",
+  "include": [
+    "Abbadomon Core",
+    "Lucemon: Satan Mode (Extreme)",
+    "Susanoomon (Extreme)",
+    "MetalGarurumon (Awaken)",
+    "Armageddemon (Conflation)",
+    "DoneDevimon"
+  ],
+  "exclude": [
+    "Lilithmon X (Awaken)",
+    "Lilithmon (X-Antibody) (Awaken)",
+    "Quantumon",
+    "Goddramon"
+  ]
+}

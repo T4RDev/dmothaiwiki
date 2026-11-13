@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>DMO Thai Wiki - เซิร์ฟเวอร์ไทย</title>
+  <meta name="description"
+    content="คู่มือเกม Digimon Masters Online (DMO) ข้อมูลดิจิมอนครบถ้วน สเตตัสละเอียดเหมือน dmowiki.com แบ่งหมวดหมู่ Rank N ถึง Rank U สายวิวัฒนาการ ดันเจี้ยน แพตช์โน้ต และเครื่องคิดเลขคำนวณเงิน T">
+  <script>
+    (function () {
+      var raw = (location.pathname || '/').replace(/^\/+|\/+$/g, '');
+      if (!raw && location.hash) raw = location.hash.replace(/^#\/?/, '').trim();
+      var h = raw;
+      try { h = decodeURIComponent(raw); } catch (e) { }
+      var r = 'not-found';
+      if (!h || h === 'home') r = 'home';
+      else if (h === 'digimon') r = 'digimon';
+      else if (h.indexOf('digimon/') === 0) r = 'digimon-detail';
+      else if (h === 'tamers' || h === 'tamer-status' || h === 'tamer-equip' || h.indexOf('tamer/') === 0) r = 'tamers';
+      else if (h === 'dungeons' || h.indexOf('dungeon/') === 0) r = 'dungeons';
+      else if (h === 'patches' || h.indexOf('patch/') === 0) r = 'patches';
+      else if (h === 'currency') r = 'currency';
+      else if (h === 'eggs' || h.indexOf('egg/') === 0) r = 'eggs';
+      else if (h === 'jogress' || h.indexOf('jogress/') === 0) r = 'jogress';
+      else if (h === 'decks' || h.indexOf('decks/') === 0) r = 'decks';
+      else if (h === 'seals' || h.indexOf('seal/') === 0) r = 'seals';
+      else if (h === 'dunits' || h.indexOf('dunit') === 0) r = 'dunits';
+      document.documentElement.setAttribute('data-boot-route', r);
+    })();
+  </script>
+  <link rel="stylesheet" href="/static/style.css?v=2.9.4">
+  <link rel="shortcut icon" href="/favicon.ico?v=4">
+  <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png?v=4">
+  <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png?v=4">
+  <link rel="apple-touch-icon" href="/static/favicon.png?v=4">
+</head>
+
+<body>
+
+  <!-- Top Sticky Header -->
+  <header class="site-header">
+    <div class="header-container">
+      <div class="logo-area" onclick="switchTab('home')" style="cursor: pointer;" title="คลิกเพื่อกลับหน้าหลัก">
+        <img src="/images/ui/ui_logo.png?v=4" class="site-logo-img" alt="DMO Logo">
+        <div class="logo-text">
+          <h1>DMO Thai Wiki</h1>
+          <p>เซิร์ฟเวอร์ไทย</p>
+        </div>
+      </div>
+
+      <!-- Currency Ticker Pill -->
+      <div class="rate-pill" onclick="switchTab('currency')" title="คลิกเพื่อเปิดเครื่องคิดเลขเงิน T">
+        <span class="pulse-dot"></span>
+        <span>1 T = <strong id="header-rate-display">0.55</strong> บาท</span>
+      </div>
+
+      <!-- Desktop Navigation Links -->
+      <nav class="desktop-nav">
+        <button class="nav-link" onclick="switchTab('digimon')"><img src="/images/ui/ui_digimon.png" class="nav-icon"
+            alt=""> สารานุกรมดิจิมอน</button>
+        <button class="nav-link" onclick="switchTab('tamers')"><img src="/images/ui/ui_tamer.png" class="nav-icon"
+            alt=""> เทมเมอร์</button>
+        <button class="nav-link" onclick="switchTab('dungeons')"><img src="/images/ui/ui_dungeon.png" class="nav-icon"
+            alt=""> ดันเจี้ยน</button>
+        <button class="nav-link" onclick="switchTab('patches')"><img src="/images/ui/ui_event.png" class="nav-icon"
+            alt=""> แพตช์โน้ต</button>
+        <button class="nav-link" onclick="switchTab('currency')"><img src="/images/ui/ui_money.png" class="nav-icon"
+            alt=""> คำนวณเงิน T / RMT</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Mobile Bottom Navigation Bar -->
+  <nav class="mobile-bottom-nav">
+    <a href="javascript:void(0)" class="mobile-nav-item active" onclick="switchTab('home')">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+        <path
+          d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
+        </path>
+      </svg>
+      <span>หน้าแรก</span>
+    </a>
+    <a href="javascript:void(0)" class="mobile-nav-item" onclick="switchTab('digimon')">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+        <path d="M4 6h16M4 12h16M4 18h7"></path>
+      </svg>
+      <span>ดิจิมอน</span>
+    </a>
+    <a href="javascript:void(0)" class="mobile-nav-item" onclick="switchTab('tamers')">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+        <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+      </svg>
+      <span>เทมเมอร์</span>
+    </a>
+    <a href="javascript:void(0)" class="mobile-nav-item" onclick="switchTab('dungeons')">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+        <path
+          d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
+        </path>
+      </svg>
+      <span>ดันเจี้ยน</span>
+    </a>
+    <a href="javascript:void(0)" class="mobile-nav-item" onclick="switchTab('patches')">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+        <path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10l6 6v8a2 2 0 01-2 2zM7 9h5M7 13h10M7 17h10"></path>
+      </svg>
+      <span>แพตช์</span>
+    </a>
+    <a href="javascript:void(0)" class="mobile-nav-item" onclick="switchTab('currency')">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+        <path
+          d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+        </path>
+      </svg>
+      <span>คำนวณเงิน T</span>
+    </a>
+  </nav>
+
+  <!-- Main Container -->
+  <main class="main-content">
+
+    <!-- ========================================== -->
+    <!-- TAB 0: หน้าแรก (Wiki Portal Hub)             -->
+    <!-- ========================================== -->
+    <section id="tab-home" class="tab-panel active">
+      <div class="wiki-home-wrap">
+        <!-- Wiki Banner & Search Header -->
+        <div class="wiki-banner-card">
+          <div class="wiki-banner-top">
+            <img src="/images/ui/ui_logo.png?v=4" class="wiki-banner-logo" alt="DMO Digivice">
+            <div class="wiki-banner-text">
+              <h2>สารานุกรม Digimon Masters Online (DMO Thai Wiki)</h2>
+              <p>ฐานข้อมูลดิจิมอน สเตตัสจริง สกิล สายวิวัฒนาการ เควสโจเกรส ดันเจี้ยน เด็ค และระบบ D-ยูนิต
+                (แพตช์เซิร์ฟเวอร์ไทย เลเวลสูงสุด 180)</p>
+            </div>
+          </div>
+
+          <!-- Quick Wiki Search Box -->
+          <div class="wiki-search-box">
+            <svg class="search-icon" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+            <input type="text" id="home-search-input"
+              placeholder="พิมพ์ชื่อดิจิมอน (เช่น โอเมกามอน, อัลฟามอน, ลูเชมอน), เควส หรือดันเจี้ยน..."
+              onkeydown="if(event.key==='Enter') searchFromHome()">
+            <button class="wiki-search-btn" onclick="searchFromHome()">ค้นหา</button>
+          </div>
+
+          <!-- Popular Search Tags / Quick Jump Chips -->
+          <div class="wiki-chips-row">
+            <span class="wiki-chips-label">คำค้นยอดนิยม:</span>
+            <span class="wiki-chip" onclick="quickSearchHome('โอเมกามอน')">โอเมกามอน</span>
+            <span class="wiki-chip" onclick="quickSearchHome('อัลฟามอน')">อัลฟามอน</span>
+            <span class="wiki-chip" onclick="quickSearchHome('ลูเชมอน')">ลูเชมอน</span>
+            <span class="wiki-chip" onclick="quickSearchHome('', 'jogress')">เควสโจเกรส</span>
+            <span class="wiki-chip" onclick="quickSearchHome('', 'dunits')">D-ยูนิต 42 กลุ่ม</span>
+            <span class="wiki-chip" onclick="quickSearchHome('', 'decks')">เด็คบัฟ AS</span>
+            <span class="wiki-chip" onclick="quickSearchHome('', 'seals')">ซีลมาสเตอร์</span>
+            <span class="wiki-chip" onclick="quickSearchHome('รอยัลเบส', 'dungeons')">ดันเจี้ยนรอยัลเบส</span>
+            <span class="wiki-chip" onclick="quickSearchHome('', 'currency')">คำนวณเงิน T / RMT</span>
+          </div>
+        </div>
+
+        <!-- 5 Direct Navigation Shortcuts -->
+        <div class="wiki-quick-jumps">
+          <a class="wiki-jump-btn" href="/digimon" onclick="event.preventDefault(); navigateTo('digimon')">
+            <img src="/images/ui/ui_digimon.png" alt="">
+            <span>สารานุกรมดิจิมอน</span>
+          </a>
+          <a class="wiki-jump-btn" href="/jogress" onclick="event.preventDefault(); navigateTo('jogress')">
+            <img src="/images/ui/ui_jogress.png" alt="">
+            <span>เควสโจเกรส</span>
+          </a>
+          <a class="wiki-jump-btn" href="/dunits" onclick="event.preventDefault(); navigateTo('dunits')">
+            <img src="/images/ui/ui_dunit.png" alt="">
+            <span>ระบบ D-ยูนิต</span>
+          </a>
+          <a class="wiki-jump-btn" href="/decks" onclick="event.preventDefault(); navigateTo('decks')">
+            <img src="/images/ui/ui_deck.png" alt="">
+            <span>เด็คการ์ดบัฟ</span>
+          </a>
+          <a class="wiki-jump-btn" href="/currency" onclick="event.preventDefault(); navigateTo('currency')">
+            <img src="/images/ui/ui_money.png" alt="">
+            <span>คำนวณเงิน T / RMT</span>
+          </a>
+        </div>
+
+        <!-- Wiki Directory Portal Cards -->
+        <div class="wiki-portal-grid">
+          <!-- หมวดที่ 1: ดิจิมอน & สายวิวัฒนาการ -->
+          <div class="wiki-portal-card">
+            <div class="wiki-portal-head">
+              <img src="/images/ui/ui_digimon.png" class="wiki-portal-ico" alt="">
+              <div>
+                <h3>ดิจิมอน & สายวิวัฒนาการ</h3>
+                <span>ข้อมูลดิจิมอน สกิล และเควสปลดร่าง</span>
+              </div>
+            </div>
+            <ul class="wiki-portal-links">
+              <li>
+                <a href="/digimon" onclick="event.preventDefault(); navigateTo('digimon')">
+                  <strong>สารานุกรมดิจิมอน (Digimon Dex)</strong>
+                  <span>สเตตัสจริง ธาตุ คุณสมบัติ สกิล F1-F4 และสายวิวัฒนาการ Rank N ถึง Rank U</span>
+                </a>
+              </li>
+              <li>
+                <a href="/jogress" onclick="event.preventDefault(); navigateTo('jogress')">
+                  <strong>เควสโจเกรส (Jogress Quests)</strong>
+                  <span>วิธีทำเควสปลดร่างระดับตำนานทุกสาย ทุกขั้นตอน พร้อมจุดรับเควสและเงื่อนไข</span>
+                </a>
+              </li>
+              <li>
+                <a href="/eggs" onclick="event.preventDefault(); navigateTo('eggs')">
+                  <strong>ไข่ดิจิทามะ & สปิริต</strong>
+                  <span>อัตราฟักไข่ระดับ 3/5, 4/5, 5/5, ดิจิโคลน และตารางวิวัฒนาการสปิริตไฮเปอร์</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- หมวดที่ 2: ระบบเสริมพลังตัวละคร -->
+          <div class="wiki-portal-card">
+            <div class="wiki-portal-head">
+              <img src="/images/ui/ui_dunit.png" class="wiki-portal-ico" alt="">
+              <div>
+                <h3>ระบบเสริมพลังตัวละคร (Buffs)</h3>
+                <span>สเตตัสถาวรจากระบบสะสมและการ์ด</span>
+              </div>
+            </div>
+            <ul class="wiki-portal-links">
+              <li>
+                <a href="/dunits" onclick="event.preventDefault(); navigateTo('dunits')">
+                  <strong>D-ยูนิต (D-Unit System)</strong>
+                  <span>บัฟผลของการสะสมยูนิตดิจิมอน 42 กลุ่ม (AT, HT, SCD, CT), แฮกกิ้งคิทตาม Rank และฉายา</span>
+                </a>
+              </li>
+              <li>
+                <a href="/decks" onclick="event.preventDefault(); navigateTo('decks')">
+                  <strong>เด็คดิจิมอน (Deck Buffs)</strong>
+                  <span>เด็กลดคูลดาวน์สปีดการโจมตี (AS -8% / -12% / -15%), คริติคอล (CT) และพลังสกิล</span>
+                </a>
+              </li>
+              <li>
+                <a href="/seals" onclick="event.preventDefault(); navigateTo('seals')">
+                  <strong>ซีลมาสเตอร์ (Seal Master)</strong>
+                  <span>ตารางสเตตัสการ์ดซีล (AT, DE, HP, HT, CT) พร้อมระบบคำนวณจำนวนใบปลดการ์ด</span>
+                </a>
+              </li>
+              <li>
+                <a href="/tamers" onclick="event.preventDefault(); navigateTo('tamers')">
+                  <strong>เทมเมอร์ & อุปกรณ์ (Tamers)</strong>
+                  <span>สกิลประจำตัวเทมเมอร์ และหน้าต่างสวมใส่อุปกรณ์ 17 ช่อง</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- หมวดที่ 3: ดันเจี้ยน & บอส -->
+          <div class="wiki-portal-card">
+            <div class="wiki-portal-head">
+              <img src="/images/ui/ui_dungeon.png" class="wiki-portal-ico" alt="">
+              <div>
+                <h3>ดันเจี้ยน & กิจกรรม</h3>
+                <span>ข้อมูลมอนสเตอร์ บอส และไอเทมดรอป</span>
+              </div>
+            </div>
+            <ul class="wiki-portal-links">
+              <li>
+                <a href="/dungeons" onclick="event.preventDefault(); navigateTo('dungeons')">
+                  <strong>ดันเจี้ยนทั้งหมด 91 แห่ง</strong>
+                  <span>รายชื่อดันเจี้ยน บอสประจำดัน เลเวลแนะนำ ไอเทมดรอป และ NPC แลกของตรงตามเซิร์ฟไทย</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- หมวดที่ 4: เครื่องมือผู้เล่น & อัปเดต -->
+          <div class="wiki-portal-card">
+            <div class="wiki-portal-head">
+              <img src="/images/ui/ui_money.png" class="wiki-portal-ico" alt="">
+              <div>
+                <h3>เครื่องมือ & ประวัติแพตช์</h3>
+                <span>คำนวณเงิน T และบันทึกการอัปเดต</span>
+              </div>
+            </div>
+            <ul class="wiki-portal-links">
+              <li>
+                <a href="/currency" onclick="event.preventDefault(); navigateTo('currency')">
+                  <strong>เครื่องคำนวณเงิน T / RMT</strong>
+                  <span>คำนวณเงิน Bit, Mega, Tera แปลงเป็นเงินบาทไทย (฿) พร้อมปุ่มลัดคิดเงิน</span>
+                </a>
+              </li>
+              <li>
+                <a href="/patches" onclick="event.preventDefault(); navigateTo('patches')">
+                  <strong>แพตช์โน้ต (Patch Notes)</strong>
+                  <span>สรุปประวัติแพตช์การอัปเดตเซิร์ฟไทย กิจกรรม และดิจิมอนใหม่</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Quick Game Stat Guide Box -->
+        <div class="wiki-guide-box">
+          <div class="wiki-guide-head">
+            <h4>📌 คู่มือสเตตัสสำคัญใน DMO ที่ผู้เล่นควรรู้</h4>
+            <p>สรุปผลของค่าสเตตัสที่มีความจำเป็นต่อการลงดันเจี้ยนระดับสูงและการจัดสายตัวละคร</p>
+          </div>
+          <div class="wiki-stat-table-wrap">
+            <table class="wiki-stat-table">
+              <thead>
+                <tr>
+                  <th style="width: 80px;">สเตตัส</th>
+                  <th style="width: 140px;">ชื่อเต็ม</th>
+                  <th>ความสำคัญและผลในเกม</th>
+                  <th style="width: 250px;">แหล่งเพิ่มหลัก</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong class="stat-badge as">AS</strong></td>
+                  <td>Attack Speed</td>
+                  <td>ลดคูลดาวน์ความเร็วการตีปกติ ยิ่งตีไวความเสียหายต่อวินาที (DPS) ยิ่งสูงมาก</td>
+                  <td>เด็คการ์ด, บัฟจากแรงค์ดิจิมอน, สร้อย</td>
+                </tr>
+                <tr>
+                  <td><strong class="stat-badge ct">CT</strong></td>
+                  <td>Critical Rate</td>
+                  <td>โอกาสเกิดการโจมตีคริติคอล สร้างความเสียหายเพิ่มขึ้น</td>
+                  <td>โคลนดิจิมอน, ซีลมาสเตอร์, แหวน, สร้อย, D-ยูนิต</td>
+                </tr>
+                <tr>
+                  <td><strong class="stat-badge ht">HT</strong></td>
+                  <td>Hit Rate</td>
+                  <td>ความแม่นยำ จำเป็นอย่างมากในดันเจี้ยนระดับสูง (ถ้า HT ไม่ถึงจะโจมตี Miss)</td>
+                  <td>ซีลมาสเตอร์, ต่างหู, กำไล, D-ยูนิต</td>
+                </tr>
+                <tr>
+                  <td><strong class="stat-badge at">AT</strong></td>
+                  <td>Attack Power</td>
+                  <td>พลังโจมตีพื้นฐาน เป็นฐานคำนวณแดมเมจทั้งหมดของการโจมตีและสกิล</td>
+                  <td>โคลนดิจิมอน, ซีลมาสเตอร์, เครื่องประดับ, D-ยูนิต</td>
+                </tr>
+                <tr>
+                  <td><strong class="stat-badge scd">SCD</strong></td>
+                  <td>Skill Damage</td>
+                  <td>เพิ่มพลังทำลายล้างของท่าไม้ตายและสกิล F1 - F4</td>
+                  <td>สร้อย, กำไล, หินวิญญาณ, เด็ค, D-ยูนิต</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- TAB 1: สารานุกรมดิจิมอน (Digimon Dex) -->
+    <!-- ========================================== -->
+    <section id="tab-digimon" class="tab-panel">
+      <div class="dex-switch" role="tablist">
+        <button id="dex-sw-digimon" class="dex-sw active" onclick="navigateTo('digimon')"><img
+            src="/images/ui/ui_digimon.png" class="dex-sw-icon" alt=""> ดิจิมอน</button>
+        <button id="dex-sw-eggs" class="dex-sw" onclick="navigateTo('eggs')"><img src="/images/ui/ui_egg.png"
+            class="dex-sw-icon" alt=""> ไข่ดิจิทามะ</button>
+        <button id="dex-sw-jogress" class="dex-sw" onclick="navigateTo('jogress')"><img src="/images/ui/ui_jogress.png"
+            class="dex-sw-icon" alt=""> เควสโจเกรส</button>
+        <button id="dex-sw-decks" class="dex-sw" onclick="navigateTo('decks')"><img src="/images/ui/ui_deck.png"
+            class="dex-sw-icon" alt=""> เด็ค</button>
+        <button id="dex-sw-seals" class="dex-sw" onclick="navigateTo('seals')"><img src="/images/ui/ui_seal.png"
+            class="dex-sw-icon" alt=""> ซีลมาสเตอร์</button>
+        <button id="dex-sw-dunits" class="dex-sw" onclick="navigateTo('dunits')"><img src="/images/ui/ui_dunit.png"
+            class="dex-sw-icon" alt=""> D-ยูนิต</button>
+      </div>
+
+      <div id="dex-view-dunits" style="display:none">
+        <div class="dunit-container">
+          <!-- Master Tiers Progress & Overview -->
+          <div class="dunit-master-section">
+            <div class="dunit-section-title">
+              <span class="dunit-title-main"><img src="/images/ui/ui_ach.png" class="btn-game-icon" alt="">
+                ระดับการปลดอันดับ D-ยูนิต (Master Tiers)</span>
+              <span class="dunit-tier-hint">สะสมจำนวนยูนิตดิจิมอนที่ปลดล็อก เพื่อรับฉายาพิเศษถาวรในเซิร์ฟไทย
+                (คลิกดูบัฟสเตตัสฉายา)</span>
+            </div>
+            <div class="dunit-tiers-grid" id="dunit-tiers-row"></div>
+          </div>
+
+          <!-- Filter & Search Controls -->
+          <div class="filter-bar dunit-filter-bar">
+            <div class="seal-search-row">
+              <div class="search-box" style="flex:1;min-width:240px">
+                <svg class="search-icon" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+                <input type="text" id="dunit-search-input"
+                  placeholder="ค้นหาชื่อกลุ่ม (เช่น รอยัลไนท์, แคร็กทีม, อากูมอน) หรือชื่อดิจิมอน (เช่น โอเมกามอน, เจสมอน)..."
+                  autocomplete="off" oninput="renderDUnits()">
+              </div>
+            </div>
+
+            <!-- 25 Filters categorized into 3 sections (Images 3, 4, 5) -->
+            <div>
+              <div class="filter-label">หมวดหมู่ตัวกรอง D-ยูนิต (25 ตัวเลือกตามหน้าต่าง Client เซิร์ฟไทย)</div>
+              <div class="dunit-filter-tabs" id="dunit-filter-tabs"></div>
+              <div class="dunit-checkbox-grid" id="dunit-checkbox-grid"></div>
+              <div class="dunit-filter-actions" id="dunit-filter-actions"></div>
+            </div>
+
+            <div>
+              <div class="filter-label">ระดับคิทแฮกกิ้งที่ใช้ปลดล็อก (Hacking Kit Rank)</div>
+              <div class="filter-pills-row" id="dunit-rank-pills"></div>
+            </div>
+            <div class="dunit-summary-bar" id="dunit-summary-bar"></div>
+          </div>
+
+          <!-- D-Unit Groups Grid -->
+          <div id="dunit-grid" class="dunit-grid"></div>
+        </div>
+
+        <!-- Group Detail Modal (Images 1 & 2) -->
+        <div id="dunit-group-modal" class="dunit-modal-overlay" style="display:none"
+          onclick="if(event.target===this)closeDUnitGroupModal()"></div>
+
+        <!-- Master Tier Title Buff Modal -->
+        <div id="dunit-title-modal" class="dunit-modal-overlay" style="display:none"
+          onclick="if(event.target===this)closeDUnitTitleModal()"></div>
+      </div>
+
+      <div id="dex-view-seals" style="display:none">
+        <div id="seal-list-view">
+          <div class="filter-bar seal-filter-bar">
+            <div class="seal-search-row">
+              <div class="search-box" style="flex:1;min-width:240px">
+                <svg class="search-icon" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+                <input type="text" id="seal-search-input"
+                  placeholder="ค้นหาชื่อซีล (ไทย/อังกฤษ), แมพที่ดรอป, การ์ดมอนสเตอร์ หรือ NPC..." autocomplete="off"
+                  oninput="renderSealsList()">
+              </div>
+              <div class="seal-map-select-wrap">
+                <label class="filter-label" for="seal-map-select" style="margin-bottom:4px">กรองตามแมพที่ดรอป</label>
+                <select id="seal-map-select" class="seal-select"
+                  onchange="SEAL_STATE.mapId=this.value; renderSealsList()">
+                  <option value="">ทุกแมพในเกม</option>
+                </select>
+              </div>
+            </div>
+            <div>
+              <div class="filter-label">หมวดสเตตัสซีลมาสเตอร์ (กดเพื่อกรอง + ดูโบนัสสูงสุดรวม)</div>
+              <div class="filter-pills-row" id="seal-stat-pills"></div>
+            </div>
+            <div>
+              <div class="filter-label">แหล่งที่มา</div>
+              <div class="filter-pills-row" id="seal-src-pills"></div>
+            </div>
+            <div id="seal-rules-banner" class="seal-rules-banner"></div>
+          </div>
+          <div id="seal-grid" class="seal-grid"></div>
+        </div>
+        <div id="seal-detail" style="display:none"></div>
+      </div>
+
+      <div id="dex-view-decks" style="display:none">
+        <div class="filter-bar">
+          <div class="search-box">
+            <svg class="search-icon" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+            <input type="text" id="deck-search-input"
+              placeholder="ค้นหาเด็ค หรือชื่อดิจิมอน เช่น โอเมกามอน, รอยัลไนท์, คริติคอล..." autocomplete="off"
+              oninput="renderDecks()">
+          </div>
+          <div>
+            <div class="filter-label">บัฟที่ได้</div>
+            <div class="filter-pills-row" id="deck-opt-pills"></div>
+          </div>
+          <div class="egg-note">เด็คในสารานุกรมดิจิมอน (Digimon Archive) ของเซิร์ฟไทย: เปิดร่างดิจิมอนในเด็คให้ครบทุกตัว
+            แล้วจะได้บัฟของเด็คนั้น (ข้อมูลจากไฟล์เกมเซิร์ฟไทย)
+            <div style="margin-top:6px; color: var(--text-muted);">พบ: <strong id="deck-count"
+                style="color: var(--color-primary);">0</strong> เด็ค</div>
+          </div>
+        </div>
+        <div id="deck-grid" class="deck-grid"></div>
+      </div>
+
+      <div id="dex-view-jogress" style="display:none">
+        <div id="jq-list-view">
+          <div class="filter-bar">
+            <div class="search-box">
+              <svg class="search-icon" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+              </svg>
+              <input type="text" id="jq-search-input"
+                placeholder="ค้นหา เช่น โอเมกามอน, มิลเลนเนียมมอน, Data Code, คูลูมอน..." autocomplete="off"
+                oninput="renderJogressList()">
+            </div>
+            <div>
+              <div class="filter-label">Rank</div>
+              <div class="filter-pills-row" id="jq-rank-pills"></div>
+            </div>
+            <div class="egg-note">ดิจิมอนโจเกรสที่ต้อง<b>ทำเควส</b>ถึงจะปลดได้ หรือ<b>ได้ไอเทมปลดร่างจากเควส</b>
+              (ข้อมูลจากไฟล์เกมเซิร์ฟไทย: ผู้ให้เควส เงื่อนไข สิ่งที่ต้องทำ และรางวัลของทุกเควส)
+              <div style="margin-top:6px; color: var(--text-muted);">พบ: <strong id="jq-count"
+                  style="color: var(--color-primary);">0</strong> ตัว</div>
+            </div>
+          </div>
+          <div id="jq-grid" class="egg-grid"></div>
+        </div>
+        <div id="jq-detail" style="display:none"></div>
+      </div>
+
+      <div id="dex-view-eggs" style="display:none">
+        <div class="filter-bar">
+          <div class="search-box">
+            <svg class="search-icon" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+            <input type="text" id="egg-search-input"
+              placeholder="ค้นหาไข่ เช่น Agumon, กาบูมอน, Silphymon, Silver Lake..." autocomplete="off"
+              oninput="renderEggs()">
+          </div>
+          <div>
+            <div class="filter-label">ได้มาจาก</div>
+            <div class="filter-pills-row" id="egg-src-pills"></div>
+          </div>
+          <div>
+            <div class="filter-label">หมวดไข่ / ดาต้าที่ใช้ฟัก</div>
+            <div class="filter-pills-row" id="egg-type-pills"></div>
+          </div>
+          <div class="egg-note">
+            <strong>อ่านยังไง?</strong> ไข่ <b>Lv.3 / Lv.4 / Lv.5</b> คือไข่จากมอลล์หรืออีเวนต์ที่ใส่ดาต้ามาให้แล้ว 3, 4
+            หรือ 5 ขั้น
+            ยิ่งเลเวลสูงยิ่งได้ดิจิมอนขนาดใหญ่ (ร่างใหญ่ = สเตตัสสูง) ·
+            <b>ไข่ดรอป</b> ได้จากการตีมอนในแมพ ต้องใส่ดาต้าเองทีละขั้น
+            <div style="margin-top:6px; color: var(--text-muted);">พบ: <strong id="egg-count"
+                style="color: var(--color-primary);">0</strong> ใบ</div>
+          </div>
+        </div>
+        <div id="egg-grid" class="egg-grid"></div>
+      </div>
+
+      <div id="dex-view-digimon">
+        <div class="filter-bar">
+          <!-- Search -->
+          <div class="search-box">
+            <svg class="search-icon" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+            <input type="text" id="digi-search-input"
+              placeholder="ค้นหาชื่อดิจิมอน (เช่น Abbadomon, Omegamon, วอร์เกรย์มอน, Susanoo, Agumon)..."
+              autocomplete="off">
+          </div>
+
+          <div>
+            <div class="filter-label">Rank <span>(มีเฉพาะร่าง Mega ขึ้นไป ตามระบบในเกม)</span></div>
+            <div class="filter-pills-row" id="rank-pills"><span class="skel skel-pill" style="width:66px"></span><span
+                class="skel skel-pill" style="width:62px"></span><span class="skel skel-pill"
+                style="width:64px"></span><span class="skel skel-pill" style="width:72px"></span><span
+                class="skel skel-pill" style="width:70px"></span><span class="skel skel-pill" style="width:66px"></span>
+            </div>
+          </div>
+          <div>
+            <div class="filter-label">Attribute</div>
+            <div class="filter-pills-row" id="attr-pills"><span class="skel skel-pill" style="width:66px"></span><span
+                class="skel skel-pill" style="width:76px"></span><span class="skel skel-pill"
+                style="width:72px"></span><span class="skel skel-pill" style="width:68px"></span><span
+                class="skel skel-pill" style="width:70px"></span></div>
+          </div>
+          <div>
+            <div class="filter-label">Elemental Attribute</div>
+            <div class="filter-pills-row" id="elem-pills"><span class="skel skel-pill" style="width:66px"></span><span
+                class="skel skel-pill" style="width:62px"></span><span class="skel skel-pill"
+                style="width:64px"></span><span class="skel skel-pill" style="width:68px"></span><span
+                class="skel skel-pill" style="width:60px"></span><span class="skel skel-pill" style="width:66px"></span>
+            </div>
+          </div>
+
+          <div class="filter-dropdowns">
+            <select id="sort-select" class="select-custom" onchange="onFilterChange()">
+              <option value="rank">เรียงตาม: Rank สูงสุดก่อน (U+ &rarr; N)</option>
+              <option value="at">พลังโจมตีสูงสุด (Max Attack)</option>
+              <option value="hp">พลังชีวิตสูงสุด (Max HP)</option>
+              <option value="name">ชื่อ A-Z</option>
+            </select>
+
+            <div
+              style="margin-left: auto; color: var(--text-muted); font-size: 0.82rem; display: flex; align-items: center;">
+              พบข้อมูล: <strong id="digi-count-display"
+                style="color: var(--color-primary); margin-left: 4px;">0</strong>&nbsp;ตัว
+            </div>
+          </div>
+        </div>
+
+        <!-- Digimon Cards Grid -->
+        <div id="digimon-grid" class="digimon-grid">
+          <div class="digi-card skel-card" aria-hidden="true">
+            <div class="skel skel-chip"></div>
+            <div class="digi-avatar-wrapper">
+              <div class="skel skel-avatar"></div>
+            </div>
+            <div class="skel skel-line lg"></div>
+            <div class="skel skel-line sm"></div>
+            <div class="skel-badges"><span class="skel skel-badge"></span><span class="skel skel-badge w2"></span></div>
+            <div class="skel-stats"><span class="skel skel-stat"></span><span class="skel skel-stat"></span></div>
+          </div>
+          <div class="digi-card skel-card" aria-hidden="true">
+            <div class="skel skel-chip"></div>
+            <div class="digi-avatar-wrapper">
+              <div class="skel skel-avatar"></div>
+            </div>
+            <div class="skel skel-line lg"></div>
+            <div class="skel skel-line sm"></div>
+            <div class="skel-badges"><span class="skel skel-badge"></span><span class="skel skel-badge w2"></span></div>
+            <div class="skel-stats"><span class="skel skel-stat"></span><span class="skel skel-stat"></span></div>
+          </div>
+          <div class="digi-card skel-card" aria-hidden="true">
+            <div class="skel skel-chip"></div>
+            <div class="digi-avatar-wrapper">
+              <div class="skel skel-avatar"></div>
+            </div>
+            <div class="skel skel-line lg"></div>
+            <div class="skel skel-line sm"></div>
+            <div class="skel-badges"><span class="skel skel-badge"></span><span class="skel skel-badge w2"></span></div>
+            <div class="skel-stats"><span class="skel skel-stat"></span><span class="skel skel-stat"></span></div>
+          </div>
+          <div class="digi-card skel-card" aria-hidden="true">
+            <div class="skel skel-chip"></div>
+            <div class="digi-avatar-wrapper">
+              <div class="skel skel-avatar"></div>
+            </div>
+            <div class="skel skel-line lg"></div>
+            <div class="skel skel-line sm"></div>
+            <div class="skel-badges"><span class="skel skel-badge"></span><span class="skel skel-badge w2"></span></div>
+            <div class="skel-stats"><span class="skel skel-stat"></span><span class="skel skel-stat"></span></div>
+          </div>
+          <div class="digi-card skel-card" aria-hidden="true">
+            <div class="skel skel-chip"></div>
+            <div class="digi-avatar-wrapper">
+              <div class="skel skel-avatar"></div>
+            </div>
+            <div class="skel skel-line lg"></div>
+            <div class="skel skel-line sm"></div>
+            <div class="skel-badges"><span class="skel skel-badge"></span><span class="skel skel-badge w2"></span></div>
+            <div class="skel-stats"><span class="skel skel-stat"></span><span class="skel skel-stat"></span></div>
+          </div>
+          <div class="digi-card skel-card" aria-hidden="true">
+            <div class="skel skel-chip"></div>
+            <div class="digi-avatar-wrapper">
+              <div class="skel skel-avatar"></div>
+            </div>
+            <div class="skel skel-line lg"></div>
+            <div class="skel skel-line sm"></div>
+            <div class="skel-badges"><span class="skel skel-badge"></span><span class="skel skel-badge w2"></span></div>
+            <div class="skel-stats"><span class="skel skel-stat"></span><span class="skel skel-stat"></span></div>
+          </div>
+          <div class="digi-card skel-card" aria-hidden="true">
+            <div class="skel skel-chip"></div>
+            <div class="digi-avatar-wrapper">
+              <div class="skel skel-avatar"></div>
+            </div>
+            <div class="skel skel-line lg"></div>
+            <div class="skel skel-line sm"></div>
+            <div class="skel-badges"><span class="skel skel-badge"></span><span class="skel skel-badge w2"></span></div>
+            <div class="skel-stats"><span class="skel skel-stat"></span><span class="skel skel-stat"></span></div>
+          </div>
+          <div class="digi-card skel-card" aria-hidden="true">
+            <div class="skel skel-chip"></div>
+            <div class="digi-avatar-wrapper">
+              <div class="skel skel-avatar"></div>
+            </div>
+            <div class="skel skel-line lg"></div>
+            <div class="skel skel-line sm"></div>
+            <div class="skel-badges"><span class="skel skel-badge"></span><span class="skel skel-badge w2"></span></div>
+            <div class="skel-stats"><span class="skel skel-stat"></span><span class="skel skel-stat"></span></div>
+          </div>
+        </div>
+
+        <!-- Pagination / Load More -->
+        <div style="text-align: center; margin-top: 24px;">
+          <button id="load-more-btn" class="preset-btn" style="padding: 10px 32px; font-size: 0.92rem; display: none;"
+            onclick="loadMoreDigimon()">โหลดดิจิมอนเพิ่มเติม</button>
+        </div>
+      </div>
+    </section>
+
+    <div id="egg-modal" class="egg-modal" style="display:none" onclick="if(event.target===this) closeEgg()">
+      <div class="egg-modal-box" id="egg-modal-box"></div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- TAB 2: เทมเมอร์ (Tamers in Thai Client)   -->
+    <!-- ========================================== -->
+    <section id="tab-tamers" class="tab-panel">
+      <div class="dex-switch" role="tablist">
+        <button id="tm-sw-list" class="dex-sw active" onclick="navigateTo('tamers')"><img src="/images/ui/ui_tamer.png"
+            class="dex-sw-icon" alt=""> ตัวละครเทมเมอร์</button>
+        <button id="tm-sw-status" class="dex-sw" onclick="navigateTo('tamer-status')"><img
+            src="/images/client_items/5050.png" class="dex-sw-icon" alt=""> เทมเมอร์สเตตัส</button>
+      </div>
+      <div id="tm-list-view">
+        <div id="tm-satsuma-panel">
+          <div class="tm-satsuma-banner skel-card" aria-hidden="true">
+            <div class="skel skel-line lg"></div>
+            <div class="skel skel-line md" style="margin-top:8px"></div>
+            <div class="skel skel-line sm" style="margin-top:8px"></div>
+          </div>
+        </div>
+        <div class="filter-bar">
+          <div class="search-box">
+            <svg class="search-icon" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+            <input type="text" id="tamer-search-input"
+              placeholder="ค้นหาเทมเมอร์ เช่น มาซารุ, ไทจิ, ฮิโระ, ไกเซอร์, Agumon, ชื่อสกิล..." autocomplete="off"
+              oninput="renderTamers()">
+          </div>
+          <div>
+            <div class="filter-label">ภาค (Series)</div>
+            <div class="filter-pills-row" id="tm-series-pills">
+              <span class="skel skel-pill" style="width:76px"></span><span class="skel skel-pill"
+                style="width:92px"></span><span class="skel skel-pill" style="width:100px"></span><span
+                class="skel skel-pill" style="width:88px"></span>
+            </div>
+          </div>
+          <div class="dg-filter-row" style="display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end;">
+            <div>
+              <div class="filter-label">การรับ / เพศ</div>
+              <div class="filter-pills-row" id="tm-type-pills">
+                <button class="filter-pill active" data-v="all"
+                  onclick="setTamerTypeFilter('all', this)">ทั้งหมด</button>
+                <button class="filter-pill" data-v="starter"
+                  onclick="setTamerTypeFilter('starter', this)">เริ่มต้นฟรี</button>
+                <button class="filter-pill" data-v="unlock" onclick="setTamerTypeFilter('unlock', this)">ปลดล็อก /
+                  แพ็คเกจ</button>
+                <button class="filter-pill" data-v="male" onclick="setTamerTypeFilter('male', this)">ชาย</button>
+                <button class="filter-pill" data-v="female" onclick="setTamerTypeFilter('female', this)">หญิง</button>
+              </div>
+            </div>
+            <div style="margin-left:auto;color:var(--text-muted);font-size:0.82rem;display:flex;align-items:center;">
+              พบเทมเมอร์ในเซิร์ฟไทย: <strong id="tamer-count-display"
+                style="color:var(--color-primary);margin-left:4px;">0</strong>&nbsp;ตัว
+            </div>
+          </div>
+        </div>
+        <div id="tamer-grid" class="tamer-grid">
+          <div class="tamer-card skel-card" aria-hidden="true">
+            <div class="skel skel-line lg"></div>
+            <div class="skel skel-tm-img"></div>
+            <div class="skel skel-line md"></div>
+            <div class="skel skel-line sm"></div>
+          </div>
+          <div class="tamer-card skel-card" aria-hidden="true">
+            <div class="skel skel-line lg"></div>
+            <div class="skel skel-tm-img"></div>
+            <div class="skel skel-line md"></div>
+            <div class="skel skel-line sm"></div>
+          </div>
+          <div class="tamer-card skel-card" aria-hidden="true">
+            <div class="skel skel-line lg"></div>
+            <div class="skel skel-tm-img"></div>
+            <div class="skel skel-line md"></div>
+            <div class="skel skel-line sm"></div>
+          </div>
+          <div class="tamer-card skel-card" aria-hidden="true">
+            <div class="skel skel-line lg"></div>
+            <div class="skel skel-tm-img"></div>
+            <div class="skel skel-line md"></div>
+            <div class="skel skel-line sm"></div>
+          </div>
+        </div>
+      </div>
+      <div id="tm-detail-view" style="display:none"></div>
+      <div id="tm-status-view" style="display:none"></div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- TAB: แพตช์โน้ตเซิร์ฟไทย (Thai patch notes, full offline copy) -->
+    <section id="tab-patches" class="tab-panel">
+      <div id="patch-list-view">
+        <div class="filter-bar">
+          <div class="search-box">
+            <svg class="search-icon" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+            <input type="text" id="patch-search-input"
+              placeholder="ค้นหาในแพตช์ทุกฉบับ เช่น อาบาโดมอน, โหมดขับขี่, ดันเจี้ยน, ปรับสมดุล..." autocomplete="off"
+              oninput="renderPatchList()">
+          </div>
+          <div>
+            <div class="filter-label">ประเภทประกาศ</div>
+            <div class="filter-pills-row" id="patch-kind-pills"></div>
+          </div>
+          <div>
+            <div class="filter-label">ปี</div>
+            <div class="filter-pills-row" id="patch-year-pills"></div>
+          </div>
+          <div class="egg-note">ประกาศแพตช์ทั้งหมดของเซิร์ฟไทยจาก vplay.in.th ระบบดึงอัตโนมัติทุกๆ 30 นาที
+            <div class="patch-sync-bar">
+              <span style="color: var(--text-muted);">พบ: <strong id="patch-count"
+                  style="color: var(--color-primary);">0</strong> ฉบับ</span>
+              <span id="patch-sync-status" class="patch-sync-status"></span>
+            </div>
+          </div>
+        </div>
+        <div id="patch-list" class="patch-list">
+          <div class="patch-item skel-patch" aria-hidden="true">
+            <div class="skel skel-pill" style="width:92px;height:22px"></div>
+            <div class="patch-main">
+              <div class="skel skel-line lg" style="width:68%"></div>
+              <div class="skel skel-line sm" style="width:45%"></div>
+            </div>
+          </div>
+          <div class="patch-item skel-patch" aria-hidden="true">
+            <div class="skel skel-pill" style="width:92px;height:22px"></div>
+            <div class="patch-main">
+              <div class="skel skel-line lg" style="width:62%"></div>
+              <div class="skel skel-line sm" style="width:40%"></div>
+            </div>
+          </div>
+          <div class="patch-item skel-patch" aria-hidden="true">
+            <div class="skel skel-pill" style="width:92px;height:22px"></div>
+            <div class="patch-main">
+              <div class="skel skel-line lg" style="width:72%"></div>
+              <div class="skel skel-line sm" style="width:48%"></div>
+            </div>
+          </div>
+          <div class="patch-item skel-patch" aria-hidden="true">
+            <div class="skel skel-pill" style="width:92px;height:22px"></div>
+            <div class="patch-main">
+              <div class="skel skel-line lg" style="width:58%"></div>
+              <div class="skel skel-line sm" style="width:38%"></div>
+            </div>
+          </div>
+          <div class="patch-item skel-patch" aria-hidden="true">
+            <div class="skel skel-pill" style="width:92px;height:22px"></div>
+            <div class="patch-main">
+              <div class="skel skel-line lg" style="width:66%"></div>
+              <div class="skel skel-line sm" style="width:42%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="patch-read-view" style="display:none"></div>
+    </section>
+
+    <!-- TAB 3: ดันเจี้ยน (Dungeons) -->
+    <!-- ========================================== -->
+    <section id="tab-dungeons" class="tab-panel">
+      <div id="dg-list-view">
+        <div class="filter-bar">
+          <h2 style="font-size: 1.15rem; color: #fff; margin-bottom: 6px;"><img src="/images/ui/ui_dungeon.png"
+              class="btn-game-icon" alt=""> ดันเจี้ยนเซิร์ฟไทย</h2>
+          <p style="font-size: 0.82rem; color: var(--text-muted);">
+            ข้อมูลจากไฟล์เกมเซิร์ฟไทย: NPC ที่พาเข้าดันเจี้ยน, บัตรผ่าน, มอนสเตอร์ (เลเวล / HP), ไอเทมที่ได้,
+            รางวัลเคลียร์,
+            เควสที่ให้กำจัดมอนในดัน และ NPC แลกของ
+          </p>
+          <div class="search-box" style="margin-top: 8px;">
+            <svg class="search-icon" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+            <input type="text" id="dungeon-search-input"
+              placeholder="ค้นหาดันเจี้ยน มอนสเตอร์ ไอเทม หรือ NPC เช่น สี่สัตว์เทพ, รอยัลเบส, เดธ X มอน, ชิ้นส่วน..."
+              oninput="renderDungeons()">
+          </div>
+          <div>
+            <div class="filter-label">แมพที่มี NPC พาเข้าดันเจี้ยน</div>
+            <div class="filter-pills-row" id="dg-map-pills"></div>
+          </div>
+          <div>
+            <div class="filter-label">ประเภท</div>
+            <div class="filter-pills-row" id="dg-kind-pills">
+              <button class="filter-pill active" data-k="all">ทั้งหมด</button>
+              <button class="filter-pill" data-k="instance">อินสแตนซ์ (ต้องคุย NPC เข้า)</button>
+              <button class="filter-pill" data-k="field">แมพดันเจี้ยน (เดินเข้าได้)</button>
+              <button class="filter-pill" data-k="quest"><img src="/images/ui/ui_quest.png" class="btn-game-icon"
+                  alt=""> มีเควสให้รางวัล</button>
+              <button class="filter-pill" data-k="exchange">มี NPC แลกของ</button>
+            </div>
+          </div>
+          <div class="egg-note">พบ: <strong id="dg-count" style="color: var(--color-primary);">0</strong> ดันเจี้ยน ·
+            กดที่ดันเจี้ยนเพื่อดูรายละเอียด</div>
+        </div>
+
+        <div id="dungeons-list-container">
+          <section class="dg-map skel-dg-map" aria-hidden="true">
+            <div class="dg-map-h">
+              <div class="skel skel-line md" style="width:220px;margin:0"></div>
+            </div>
+            <div class="dg-list">
+              <div class="dg-card">
+                <div class="dg-head">
+                  <div class="skel dg-boss" style="border-radius:10px"></div>
+                  <div class="dg-title">
+                    <div class="skel skel-line md" style="width:48%"></div>
+                    <div class="skel skel-line sm" style="width:70%"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="dg-card">
+                <div class="dg-head">
+                  <div class="skel dg-boss" style="border-radius:10px"></div>
+                  <div class="dg-title">
+                    <div class="skel skel-line md" style="width:54%"></div>
+                    <div class="skel skel-line sm" style="width:66%"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="dg-card">
+                <div class="dg-head">
+                  <div class="skel dg-boss" style="border-radius:10px"></div>
+                  <div class="dg-title">
+                    <div class="skel skel-line md" style="width:42%"></div>
+                    <div class="skel skel-line sm" style="width:62%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+      <div id="dg-detail-view" style="display:none"></div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- TAB 4: คำนวณเงิน T และ RMT นอกเกม -->
+    <!-- ========================================== -->
+    <section id="tab-currency" class="tab-panel">
+      <div class="calc-container">
+
+        <div class="calc-card">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+            <h2 style="font-size: 1.25rem;"><img src="/images/Currency_Tera.png" class="btn-game-icon" alt="">
+              เครื่องคิดเลขคำนวณเงิน T (DMO Currency & RMT)</h2>
+            <span class="badge"
+              style="background: rgba(16,185,129,0.15); color: #34d399; border-color: rgba(16,185,129,0.3);">เซิฟไทยอ้างอิง</span>
+          </div>
+
+          <div class="rate-adjuster">
+            <div>
+              <span style="font-size: 0.85rem; color: var(--text-muted); display: block;">เรตราคาปัจจุบัน:</span>
+              <span style="font-size: 1.1rem; font-weight: 700; color: #10b981;">1 Tera (T) = <span
+                  id="current-rate-text">0.55</span> บาท</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <button class="preset-btn" style="padding: 4px 10px;" onclick="adjustRate(-0.05)">-0.05</button>
+              <input type="number" id="custom-rate-input" value="0.55" step="0.01" min="0.1" max="5.0"
+                style="width: 70px; background: var(--bg-surface); border: 1px solid var(--border-color); color: #fff; padding: 4px 6px; border-radius: 4px; text-align: center;"
+                oninput="onCustomRateChange()">
+              <button class="preset-btn" style="padding: 4px 10px;" onclick="adjustRate(0.05)">+0.05</button>
+              <button class="preset-btn" style="padding: 4px 10px;" onclick="resetRate()">รีเซ็ต</button>
+            </div>
+          </div>
+
+          <div class="calc-input-group">
+            <label for="calc-tera-input">จำนวนเงินในเกม (Tera / T):</label>
+            <div class="input-with-affix">
+              <input type="number" id="calc-tera-input" value="1000" min="0" placeholder="0" oninput="onTeraInput()">
+              <span class="input-affix">Tera (T)</span>
+            </div>
+          </div>
+
+          <div style="text-align: center; margin: -6px 0 10px; color: var(--text-sub);">
+            <span>⇅ คำนวณแบบ Realtime สองทาง ⇅</span>
+          </div>
+
+          <div class="calc-input-group">
+            <label for="calc-thb-input">คิดเป็นเงินจริง (บาทไทย / THB):</label>
+            <div class="input-with-affix">
+              <input type="number" id="calc-thb-input" value="550" min="0" placeholder="0" style="color: #34d399;"
+                oninput="onThbInput()">
+              <span class="input-affix" style="color: #10b981;">บาท (฿)</span>
+            </div>
+          </div>
+
+          <div
+            style="background-color: var(--bg-main); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 12px; margin-top: 16px; font-size: 0.85rem;">
+            <div style="color: var(--text-muted); margin-bottom: 6px;">เทียบหน่วยย่อยในเกม:</div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+              <div>• <strong>Mega (M):</strong> <span id="calc-mega-display" style="color: #38bdf8;">10,000,000 M</span>
+              </div>
+              <div>• <strong>Bit (B):</strong> <span id="calc-bit-display" style="color: #fbbf24;">100,000,000,000
+                  B</span></div>
+            </div>
+          </div>
+
+          <div style="margin-top: 20px;">
+            <label
+              style="font-size: 0.85rem; color: var(--text-muted); display: block; margin-bottom: 6px;">คลิกเลือกยอดด่วน
+              (Tera):</label>
+            <div class="quick-presets-grid">
+              <div class="preset-btn" onclick="setPresetTera(50)">50 T = <span id="p-50">27.5 ฿</span></div>
+              <div class="preset-btn" onclick="setPresetTera(100)">100 T = <span id="p-100">55 ฿</span></div>
+              <div class="preset-btn" onclick="setPresetTera(500)">500 T = <span id="p-500">275 ฿</span></div>
+              <div class="preset-btn" onclick="setPresetTera(1000)">1,000 T = <span id="p-1000">550 ฿</span></div>
+              <div class="preset-btn" onclick="setPresetTera(2000)">2,000 T = <span id="p-2000">1,100 ฿</span></div>
+              <div class="preset-btn" onclick="setPresetTera(5000)">5,000 T = <span id="p-5000">2,750 ฿</span></div>
+              <div class="preset-btn" onclick="setPresetTera(10000)">10,000 T = <span id="p-10000">5,500 ฿</span></div>
+              <div class="preset-btn" onclick="setPresetTera(20000)">20,000 T = <span id="p-20000">11,000 ฿</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="calc-card" style="display: flex; flex-direction: column; gap: 16px;">
+          <div
+            style="background-color: rgba(56, 189, 248, 0.05); border: 1px solid rgba(56, 189, 248, 0.2); border-radius: var(--radius-md); padding: 16px; font-size: 0.85rem; line-height: 1.7;">
+            <strong
+              style="color: #38bdf8; display: block; margin-bottom: 8px; font-size: 0.95rem;">บันทึกความรู้ระบบเงินเกม
+              DMO:</strong>
+            1,000 Bit (B) = 1 Mega (M)<br>
+            1,000 Mega (M) = 1 Tera (T)<br>
+            ดังนั้น 1 Tera (T) = 1,000,000 Bit (B)<br>
+            <em style="color: var(--text-muted); display: block; margin-top: 8px;">*หมายเหตุ: เรตราคา 0.55 บาท/1T
+              เป็นค่าเฉลี่ยตลาดของผู้เล่นปัจจุบัน สามารถปรับเปลี่ยนได้ตามสถานการณ์จริง</em>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- DEDICATED FULL DOSSIER PAGE (ROUTER VIEW)  -->
+    <!-- ========================================== -->
+    <section id="view-digimon-detail" class="detail-page-view" style="display: none;">
+      <!-- Sticky Navigation Bar for Detail View -->
+      <div class="detail-nav-bar">
+        <button class="btn-back" onclick="navigateBack()">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18">
+            </path>
+          </svg>
+          <span>ย้อนกลับไปสารานุกรมดิจิมอน (Back to Dex)</span>
+        </button>
+        <div class="breadcrumb-trail" id="detail-breadcrumbs">
+          <!-- Rendered dynamically by app.js -->
+        </div>
+      </div>
+
+      <!-- Dossier Content Container -->
+      <div id="detail-page-content">
+        <div class="skel-detail" aria-hidden="true">
+          <div class="dossier-hero skel-box">
+            <div class="skel-hero-info">
+              <div class="skel skel-title"></div>
+              <div class="skel skel-line md"></div>
+              <div class="skel-badges"><span class="skel skel-badge"></span><span class="skel skel-badge w2"></span>
+              </div>
+              <div class="skel skel-line lg" style="margin-top:12px"></div>
+            </div>
+            <div class="skel skel-hero-img"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 404 / NOT FOUND VIEW (INVALID URL GUARD)   -->
+    <!-- ========================================== -->
+    <section id="view-not-found" class="tab-panel" style="display: none;">
+      <div class="panel" style="max-width:680px;margin:40px auto;padding:36px 28px;text-align:center">
+        <div style="font-size:2.5rem;line-height:1;margin-bottom:10px;font-weight:700;color:var(--color-danger)">404
+        </div>
+        <div
+          style="display:inline-block;padding:4px 12px;border-radius:999px;background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.4);color:#fca5a5;font-size:0.78rem;font-weight:700;margin-bottom:12px">
+          404 · ไม่พบหน้าหรือข้อมูลที่ต้องการ</div>
+        <h2 style="margin:0 0 8px;font-size:1.45rem;color:var(--text-main)">ไม่พบหน้านี้ในระบบ DMO Thai Wiki</h2>
+        <p id="not-found-desc" class="muted" style="font-size:0.9rem;line-height:1.6;margin:0 0 22px">
+          ลิงก์อาจถูกพิมพ์ไม่ถูกต้อง หรือไม่มีข้อมูลหน้านี้อยู่ในระบบ</p>
+        <div style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap">
+          <a class="preset-btn" href="/digimon"><img src="/images/ui/ui_digimon.png" class="btn-game-icon" alt="">
+            สารานุกรมดิจิมอน</a>
+          <a class="preset-btn" href="/tamers"><img src="/images/ui/ui_tamer.png" class="btn-game-icon" alt="">
+            เทมเมอร์ทั้งหมด</a>
+          <a class="preset-btn" href="/dungeons"><img src="/images/ui/ui_dungeon.png" class="btn-game-icon" alt="">
+            ดันเจี้ยนทั้งหมด</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="/static/vendor/three.min.js"></script>
+  <script src="/static/vendor/GLTFLoader.js"></script>
+  <script src="/static/vendor/OrbitControls.js"></script>
+  <script src="/static/app.js?v=2.9.4"></script>
+</body>
+
+</html>

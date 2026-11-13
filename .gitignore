@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.env
+venv/
+env/
+ENV/
+
+# Scraper browser profile & caches
+chrome_profile/
+
+# Heavy video & raw scraper dumps (not needed for web runtime)
+*.mp4
+output/Pack04.pf
+output/Pack04.hf
+output/all_pages.jsonl
+output/all_links.txt
+output/models/seals/
+output/pages/
+output/thai_patches/
+output/Pack04_extracted/
+scratch/
+scratch_*.txt
+
+# Loose scraped mediawiki image dumps (1.3GB+)
+output/images/*.*
+output/images/patch/
+output/images/quickmenu_dump/
+!output/images/ui/
+!output/images/client_items/
+!output/images/client_digimon/
+!output/images/client_npc/
+!output/images/tamers/
+!output/images/sealmaster/
+!output/images/items/
+
+# OS & Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

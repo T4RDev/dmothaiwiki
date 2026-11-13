@@ -1,0 +1,3677 @@
+{
+  "Abbadomon": [
+    {
+      "name": "คอร์รัปเต็ด ดาต้า",
+      "th": "คอร์รัปเต็ด ดาต้า",
+      "icon": "/images/items/190062.png"
+    },
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Abbadomon_Core": [
+    {
+      "name": "Source of Destruction",
+      "th": "ซอร์ส ออฟ เดสตรัคชัน",
+      "icon": "/images/client_items/190066.png"
+    }
+  ],
+  "Alphamon_Ouryuken_(Extreme)": [
+    {
+      "name": "Ultimate-Battle-Blade-OURYUKEN",
+      "th": "อัลติเมท-แบทเทิล-เบลด-โอริวเคน",
+      "icon": "/images/Ultimate-Battle-Blade-OURYUKEN.png"
+    },
+    {
+      "name": "Digi-Sigil - Alpha",
+      "th": "ดิจิ-ซิจิล - อัลฟ่า",
+      "icon": "/images/Digi-Sigil_-_Alpha.png"
+    }
+  ],
+  "Angewomon_Awaken": [
+    {
+      "name": "Feather of Hope",
+      "th": "Feather of Hope",
+      "icon": "/images/Feather_of_Hope.png"
+    },
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Apollomon": [
+    {
+      "name": "Heart of the Sun",
+      "th": "Heart of the Sun",
+      "icon": "/images/Heart_of_the_Sun.png"
+    },
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Apollomon_Whispered": [
+    {
+      "name": "Heart of Sorrow",
+      "th": "Heart of Sorrow",
+      "icon": "/images/Heart_of_Sorrow.png"
+    },
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Bloomlordmon": [
+    {
+      "name": "Power of the Great Nature",
+      "th": "พาวเวอร์ ออฟ เดอะ เกรท เนเจอร์",
+      "icon": "/images/Power_of_the_Great_Nature.png"
+    },
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "DoneDevimon": [
+    {
+      "name": "Minus Data",
+      "th": "ไมนัส ดาต้า",
+      "icon": "/images/Minus_Data.png"
+    }
+  ],
+  "Eosmon_LV6": [
+    {
+      "name": "Metamorphosis",
+      "th": "เมตามอร์โฟซิส",
+      "icon": "/images/Metamorphosis.png"
+    },
+    {
+      "name": "Metamorphosis",
+      "th": "เมตามอร์โฟซิส",
+      "icon": "/images/Metamorphosis.png"
+    }
+  ],
+  "Gallantmon_(Crimson_Mode)_(Awaken)": [
+    {
+      "name": "Super Digivolution - Hybrid",
+      "th": "ซูเปอร์ ดิจิวอลูชั่น - ไฮบริด",
+      "icon": "/images/Super_Digivolution_-_Hybrid.png"
+    }
+  ],
+  "Goddramon": [
+    {
+      "name": "Brilliant Crest: Hope",
+      "th": "Brilliant Crest: Hope",
+      "icon": "/images/Brilliant_Crest_-_Hope.png"
+    },
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Holydramon_(Awaken)": [
+    {
+      "name": "Holy Crest: Light",
+      "th": "โฮลี่ เครสต์: ไลท์",
+      "icon": "/images/Holy_Crest_-_Light.png"
+    },
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Imperialdramon_Paladin_Mode_(Awaken)": [
+    {
+      "name": "Power of Omegamon - Courage",
+      "th": "พาวเวอร์ ออฟ โอเมกามอน - เคอเรจ",
+      "icon": "/images/Power_of_Omegamon_-_Courage.png"
+    },
+    {
+      "name": "Power of Omegamon - Friendship",
+      "th": "พาวเวอร์ ออฟ โอเมกามอน - เฟรนด์ชิป",
+      "icon": "/images/Power_of_Omegamon_-_Friendship.png"
+    }
+  ],
+  "Kuzuhamon_-_Miko_Mode": [
+    {
+      "name": "Rite of Purification",
+      "th": "ไรท์ ออฟ เพียวริฟิเคชัน",
+      "icon": "/images/Rite_of_Purification.png"
+    }
+  ],
+  "Last_Evolution:_Kizuna": [
+    {
+      "name": "Power of Last Evolution: Bravery",
+      "th": "พาวเวอร์ ออฟ ลาสต์ อีโวลูชั่น: เคอเรจ",
+      "icon": "/images/Power_of_Last_Evolution_-_Bravery.png"
+    },
+    {
+      "name": "Power of Last Evolution: Friendship",
+      "th": "พาวเวอร์ ออฟ ลาสต์ อีโวลูชั่น: เฟรนด์ชิป",
+      "icon": "/images/Power_of_Last_Evolution_-_Friendship.png"
+    }
+  ],
+  "Lilithmon_(X-Antibody)_(Awaken)": [
+    {
+      "name": "Lure of Temptation",
+      "th": "Lure of Temptation",
+      "icon": "/images/Lure_of_Temptation.png"
+    }
+  ],
+  "Lilithmon_X_(Awaken)": [
+    {
+      "name": "Lure of Temptaation",
+      "th": "Lure of Temptaation",
+      "icon": "/images/items/9004.png"
+    },
+    {
+      "name": "Lure of Temptaation",
+      "th": "Lure of Temptaation",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Lucemon:_Satan_Mode_(Extreme)": [
+    {
+      "name": "ดาต้าแห่งความชั่วร้าย ดิจิทามะ",
+      "th": "ดาต้าแห่งความชั่วร้าย ดิจิทามะ",
+      "icon": "/images/items/41639.png"
+    }
+  ],
+  "Omegamon_-_Merciful_Mode": [
+    {
+      "name": "Gurei Tou",
+      "th": "กุเรย์ โท",
+      "icon": "/images/Gurei_Tou.png"
+    },
+    {
+      "name": "Garuru Hou",
+      "th": "การูรู โฮ",
+      "icon": "/images/Garuru_Hou.png"
+    }
+  ],
+  "Omegamon_X_Extreme": [
+    {
+      "name": "Corresponding Power- Garurumon",
+      "th": "Corresponding Power- Garurumon",
+      "icon": "/images/Corresponding_Power-_Garurumon.png"
+    },
+    {
+      "name": "Corresponding Power- Greymon",
+      "th": "Corresponding Power- Greymon",
+      "icon": "/images/Corresponding_Power-_Greymon.png"
+    }
+  ],
+  "Quantumon": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Shoutmon_X7_Superior_Mode": [
+    {
+      "name": "Burning Rocker",
+      "th": "เบิร์นนิ่ง ร็อคเกอร์",
+      "icon": "/images/Burning_Rocker.png"
+    },
+    {
+      "name": "Final Xros - Alpha",
+      "th": "ไฟนอล ครอส - อัลฟ่า",
+      "icon": "/images/Final_Xros_-_Alpha.png"
+    },
+    {
+      "name": "Final Xros - Beta",
+      "th": "ไฟนอล ครอส - เบต้า",
+      "icon": "/images/Final_Xros_-_Beta.png"
+    }
+  ],
+  "Susanoomon_(Extreme)": [
+    {
+      "name": "ก็อด : ออร่า ออฟ เดสทรัคชัน",
+      "th": "ก็อด : ออร่า ออฟ เดสทรัคชัน",
+      "icon": "/images/items/190048.png"
+    },
+    {
+      "name": "ก็อด : ออร่า ออฟ รีเบิร์ธ",
+      "th": "ก็อด : ออร่า ออฟ รีเบิร์ธ",
+      "icon": "/images/items/190050.png"
+    }
+  ],
+  "ZeedMillenniummon_(Awaken)": [
+    {
+      "name": "Manipulator of the World",
+      "th": "มานิพิวเลเตอร์ ออฟ เดอะ เวิลด์",
+      "icon": "/images/Manipulator_of_the_World.png"
+    },
+    {
+      "name": "Breaker of the Past",
+      "th": "เบรกเกอร์ ออฟ เดอะ พาสต์",
+      "icon": "/images/Breaker_of_the_Past.png"
+    }
+  ],
+  "Agumon_-_Bond_of_Bravery": [
+    {
+      "name": "Last Evolution - Bravery",
+      "th": "ลาสต์ อีโวลูชั่น - เบรฟเวอรี่",
+      "icon": "/images/Last_Evolution_-_Bravery.png"
+    }
+  ],
+  "Alphamon_Ouryuken_(Awaken)": [
+    {
+      "name": "X-Antibody Factor - Alphamon Ouryuken(Awaken) – Alpha",
+      "th": "เอ็กซ์-แอนติบอดี้ แฟคเตอร์: อัลฟามอนโอริวเคน (อะเวคเค่น) – อัลฟ่า",
+      "icon": "/images/X-Antibody_Factor_-_Alphamon_Ouryuken(Awaken)_–_Alpha.png"
+    },
+    {
+      "name": "X-Antibody Factor - Alphamon Ouryuken(Awaken) – Beta",
+      "th": "เอ็กซ์-แอนติบอดี้ แฟคเตอร์: อัลฟามอนโอริวเคน (อะเวคเค่น) – เบต้า",
+      "icon": "/images/X-Antibody_Factor_-_Alphamon_Ouryuken(Awaken)_–_Beta.png"
+    }
+  ],
+  "DarknessBagramon": [
+    {
+      "name": "อิมพีเรียม วิชเชส(B",
+      "th": "อิมพีเรียม วิชเชส(B",
+      "icon": "/images/items/41677.png"
+    },
+    {
+      "name": "อิมพีเรียม วิชเชส(D)",
+      "th": "อิมพีเรียม วิชเชส(D)",
+      "icon": "/images/items/41679.png"
+    }
+  ],
+  "Examon_X": [],
+  "Gabumon_-_Bond_of_Friendship": [
+    {
+      "name": "Last Evolution - Friendship",
+      "th": "ลาสต์ อีโวลูชั่น - เฟรนด์ชิป",
+      "icon": "/images/Last_Evolution_-_Friendship.png"
+    }
+  ],
+  "Imperialdramon_(Fighter_Mode)_(Awaken)": [],
+  "Lucemon:_Satan_Mode_(Awaken)": [
+    {
+      "name": "DigiEgg of Evil Data",
+      "th": "ดิจิเอ้ก ออฟ อีวิล ดาต้า",
+      "icon": "/images/DigiEgg_of_Evil_Data.png"
+    }
+  ],
+  "MetalGarurumon_(Awaken)": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Omegamon_Alter-B": [
+    {
+      "name": "แบล็คดิจิตรอน- Sample A",
+      "th": "แบล็คดิจิตรอน- Sample A",
+      "icon": "/images/items/41504.png"
+    },
+    {
+      "name": "แบล็คดิจิตรอน- Sample B",
+      "th": "แบล็คดิจิตรอน- Sample B",
+      "icon": "/images/items/41505.png"
+    }
+  ],
+  "Omegamon_X": [
+    {
+      "name": "X-Antibody Factor - Omegamon – Alpha",
+      "th": "เอ็กซ์-แอนติบอดี้ แฟคเตอร์: โอเมกามอน – อัลฟ่า",
+      "icon": "/images/X-Antibody_Factor_-_Omegamon_–_Alpha.png"
+    },
+    {
+      "name": "X-Antibody Factor - Omegamon – Beta",
+      "th": "เอ็กซ์-แอนติบอดี้ แฟคเตอร์: โอเมกามอน – เบต้า",
+      "icon": "/images/X-Antibody_Factor_-_Omegamon_–_Beta.png"
+    }
+  ],
+  "Omegamon_Zwart_D": [
+    {
+      "name": "D . แอนติ ไวรัส A",
+      "th": "D . แอนติ ไวรัส A",
+      "icon": "/images/items/41502.png"
+    },
+    {
+      "name": "D . แอนติ ไวรัส B",
+      "th": "D . แอนติ ไวรัส B",
+      "icon": "/images/items/41503.png"
+    }
+  ],
+  "Ordinemon_(Awaken)": [
+    {
+      "name": "Data of the Apocalypse - Madness",
+      "th": "ดาต้า ออฟ ดิ อะพอคคาลิปส์ - แมดเนส",
+      "icon": "/images/Data_of_the_Apocalypse_-_Madness.png"
+    },
+    {
+      "name": "Data of the Apocalypse - Punishment",
+      "th": "ดาต้า ออฟ ดิ อะพอคคาลิปส์ - พันนิชเมนท์",
+      "icon": "/images/Data_of_the_Apocalypse_-_Punishment.png"
+    }
+  ],
+  "Shoutmon_X7": [
+    {
+      "name": "เกรทครอส - อัลฟ่า",
+      "th": "เกรทครอส - อัลฟ่า",
+      "icon": "/images/items/41612.png"
+    },
+    {
+      "name": "เกรทครอส - เบต้า",
+      "th": "เกรทครอส - เบต้า",
+      "icon": "/images/items/41613.png"
+    }
+  ],
+  "Susanoomon_(Awaken)": [
+    {
+      "name": "โอเวอร์เซียร์ ออฟ ดิซทรัคชั่น",
+      "th": "โอเวอร์เซียร์ ออฟ ดิซทรัคชั่น",
+      "icon": "/images/items/41578.png"
+    },
+    {
+      "name": "โอเวอร์เซียร์ ออฟ รีเจเนอเรชัน",
+      "th": "โอเวอร์เซียร์ ออฟ รีเจเนอเรชัน",
+      "icon": "/images/items/41579.png"
+    }
+  ],
+  "WarGreymon_(Awaken)": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Xros_Up_Mervamon": [],
+  "ZeedMillenniummon": [
+    {
+      "name": "Cross Data-ช่องว่าง",
+      "th": "Cross Data-ช่องว่าง",
+      "icon": "/images/items/41510.png"
+    },
+    {
+      "name": "Cross Data-เวลา",
+      "th": "Cross Data-เวลา",
+      "icon": "/images/items/41511.png"
+    }
+  ],
+  "Alphamon_Ouryuken_(X-Antibody_System)": [],
+  "Barbamon_X": [
+    {
+      "name": "X-Antibody Factor - Barbamon",
+      "th": "เอ็กซ์-แอนติบอดี้ แฟคเตอร์: บาร์บามอน",
+      "icon": "/images/X-Antibody_Factor_-_Barbamon.png"
+    }
+  ],
+  "Beelzemon_(Blast_Mode)_(Awaken)": [
+    {
+      "name": "เดธ สลิงเกอร์",
+      "th": "เดธ สลิงเกอร์",
+      "icon": "/images/items/41703.png"
+    }
+  ],
+  "Belphemon_(Rage_Mode)_(Awaken)": [
+    {
+      "name": "โบรคเค่น อะลาร์ม",
+      "th": "โบรคเค่น อะลาร์ม",
+      "icon": "/images/items/41700.png"
+    }
+  ],
+  "Craniamon_X": [
+    {
+      "name": "Craniamon X-Antibody Factor",
+      "th": "เอ็กซ์-แอนติบอดี้ แฟคเตอร์: เครเนียมมอน",
+      "icon": "/images/Craniamon_X-Antibody_Factor.png"
+    }
+  ],
+  "Demon_X": [
+    {
+      "name": "X-Antibody Factor - Demon",
+      "th": "เอ็กซ์-แอนติบอดี้ แฟคเตอร์: เดมอน",
+      "icon": "/images/X-Antibody_Factor_-_Demon.png"
+    }
+  ],
+  "Fanglongmon_(Awaken)": [
+    {
+      "name": "ปลุกพลังด้านลบ : จินลอนมอน",
+      "th": "ปลุกพลังด้านลบ : จินลอนมอน",
+      "icon": "/images/items/41553.png"
+    }
+  ],
+  "Gallantmon_(Awaken)": [
+    {
+      "name": "แม็ททริกส์ อีโวลูชั่น - ดุ๊คมอน",
+      "th": "แม็ททริกส์ อีโวลูชั่น - ดุ๊คมอน",
+      "icon": "/images/items/41643.png"
+    }
+  ],
+  "Gankoomon_X": [
+    {
+      "name": "X-Antibody Factor - Gankoomon",
+      "th": "เอ็กซ์-แอนติบอดี้ แฟคเตอร์: กันคูมอน",
+      "icon": "/images/X-Antibody_Factor_-_Gankoomon.png"
+    }
+  ],
+  "Jesmon_X": [
+    {
+      "name": "Jesmon X-Antibody Factor",
+      "th": "เอ็กซ์-แอนติบอดี้ แฟคเตอร์: เจสมอน",
+      "icon": "/images/Jesmon_X-Antibody_Factor.png"
+    }
+  ],
+  "Lilithmon_X": [
+    {
+      "name": "X-Antibody Factor - Lilithmon X",
+      "th": "เอ็กซ์-แอนติบอดี้ แฟคเตอร์: ลิลิธมอน X",
+      "icon": "/images/X-Antibody_Factor_-_Lilithmon_X.png"
+    }
+  ],
+  "MegaGargomon_(Awaken)": [
+    {
+      "name": "แม็ททริกส์ อีโวลูชั่น - เซนต์การ์โกมอน",
+      "th": "แม็ททริกส์ อีโวลูชั่น - เซนต์การ์โกมอน",
+      "icon": "/images/items/41647.png"
+    }
+  ],
+  "Ogudomon": [],
+  "Ordinemon": [
+    {
+      "name": "Data of Fallen Angel - Wrath",
+      "th": "ดาต้า ออฟ ฟอลเลน แองเจิล - แรธ",
+      "icon": "/images/Data_of_Fallen_Angel_-_Wrath.png"
+    },
+    {
+      "name": "Data of Fallen Angel - Sorrow",
+      "th": "ดาต้า ออฟ ฟอลเลน แองเจิล - ซอร์โรว์",
+      "icon": "/images/Data_of_Fallen_Angel_-_Sorrow.png"
+    }
+  ],
+  "Sakuyamon_(Awaken)": [
+    {
+      "name": "แม็ททริกส์ อีโวลูชั่น - ซาคุยามอน",
+      "th": "แม็ททริกส์ อีโวลูชั่น - ซาคุยามอน",
+      "icon": "/images/items/41651.png"
+    }
+  ],
+  "Shoutmon_DX": [
+    {
+      "name": "ดับเบิ้ลครอส - DX - อัลฟา",
+      "th": "ดับเบิ้ลครอส - DX - อัลฟา",
+      "icon": "/images/items/41601.png"
+    },
+    {
+      "name": "ดับเบิ้ลครอส - DX - เบต้า",
+      "th": "ดับเบิ้ลครอส - DX - เบต้า",
+      "icon": "/images/items/41602.png"
+    }
+  ],
+  "Susanoomon": [],
+  "Apocalymon_(Psychic)": [],
+  "Armageddemon_(Conflation)": [],
+  "Bagramon": [
+    {
+      "name": "อุดมการณ์และความเชื่อของบากรามอน",
+      "th": "อุดมการณ์และความเชื่อของบากรามอน",
+      "icon": "/images/items/41683.png"
+    }
+  ],
+  "Beelzemon_X": [
+    {
+      "name": "X-Antibody Factor-Beelzemon",
+      "th": "เอ็กซ์-แอนติบอดี้ แฟคเตอร์: เบลเซบุมอน",
+      "icon": "/images/X-Antibody_Factor-Beelzemon.png"
+    }
+  ],
+  "Boltboutamon": [],
+  "Chaosdramon_X": [
+    {
+      "name": "X-Antibody Factor - Chaosdramon",
+      "th": "เอ็กซ์-แอนติบอดี้ แฟคเตอร์: เคออสดรามอน",
+      "icon": "/images/X-Antibody_Factor_-_Chaosdramon.png"
+    }
+  ],
+  "Chaosmon": [
+    {
+      "name": "Bug Data - BanchouLeomon",
+      "th": "บั๊ก ดาต้า - บันโชเลโอมอน",
+      "icon": "/images/Bug_Data_-_BanchouLeomon.png"
+    },
+    {
+      "name": "Bug Data - Darkdramon",
+      "th": "บั๊ก ดาต้า - ดาร์คดรามอน",
+      "icon": "/images/Bug_Data_-_Darkdramon.png"
+    }
+  ],
+  "Duftmon_X": [
+    {
+      "name": "X-Antibody Factor - Duftmon",
+      "th": "เอ็กซ์-แอนติบอดี้ แฟคเตอร์: ดูฟต์มอน",
+      "icon": "/images/X-Antibody_Factor_-_Duftmon.png"
+    }
+  ],
+  "Dynasmon_X": [
+    {
+      "name": "X-Antibody Factor: Dynasmon",
+      "th": "เอ็กซ์-แอนติบอดี้ แฟคเตอร์: ดูนัสมอน",
+      "icon": "/images/X-Antibody_Factor-Dynasmon.png"
+    }
+  ],
+  "Examon": [],
+  "Fanglongmon": [],
+  "Gallantmon_X": [
+    {
+      "name": "Gallantmon X-Antibody Factor",
+      "th": "เอ็กซ์-แอนติบอดี้ แฟคเตอร์: ดุ๊คมอน",
+      "icon": "/images/Gallantmon_X-Antibody_Factor.png"
+    }
+  ],
+  "Imperialdramon_(Paladin_Mode)(Jogress)": [
+    {
+      "name": "Holy Ring",
+      "th": "โฮลี่ ริง",
+      "icon": "/images/Holy_Ring.png"
+    }
+  ],
+  "Jet_Mervamon": [
+    {
+      "name": "Code Crown",
+      "th": "โค้ด คราวน์",
+      "icon": "/images/Code_Crown.png"
+    }
+  ],
+  "LordKnightmon_X": [
+    {
+      "name": "X-Antibody Factor - LordKnightmon X",
+      "th": "เอ็กซ์-แอนติบอดี้ แฟคเตอร์: ลอร์ดไนท์มอนX",
+      "icon": "/images/X-Antibody_Factor_-_LordKnightmon_X.png"
+    }
+  ],
+  "MedievalGallantmon": [
+    {
+      "name": "X-Antibody Factor - MedievalGallantmon",
+      "th": "เอ็กซ์-แอนติบอดี้ แฟคเตอร์: เมดิวอล ดุ๊คมอน",
+      "icon": "/images/X-Antibody_Factor_-_MedievalGallantmon.png"
+    }
+  ],
+  "Megidramon_X": [
+    {
+      "name": "Megidramon X-Antibody Factor",
+      "th": "เอ็กซ์-แอนติบอดี้ แฟคเตอร์: เมกิดรามอน",
+      "icon": "/images/Megidramon_X-Antibody_Factor.png"
+    }
+  ],
+  "Moon_Millenniumon": [],
+  "Omegamon": [],
+  "Omegamon_Alter-S": [
+    {
+      "name": "ข้อมูลโจเกรส A - โอเมกามอน อัลเทอร์-S",
+      "th": "ข้อมูลโจเกรส A - โอเมกามอน อัลเทอร์-S",
+      "icon": "/images/items/41500.png"
+    },
+    {
+      "name": "ข้อมูลโจเกรส B - โอเมกามอน อัลเทอร์-S",
+      "th": "ข้อมูลโจเกรส B - โอเมกามอน อัลเทอร์-S",
+      "icon": "/images/items/41501.png"
+    }
+  ],
+  "Rafflesimon": [
+    {
+      "name": "Rafflesimon - Data Core - Lotusmon",
+      "th": "ราเฟลเรซีมอน - ดาต้า คอร์ - โลตัสมอน",
+      "icon": "/images/Rafflesimon_-_Data_Core_-_Lotusmon.png"
+    },
+    {
+      "name": "Rafflesimon - Data Core - Rosemon",
+      "th": "ราเฟลเรซีมอน - ดาต้า คอร์ - โรสมอน",
+      "icon": "/images/Rafflesimon_-_Data_Core_-_Rosemon.png"
+    }
+  ],
+  "RustTyrannomon": [],
+  "Siriusmon": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "SlashAngemon": [
+    {
+      "name": "โคลมฮ์ โซลาอิส",
+      "th": "โคลมฮ์ โซลาอิส",
+      "icon": "/images/items/41012.png"
+    }
+  ],
+  "Sleipmon_X": [
+    {
+      "name": "X-Antibody Factor-Sleipmon",
+      "th": "เอ็กซ์-แอนติบอดี้ แฟคเตอร์: สเลปมอน",
+      "icon": "/images/X-Antibody_Factor-Sleipmon.png"
+    }
+  ],
+  "ToyAgumon_(Burst_Mode)(SS%2B)": [
+    {
+      "name": "Evoluter × 8",
+      "th": "อีโวลูเตอร์ × 8",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "UlforceVeedramon_X": [
+    {
+      "name": "X-Antibody Factor: UlforceVeedramon",
+      "th": "เอ็กซ์-แอนติบอดี้ แฟคเตอร์: อัลฟอร์ซ วีดรามอน",
+      "icon": "/images/X-Antibody_Factor-UlforceVeedramon.png"
+    }
+  ],
+  "Valkyrimon": [],
+  "Alphamon_Ouryuken": [],
+  "Amphimon": [
+    {
+      "name": "Evoluter × 8",
+      "th": "อีโวลูเตอร์ × 8",
+      "icon": "/images/items/9004.png"
+    },
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "BlackMegaGargomon": [
+    {
+      "name": "Black Saint Wing",
+      "th": "แบล็ค เซนต์ วิง",
+      "icon": "/images/Black_Saint_Wing.png"
+    }
+  ],
+  "Dexmon_(X-Antibody_System)": [
+    {
+      "name": "Dexmon X-Antibody Factor",
+      "th": "เอ็กซ์-แอนติบอดี้ แฟคเตอร์: เดธ X มอน",
+      "icon": "/images/Dexmon_X-Antibody_Factor.png"
+    }
+  ],
+  "Diarbbitmon": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Dynasmon": [
+    {
+      "name": "ชิฟวัลรี",
+      "th": "ชิฟวัลรี",
+      "icon": "/images/items/41845.png"
+    }
+  ],
+  "Gallantmon_(Crimson_Mode)": [
+    {
+      "name": "กุงเนียร์",
+      "th": "กุงเนียร์",
+      "icon": "/images/items/41008.png"
+    }
+  ],
+  "Kuzuhamon": [
+    {
+      "name": "คฑานักพรต",
+      "th": "คฑานักพรต",
+      "icon": "/images/items/41011.png"
+    }
+  ],
+  "Lucemon:_Satan_Mode": [
+    {
+      "name": "Gehenna",
+      "th": "เกเฮนนา",
+      "icon": "/images/Gehenna.png"
+    }
+  ],
+  "Magnamon_X": [
+    {
+      "name": "X-Antibody Factor-Magnamon",
+      "th": "เอ็กซ์-แอนติบอดี้ แฟคเตอร์: แมกนามอน",
+      "icon": "/images/X-Antibody_Factor_-_Magnamon.png"
+    }
+  ],
+  "Mastemon": [
+    {
+      "name": "โฮลี่ อามูเล็ต",
+      "th": "โฮลี่ อามูเล็ต",
+      "icon": "/images/items/41516.png"
+    },
+    {
+      "name": "ดาร์ค อามูเล็ต",
+      "th": "ดาร์ค อามูเล็ต",
+      "icon": "/images/items/41517.png"
+    }
+  ],
+  "MegaGargomon": [
+    {
+      "name": "ไจแอนท์ มิสไซล์",
+      "th": "ไจแอนท์ มิสไซล์",
+      "icon": "/images/items/41841.png"
+    }
+  ],
+  "Millenniumon": [],
+  "Minervamon_X": [
+    {
+      "name": "X-Antibody Factor - Minervamon X",
+      "th": "เอ็กซ์-แอนติบอดี้ แฟคเตอร์: NO",
+      "icon": "/images/X-Antibody_Factor_-_Minervamon_X.png"
+    }
+  ],
+  "OmegaShoutmon": [
+    {
+      "name": "วิวัฒนาการในตำนาน - Ω",
+      "th": "วิวัฒนาการในตำนาน - Ω",
+      "icon": "/images/items/41591.png"
+    }
+  ],
+  "Omegamon_Zwart": [],
+  "Ophanimon_Falldown_Mode": [
+    {
+      "name": "Madness of Abyss",
+      "th": "แมดเนส ออฟ อะบิส",
+      "icon": "/images/Madness_of_Abyss.png"
+    }
+  ],
+  "Sakuyamon": [
+    {
+      "name": "วิล ออฟ ก็อด",
+      "th": "วิล ออฟ ก็อด",
+      "icon": "/images/items/41839.png"
+    }
+  ],
+  "Shoutmon_X5": [
+    {
+      "name": "Code Crown",
+      "th": "โค้ด คราวน์",
+      "icon": "/images/Code_Crown.png"
+    }
+  ],
+  "ZekeGreymon": [
+    {
+      "name": "วิวัฒนาการในตำนาน - Z อัลฟา",
+      "th": "วิวัฒนาการในตำนาน - Z อัลฟา",
+      "icon": "/images/items/41597.png"
+    },
+    {
+      "name": "วิวัฒนาการในตำนาน - Z เบต้า",
+      "th": "วิวัฒนาการในตำนาน - Z เบต้า",
+      "icon": "/images/items/41598.png"
+    }
+  ],
+  "Aegisdramon": [
+    {
+      "name": "Data Seadramon - Species",
+      "th": "ดาต้า ซีดรามอน - สปีชีส์",
+      "icon": "/images/Data_Seadramon_-_Species.png"
+    }
+  ],
+  "Alphamon_(X-Antibody_System)": [
+    {
+      "name": "Alphamon X-Antibody Factor",
+      "th": "เอ็กซ์-แอนติบอดี้ แฟคเตอร์: อัลฟามอน",
+      "icon": "/images/Alphamon_X-Antibody_Factor.png"
+    }
+  ],
+  "Apocalymon": [
+    {
+      "name": "Return of Nothingness",
+      "th": "รีเทิร์น ออฟ นัธธิงเนส",
+      "icon": "/images/Return_of_Nothingness.png"
+    }
+  ],
+  "Armageddemon": [
+    {
+      "name": "Black Tentacle",
+      "th": "แบล็ค เทนทาเคิล",
+      "icon": "/images/Black_Tentacle.png"
+    }
+  ],
+  "Beelzemon_(Blast_Mode)": [
+    {
+      "name": "ปืนของเล่น",
+      "th": "ปืนของเล่น",
+      "icon": "/images/items/41003.png"
+    }
+  ],
+  "Beelzemon_(C)": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Belphemon_(Rage_Mode)": [
+    {
+      "name": "Alarm Clock",
+      "th": "อะลาร์ม คล็อก",
+      "icon": "/images/Alarm_Clock.png"
+    }
+  ],
+  "Craniamon": [
+    {
+      "name": "Duo Solar Spear",
+      "th": "ดูโอ โซลาร์ สเปียร์",
+      "icon": "/images/Duo_Solar_Spear.png"
+    }
+  ],
+  "DarkKnightmon": [],
+  "Demon_(Beast_Mode)": [
+    {
+      "name": "ฟิวเรียส คลอว์",
+      "th": "ฟิวเรียส คลอว์",
+      "icon": "/images/items/41030.png"
+    }
+  ],
+  "Dexmon": [
+    {
+      "name": "เดธ X แอนติบอดี้",
+      "th": "เดธ X แอนติบอดี้",
+      "icon": "/images/items/41033.png"
+    }
+  ],
+  "Gaioumon": [
+    {
+      "name": "Gaioumon X-Antibody Factor",
+      "th": "เอ็กซ์-แอนติบอดี้ แฟคเตอร์: ไกโอมอน",
+      "icon": "/images/Gaioumon_X-Antibody_Factor.png"
+    }
+  ],
+  "Gallantmon": [
+    {
+      "name": "เอจิส",
+      "th": "เอจิส",
+      "icon": "/images/items/41883.png"
+    }
+  ],
+  "Gankoomon": [
+    {
+      "name": "ไอรอน ฟิสท์",
+      "th": "ไอรอน ฟิสท์",
+      "icon": "/images/items/41514.png"
+    }
+  ],
+  "GigaSeadramon_(X-Antibody_System)": [
+    {
+      "name": "GigaSeadramon X-Antibody Factor",
+      "th": "เอ็กซ์-แอนติบอดี้ แฟคเตอร์: กีก้าซีดรามอน",
+      "icon": "/images/GigaSeadramon_X-Antibody_Factor.png"
+    }
+  ],
+  "Imperialdramon_(Fighter_Mode)(Jogress)": [],
+  "Imperialdramon_(Paladin_Mode)": [
+    {
+      "name": "โอเมกาเบลด",
+      "th": "โอเมกาเบลด",
+      "icon": "/images/items/41024.png"
+    }
+  ],
+  "Jesmon": [
+    {
+      "name": "อาโต้,เรเน่,พอล",
+      "th": "อาโต้,เรเน่,พอล",
+      "icon": "/images/items/41519.png"
+    }
+  ],
+  "KaiserGreymon": [],
+  "Lucemon:_Larva": [
+    {
+      "name": "Source of the Darkness",
+      "th": "ซอร์ส ออฟ เดอะ ดาร์คเนส",
+      "icon": "/images/Source_of_the_Darkness.png"
+    }
+  ],
+  "MagnaGarurumon": [],
+  "MaloMyotismon": [
+    {
+      "name": "โซดอมและกอมโมร่า",
+      "th": "โซดอมและกอมโมร่า",
+      "icon": "/images/items/41031.png"
+    }
+  ],
+  "Megidramon": [
+    {
+      "name": "Digital Hazard",
+      "th": "ดิจิตอล ฮาซาร์ด",
+      "icon": "/images/Digital_Hazard.png"
+    }
+  ],
+  "Mervamon": [
+    {
+      "name": "Growth of Goddess",
+      "th": "โกรธ ออฟ ก็อดเดส",
+      "icon": "/images/Growth_of_Goddess.png"
+    }
+  ],
+  "MetalGreymon_(C)": [
+    {
+      "name": "Code Crown",
+      "th": "โค้ด คราวน์",
+      "icon": "/images/Code_Crown.png"
+    }
+  ],
+  "Rosemon_X": [
+    {
+      "name": "Rosemon X-Antibody Factor",
+      "th": "เอ็กซ์-แอนติบอดี้ แฟคเตอร์: โรสมอน",
+      "icon": "/images/Rosemon_X-Antibody_Factor.png"
+    }
+  ],
+  "Shoutmon_X4": [
+    {
+      "name": "Code Crown",
+      "th": "โค้ด คราวน์",
+      "icon": "/images/Code_Crown.png"
+    }
+  ],
+  "Alphamon": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "AncientTroiamon": [
+    {
+      "name": "ม้าโทรจัน",
+      "th": "ม้าโทรจัน",
+      "icon": "/images/items/41015.png"
+    }
+  ],
+  "Azulongmon_(Mega)": [
+    {
+      "name": "Accelerator × 10",
+      "th": "แอคเซลเลอเรเตอร์ × 10",
+      "icon": "/images/Accelerator.png"
+    }
+  ],
+  "Baihumon_(Mega)": [
+    {
+      "name": "Accelerator × 10",
+      "th": "แอคเซลเลอเรเตอร์ × 10",
+      "icon": "/images/Accelerator.png"
+    }
+  ],
+  "Barbamon": [
+    {
+      "name": "Evoluter × 8",
+      "th": "อีโวลูเตอร์ × 8",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Beelzemon": [
+    {
+      "name": "โนเบิล บีอิง",
+      "th": "โนเบิล บีอิง",
+      "icon": "/images/items/41847.png"
+    }
+  ],
+  "ChaosGallantmon": [
+    {
+      "name": "กอร์กอน",
+      "th": "กอร์กอน",
+      "icon": "/images/items/41871.png"
+    }
+  ],
+  "ChaosPiedmon": [
+    {
+      "name": "ทรัมพ์ซอร์ด",
+      "th": "ทรัมพ์ซอร์ด",
+      "icon": "/images/items/41022.png"
+    }
+  ],
+  "Chaosdramon": [
+    {
+      "name": "ไฮเปอร์แคนนอน",
+      "th": "ไฮเปอร์แคนนอน",
+      "icon": "/images/items/41021.png"
+    }
+  ],
+  "Crusadermon": [
+    {
+      "name": "ไพล์ บังเกอร์",
+      "th": "ไพล์ บังเกอร์",
+      "icon": "/images/items/41843.png"
+    }
+  ],
+  "Demon": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "DexDorugoramon_(X-Antibody_System)": [
+    {
+      "name": "DexDorugoramon X-Antibody Factor",
+      "th": "เอ็กซ์-แอนติบอดี้ แฟคเตอร์: เดธ X โดรุโกรามอน",
+      "icon": "/images/DexDorugoramon_X-Antibody_Factor.png"
+    }
+  ],
+  "Dorugoramon_(X-Antibody_System)": [
+    {
+      "name": "Dorugoramon X-Antibody Factor",
+      "th": "เอ็กซ์-แอนติบอดี้ แฟคเตอร์: โดรุโกรามอน",
+      "icon": "/images/Dorugoramon_X-Antibody_Factor.png"
+    }
+  ],
+  "Duftmon": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Ebonwumon_(Mega)": [
+    {
+      "name": "Accelerator × 10",
+      "th": "แอคเซลเลอเรเตอร์ × 10",
+      "icon": "/images/Accelerator_Icon.png"
+    }
+  ],
+  "Fujinmon": [
+    {
+      "name": "Critical Arms",
+      "th": "คริติคอล อาร์มส์",
+      "icon": "/images/Critical_Arms.png"
+    }
+  ],
+  "GigaSeadramon": [
+    {
+      "name": "กีก้า สเกล",
+      "th": "กีก้า สเกล",
+      "icon": "/images/items/41017.png"
+    }
+  ],
+  "KingEtemon": [
+    {
+      "name": "ชุดเกราะราชาดิจิมอน",
+      "th": "ชุดเกราะราชาดิจิมอน",
+      "icon": "/images/items/41007.png"
+    }
+  ],
+  "Leviamon": [
+    {
+      "name": "Evoluter × 8",
+      "th": "อีโวลูเตอร์ × 8",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Lilithmon": [
+    {
+      "name": "Evoluter × 8",
+      "th": "อีโวลูเตอร์ × 8",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Lucemon:_Falldown_Mode": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "MarineAngemon": [
+    {
+      "name": "คิง ออฟ เดอะ ซี",
+      "th": "คิง ออฟ เดอะ ซี",
+      "icon": "/images/items/41723.png"
+    }
+  ],
+  "Marsmon": [
+    {
+      "name": "Tria Knuckle",
+      "th": "เทรีย นัคเคิล",
+      "icon": "/images/Tria-Knuckle.png"
+    }
+  ],
+  "MetalGarurumon_X": [
+    {
+      "name": "X-Antibody Factor: MetalGarurumon",
+      "th": "เอ็กซ์-แอนติบอดี้ แฟคเตอร์: เมทัลการูรูมอน",
+      "icon": "/images/MetalGarurumon_X-Antibody_Factor.png"
+    }
+  ],
+  "Minervamon": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "MirageGaogamon_(Burst_Mode)": [],
+  "Ophanimon": [
+    {
+      "name": "โฮลี่สเปียร์",
+      "th": "โฮลี่สเปียร์",
+      "icon": "/images/items/41004.png"
+    }
+  ],
+  "Ornismon": [
+    {
+      "name": "โอนิสวิง",
+      "th": "โอนิสวิง",
+      "icon": "/images/items/41018.png"
+    }
+  ],
+  "Plesiomon": [
+    {
+      "name": "เอสเซ้นส์ ออฟ มารีน ดรากอน",
+      "th": "เอสเซ้นส์ ออฟ มารีน ดรากอน",
+      "icon": "/images/items/41609.png"
+    }
+  ],
+  "PrinceMamemon": [
+    {
+      "name": "Royal Ornament",
+      "th": "รอยัล ออร์นาเมนท์",
+      "icon": "/images/Royal_Ornament.png"
+    }
+  ],
+  "Raguelmon": [
+    {
+      "name": "Wicked Slasher",
+      "th": "วิคเก็ด สแลชเชอร์",
+      "icon": "/images/Wicked_Slasher.png"
+    }
+  ],
+  "Ravemon_(Burst_Mode)": [],
+  "Rosemon_(Burst_Mode)": [],
+  "ShadowSeraphimon": [
+    {
+      "name": "ชาโดว์ วิง",
+      "th": "ชาโดว์ วิง",
+      "icon": "/images/items/41019.png"
+    }
+  ],
+  "Shakkoumon_(Jogress)": [],
+  "ShineGreymon_(Burst_Mode)": [],
+  "Shoutmon_X2": [
+    {
+      "name": "Code Crown",
+      "th": "โค้ด คราวน์",
+      "icon": "/images/Code_Crown.png"
+    }
+  ],
+  "Shoutmon_X3": [
+    {
+      "name": "Code Crown",
+      "th": "โค้ด คราวน์",
+      "icon": "/images/Code_Crown.png"
+    }
+  ],
+  "Silphymon_(Jogress)": [],
+  "Sleipmon": [
+    {
+      "name": "เรด ดิจิซอยด์",
+      "th": "เรด ดิจิซอยด์",
+      "icon": "/images/items/41849.png"
+    }
+  ],
+  "TyrantKabuterimon": [
+    {
+      "name": "ไทแรน โครว์",
+      "th": "ไทแรน โครว์",
+      "icon": "/images/items/41014.png"
+    }
+  ],
+  "UlforceVeedramon": [
+    {
+      "name": "Evoluter × 8",
+      "th": "อีโวลูเตอร์ × 8",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "UlforceVeedramon_Future_Mode": [
+    {
+      "name": "Digimental - Code F",
+      "th": "Digimental - Code F",
+      "icon": "/images/Digimental_-_Code_F.png"
+    }
+  ],
+  "Valdurmon": [
+    {
+      "name": "โฮลี่วิง",
+      "th": "โฮลี่วิง",
+      "icon": "/images/items/41016.png"
+    }
+  ],
+  "VictoryGreymon": [
+    {
+      "name": "ดรามอนเบรคเกอร์",
+      "th": "ดรามอนเบรคเกอร์",
+      "icon": "/images/items/41005.png"
+    }
+  ],
+  "WarGreymon_X": [
+    {
+      "name": "X-Antibody Factor: WarGreymon",
+      "th": "เอ็กซ์-แอนติบอดี้ แฟคเตอร์: วอร์เกรย์มอน",
+      "icon": "/images/WarGreymon_X-Antibody_Factor.png"
+    }
+  ],
+  "ZeedGarurumon": [
+    {
+      "name": "Z'd-hou (ซีดโฮ)",
+      "th": "Z'd-hou (ซีดโฮ)",
+      "icon": "/images/items/41006.png"
+    }
+  ],
+  "Zhuqiaomon_(Mega)": [
+    {
+      "name": "Accelerator × 10",
+      "th": "แอคเซลเลอเรเตอร์ × 10",
+      "icon": "/images/Accelerator_Icon.png"
+    }
+  ],
+  "Argomon_(Mega)": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "BanchouLeomon": [
+    {
+      "name": "กักคุรัน",
+      "th": "กักคุรัน",
+      "icon": "/images/items/41009.png"
+    }
+  ],
+  "Belphemon_(Sleep_Mode)": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "BlackWarGreymon": [
+    {
+      "name": "ดาร์ค ดรากอน วอรีเยอร์",
+      "th": "ดาร์ค ดรากอน วอรีเยอร์",
+      "icon": "/images/items/41791.png"
+    }
+  ],
+  "BlitzGreymon": [
+    {
+      "name": "พลาสม่า สเต็ก",
+      "th": "พลาสม่า สเต็ก",
+      "icon": "/images/items/41835.png"
+    }
+  ],
+  "CresGarurumon": [
+    {
+      "name": "ฮวังชวล เซเบอร์",
+      "th": "ฮวังชวล เซเบอร์",
+      "icon": "/images/items/41837.png"
+    }
+  ],
+  "DinoTigermon_(X-Antibody_System)": [
+    {
+      "name": "DinoTigermon X-Antibody Factor",
+      "th": "เอ็กซ์-แอนติบอดี้ แฟคเตอร์: ไดโนไทกามอน",
+      "icon": "/images/DinoTigermon_X-Antibody_Factor.png"
+    }
+  ],
+  "Dorugoramon": [
+    {
+      "name": "Evoluter × 8",
+      "th": "อีโวลูเตอร์ × 8",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "GranDracmon_(X-Antibody_System)": [
+    {
+      "name": "GranDracmon X-Antibody Factor",
+      "th": "เอ็กซ์-แอนติบอดี้ แฟคเตอร์: แกรนดราคุมอน",
+      "icon": "/images/GranDracmon_X-Antibody_Factor.png"
+    }
+  ],
+  "GrandisKuwagamon_(X-Antibody_System)": [
+    {
+      "name": "X-Antibody Factor - GrandisKuwagamon",
+      "th": "เอ็กซ์-แอนติบอดี้ แฟคเตอร์: แกรนดิสคุวากามอน",
+      "icon": "/images/X-Antibody_Factor_-_GrandisKuwagamon.png"
+    }
+  ],
+  "Greymon_(C)_(Mega)": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Gulfmon": [
+    {
+      "name": "อะบิสซัล ดิจิมอน",
+      "th": "อะบิสซัล ดิจิมอน",
+      "icon": "/images/items/41833.png"
+    }
+  ],
+  "Imperialdramon_(Dragon_Mode)": [
+    {
+      "name": "Evoluter × 8",
+      "th": "อีโวลูเตอร์ × 8",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Imperialdramon_(Dragon_Mode)(Jogress)": [],
+  "Imperialdramon_(Fighter_Mode)": [
+    {
+      "name": "Evoluter × 8",
+      "th": "อีโวลูเตอร์ × 8",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "JumboGamemon": [
+    {
+      "name": "สไมล์ลี่ บอมเบอร์",
+      "th": "สไมล์ลี่ บอมเบอร์",
+      "icon": "/images/items/41777.png"
+    }
+  ],
+  "Machinedramon": [
+    {
+      "name": "จัดจ์",
+      "th": "จัดจ์",
+      "icon": "/images/items/41781.png"
+    }
+  ],
+  "Magnamon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "MailBirdramon_(Mega)": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "MetalGarurumon": [
+    {
+      "name": "เลเซอร์ ไซท์",
+      "th": "เลเซอร์ ไซท์",
+      "icon": "/images/items/41821.png"
+    }
+  ],
+  "Murmukusmon": [
+    {
+      "name": "เคาท์ ดิจิมอน",
+      "th": "เคาท์ ดิจิมอน",
+      "icon": "/images/items/41825.png"
+    }
+  ],
+  "Parasimon": [
+    {
+      "name": "พาราไซต์",
+      "th": "พาราไซต์",
+      "icon": "/images/items/41829.png"
+    }
+  ],
+  "TigerVespamon_(X-Antibody_System)": [
+    {
+      "name": "TigerVespamon X-Antibody Factor",
+      "th": "เอ็กซ์-แอนติบอดี้ แฟคเตอร์: ไทเกอร์เวสปามอน",
+      "icon": "/images/TigerVespamon_X-Antibody_Factor.png"
+    }
+  ],
+  "VenomMyotismon": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "WarGreymon": [
+    {
+      "name": "เบรฟ ชีลด์",
+      "th": "เบรฟ ชีลด์",
+      "icon": "/images/items/41823.png"
+    }
+  ],
+  "Anubismon": [
+    {
+      "name": "Evoluter × 8",
+      "th": "อีโวลูเตอร์ × 8",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Arkadimon_(Mega)": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Ballistamon_(Mega)": [
+    {
+      "name": "Evoluter × 8",
+      "th": "อีโวลูเตอร์ × 8",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "BigMamemon": [
+    {
+      "name": "Evoluter × 8",
+      "th": "อีโวลูเตอร์ × 8",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "BlackMetalGarurumon": [
+    {
+      "name": "เมทัล เฮาล์ลิง",
+      "th": "เมทัล เฮาล์ลิง",
+      "icon": "/images/items/41789.png"
+    }
+  ],
+  "Boltmon": [
+    {
+      "name": "อะเฟนซ์ อีส เดอะ เบสท์ ดิเฟนซ์",
+      "th": "อะเฟนซ์ อีส เดอะ เบสท์ ดิเฟนซ์",
+      "icon": "/images/items/41737.png"
+    }
+  ],
+  "Brakedramon": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Cherubimon": [
+    {
+      "name": "แองเจิลริง",
+      "th": "แองเจิลริง",
+      "icon": "/images/items/41010.png"
+    }
+  ],
+  "Cherubimon_(White)": [
+    {
+      "name": "แองเจิลริง",
+      "th": "แองเจิลริง",
+      "icon": "/images/items/41010.png"
+    }
+  ],
+  "DarkDramon": [
+    {
+      "name": "ดี - บริเกด",
+      "th": "ดี - บริเกด",
+      "icon": "/images/items/41753.png"
+    }
+  ],
+  "DexDorugoramon": [
+    {
+      "name": "Evoluter × 8",
+      "th": "อีโวลูเตอร์ × 8",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Diablomon": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "DinoTigermon": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Dorulumon_(Mega)": [
+    {
+      "name": "Evoluter × 8",
+      "th": "อีโวลูเตอร์ × 8",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "GranDracmon": [
+    {
+      "name": "แบล็คเทนตาเคิล",
+      "th": "แบล็คเทนตาเคิล",
+      "icon": "/images/items/41023.png"
+    }
+  ],
+  "GranKuwagamon": [
+    {
+      "name": "อัลติเมท อินเซค",
+      "th": "อัลติเมท อินเซค",
+      "icon": "/images/items/41783.png"
+    }
+  ],
+  "GrandisKuwagamon": [
+    {
+      "name": "ดีมอน ออฟ เดอะ ดีพ ฟอร์เรสท์",
+      "th": "ดีมอน ออฟ เดอะ ดีพ ฟอร์เรสท์",
+      "icon": "/images/items/41715.png"
+    }
+  ],
+  "Gryphonmon": [
+    {
+      "name": "รอยัล คอมแมนเดอร์",
+      "th": "รอยัล คอมแมนเดอร์",
+      "icon": "/images/items/41739.png"
+    }
+  ],
+  "HerculesKabuterimon": [
+    {
+      "name": "ฮอร์น บัสเตอร์",
+      "th": "ฮอร์น บัสเตอร์",
+      "icon": "/images/items/41765.png"
+    }
+  ],
+  "HiAndromon": [
+    {
+      "name": "ไบโอ  ไซแนปส์",
+      "th": "ไบโอ  ไซแนปส์",
+      "icon": "/images/items/41713.png"
+    }
+  ],
+  "Jijimon": [
+    {
+      "name": "Evoluter × 8",
+      "th": "อีโวลูเตอร์ × 8",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Justimon": [
+    {
+      "name": "Evoluter × 8",
+      "th": "อีโวลูเตอร์ × 8",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "KingChessmon": [
+    {
+      "name": "เอสเคป บัท วิน!",
+      "th": "เอสเคป บัท วิน!",
+      "icon": "/images/items/41717.png"
+    }
+  ],
+  "Lillymon_X": [
+    {
+      "name": "Lillymon X-Antibody Factor",
+      "th": "เอ็กซ์-แอนติบอดี้ แฟคเตอร์: ลีลีมอน",
+      "icon": "/images/Lillymon_X-Antibody_Factor.png"
+    }
+  ],
+  "Lotusmon": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "MagnaDramon": [
+    {
+      "name": "Evoluter × 8",
+      "th": "อีโวลูเตอร์ × 8",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "MetalEtemon": [
+    {
+      "name": "คิง ออฟ ดิจิมอน",
+      "th": "คิง ออฟ ดิจิมอน",
+      "icon": "/images/items/41745.png"
+    }
+  ],
+  "MetalGreymon_X": [
+    {
+      "name": "X-Antibody Factor: MetalGreymon",
+      "th": "เอ็กซ์-แอนติบอดี้ แฟคเตอร์: เมทัลเกรย์มอน",
+      "icon": "/images/MetalGreymon_X-Antibody_Factor.png"
+    }
+  ],
+  "MetalSeadramon": [
+    {
+      "name": "พรินซ์ ออฟ สกาย",
+      "th": "พรินซ์ ออฟ สกาย",
+      "icon": "/images/items/41719.png"
+    }
+  ],
+  "MirageGaogamon": [
+    {
+      "name": "Evoluter × 8",
+      "th": "อีโวลูเตอร์ × 8",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Neptunemon": [
+    {
+      "name": "Evoluter × 8",
+      "th": "อีโวลูเตอร์ × 8",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "OuRyumon": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "OuRyuumon": [
+    {
+      "name": "Evoluter × 8",
+      "th": "อีโวลูเตอร์ × 8",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "OuRyuumon_(X-Antibody_System)": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Phoenixmon": [
+    {
+      "name": "ไลฟ์ ฟอร์ส",
+      "th": "ไลฟ์ ฟอร์ส",
+      "icon": "/images/items/41769.png"
+    }
+  ],
+  "Piedmon": [
+    {
+      "name": "ทรัมป์ ซอร์ด",
+      "th": "ทรัมป์ ซอร์ด",
+      "icon": "/images/items/41749.png"
+    }
+  ],
+  "PileVolcamon": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Pukumon": [
+    {
+      "name": "Evoluter × 8",
+      "th": "อีโวลูเตอร์ × 8",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Puppetmon": [
+    {
+      "name": "วูด ครอส",
+      "th": "วูด ครอส",
+      "icon": "/images/items/41779.png"
+    }
+  ],
+  "QueenChessmon": [
+    {
+      "name": "โอ้ ก็อด ออฟ เชส, ฟอร์กิฟว์ มี!",
+      "th": "โอ้ ก็อด ออฟ เชส, ฟอร์กิฟว์ มี!",
+      "icon": "/images/items/41707.png"
+    }
+  ],
+  "Raremon_(Mega)": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Ravemon": [
+    {
+      "name": "Evoluter × 8",
+      "th": "อีโวลูเตอร์ × 8",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Rosemon": [
+    {
+      "name": "Evoluter × 8",
+      "th": "อีโวลูเตอร์ × 8",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Rosemon_(Original)": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "SaberLeomon": [
+    {
+      "name": "คิง แฟง",
+      "th": "คิง แฟง",
+      "icon": "/images/items/41761.png"
+    }
+  ],
+  "Seraphimon": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "ShineGreymon": [
+    {
+      "name": "Evoluter × 8",
+      "th": "อีโวลูเตอร์ × 8",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Shoutmon_(Mega)": [
+    {
+      "name": "Evoluter × 8",
+      "th": "อีโวลูเตอร์ × 8",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "SkullMammothmon": [
+    {
+      "name": "สปิริต บอล",
+      "th": "สปิริต บอล",
+      "icon": "/images/items/41767.png"
+    }
+  ],
+  "Slayerdramon": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Sparrowmon_(Mega)": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Starmons_(Mega)": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Tanemon": [],
+  "TigerVespamon": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Vikemon": [
+    {
+      "name": "มิยอลล์นีร์",
+      "th": "มิยอลล์นีร์",
+      "icon": "/images/items/41751.png"
+    }
+  ],
+  "WarGrowlmon_X": [
+    {
+      "name": "WarGrowlmon X-Antibody Factor",
+      "th": "เอ็กซ์-แอนติบอดี้ แฟคเตอร์: เมกาโลโกรวมอน",
+      "icon": "/images/WarGrowlmon_X-Antibody_Factor.png"
+    }
+  ],
+  "WereGarurumon_X": [
+    {
+      "name": "X-Antibody Factor: WereGarurumon",
+      "th": "เอ็กซ์-แอนติบอดี้ แฟคเตอร์: วาร์การูรูมอน",
+      "icon": "/images/WereGarurumon_X-Antibody_Factor.png"
+    }
+  ],
+  "Zanbamon": [
+    {
+      "name": "โกลด์เด้น อาร์เมอร์",
+      "th": "โกลด์เด้น อาร์เมอร์",
+      "icon": "/images/items/41759.png"
+    }
+  ],
+  "DemiMeramon": [],
+  "Growlmon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Guilmon": [],
+  "Kyuubimon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Meramon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Renamon": [],
+  "SkullMeramon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Taomon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "WarGrowlmon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "AeroVeedramon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Agnimon": [],
+  "Agumon": [],
+  "Agumon_(Classic)": [],
+  "Agumon_X": [
+    {
+      "name": "X-Antibody Factor: Agumon",
+      "th": "เอ็กซ์-แอนติบอดี้ แฟคเตอร์: อากูมอน",
+      "icon": "/images/Agumon_X-Antibody_Factor.png"
+    }
+  ],
+  "Allomon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Andromon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Angemon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Angewomon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Angoramon": [],
+  "Ankylomon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Anomalocarimon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Antylamon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Antylamon_(Deva)": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Apemon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Aquilamon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Arbormon": [],
+  "Archnemon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Argomon_(Ultimate)": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Arkadimon_(Champion)": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Arkadimon_(Rookie)": [],
+  "Arkadimon_(Ultimate)": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Armadillomon": [],
+  "Astamon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Asuramon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Azulongmon_(Champion)": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Baalmon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Baihumon_(Champion)": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Bakemon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Ballistamon": [],
+  "BaoHackmon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Bastemon": [
+    {
+      "name": "Evoluter × 4",
+      "th": "อีโวลูเตอร์ × 4",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Bearmon": [],
+  "Betamon": [],
+  "BetelGammamon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Birdramon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "BishopChessmon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Biyomon": [],
+  "BlackAgumon": [],
+  "BlackGabumon": [],
+  "BlackGarurumon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "BlackGatomon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "BlackGreymon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "BlackMetalGreymon": [
+    {
+      "name": "Evoluter × 5",
+      "th": "อีโวลูเตอร์ × 5",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "BlackWereGarurumon": [
+    {
+      "name": "Evoluter × 5",
+      "th": "อีโวลูเตอร์ × 5",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Blitzmon": [],
+  "Blossomon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Boarmon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Bolgmon": [],
+  "BurningGreymon": [],
+  "Calmaramon": [],
+  "Candlemon": [],
+  "CannonBeemon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "CannonBeemon_(X-Antibody_System)": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Canoweissmon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Caturamon": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Centarumon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Cerberumon": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Cherrymon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Chimairamon": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Chirinmon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Chrysalimon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Chuumon": [],
+  "Clockmon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "CommanDramon": [],
+  "Coredramon_(Blue)": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Coredramon_(Green)": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Crowmon": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Cyberdramon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "D-Reaper_ADR-01": [],
+  "DarkTyrannomon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Datamon": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Deadly_Axemon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Deltamon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "DemiDevimon": [],
+  "Deputymon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Deramon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Devidramon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Devimon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "DexDoruGreymon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "DexDoruGreymon_(X-Antibody_System)": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "DexDorugamon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "DexDorugamon_(X-Antibody_System)": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Digmon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Digmon_(Armor)": [
+    {
+      "name": "Digi-Egg of Knowledge",
+      "th": "ดิจิเอ้ก ออฟ โนวเลดจ์",
+      "icon": "/images/Digi-Egg_of_Knowledge.png"
+    }
+  ],
+  "Dobermon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Doggymon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Dokugumon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Dokunemon": [],
+  "DoruGreymon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "DoruGreymon_(X-Antibody_System)": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Dorugamon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Dorugamon_(X-Antibody_System)": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Dorulumon": [],
+  "Dorumon": [],
+  "Dorumon_(X-Antibody_System)": [],
+  "Dracmon": [],
+  "Dracmon_(X-Antibody_System)": [],
+  "Dracomon": [],
+  "Drimogemon": [],
+  "Ebemon": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Ebonwumon_(Champion)": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Elecmon": [],
+  "Eosmon_LV4": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Eosmon_LV5": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Etemon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "ExV-mon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Falcomon": [],
+  "FanBeemon": [],
+  "FanBeemon_(X-Antibody_System)": [],
+  "Flamedramon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Floramon": [],
+  "Flybeemon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Flymon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Gabumon": [],
+  "Gabumon_X": [
+    {
+      "name": "X-Antibody Factor: Gabumon",
+      "th": "เอ็กซ์-แอนติบอดี้ แฟคเตอร์: กาบูมอน",
+      "icon": "/images/Gabumon_X-Antibody_Factor.png"
+    }
+  ],
+  "Gammamon": [],
+  "Gaogamon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Gaomon": [],
+  "Garbagemon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Gargomon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Gargoylemon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Garmmon": [],
+  "Garudamon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Garurumon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Garurumon_X": [
+    {
+      "name": "X-Antibody Factor: Garurumon",
+      "th": "เอ็กซ์-แอนติบอดี้ แฟคเตอร์: การูรูมอน",
+      "icon": "/images/Garurumon_X-Antibody_Factor.png"
+    }
+  ],
+  "Gatomon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Gazimon": [],
+  "Gekomon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "GeoGreymon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Gesomon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Gigasmon": [],
+  "GinRyumon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "GinRyumon_(X-Antibody_System)": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Giromon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Gizamon": [],
+  "Gizumon_AT": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Gizumon_XT": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Gladimon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Goatmon": [
+    {
+      "name": "Digi-Egg of Hope",
+      "th": "ดิจิเอ้ก ออฟ โฮป",
+      "icon": "/images/Digi-Egg_of_Hope.png"
+    }
+  ],
+  "Goblimon": [],
+  "Gomamon": [],
+  "Gotsumon": [],
+  "Grademon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Grademon_(X-Antibody_System)": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "GrapLeomon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Greymon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Greymon_(C)": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Greymon_X": [
+    {
+      "name": "X-Antibody Factor: Greymon",
+      "th": "เอ็กซ์-แอนติบอดี้ แฟคเตอร์: เกรย์มอน",
+      "icon": "/images/Greymon_X-Antibody_Factor.png"
+    }
+  ],
+  "Grizzlymon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Groundramon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Growlmon_X": [
+    {
+      "name": "Growlmon X-Antibody Factor",
+      "th": "เอ็กซ์-แอนติบอดี้ แฟคเตอร์: โกรวมอน",
+      "icon": "/images/Growlmon_X-Antibody_Factor.png"
+    }
+  ],
+  "Grumblemon": [],
+  "Guardromon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Guilmon_X": [
+    {
+      "name": "Guilmon X-Antibody Factor",
+      "th": "เอ็กซ์-แอนติบอดี้ แฟคเตอร์: กิลมอน",
+      "icon": "/images/Guilmon_X-Antibody_Factor.png"
+    }
+  ],
+  "Gwappamon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Hackmon": [],
+  "Hagurumon": [],
+  "Halsemon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Hawkmon": [],
+  "HisyaRyumon_(X-Antibody_System)": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "HisyaRyuumon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "IceDevimon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Icemon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Ikkakumon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Impmon": [],
+  "Infermon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Jellymon": [],
+  "JewelBeemon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Jyagamon": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Kabuterimon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "KaiserLeomon": [],
+  "Kamemon": [],
+  "Kazemon": [],
+  "Keramon": [],
+  "Kiwimon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "KnightChessmon_(Black)": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "KnightChessmon_(White)": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Knightmon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Kokuwamon": [],
+  "Korikakumon": [],
+  "Koromon": [],
+  "Kotemon": [],
+  "Kudamon": [],
+  "Kumamon": [],
+  "Kunemon": [],
+  "Kuwagamon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Labramon": [],
+  "LadyDevimon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Lalamon": [],
+  "Lamortmon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Leomon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Lilamon": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Lillymon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Lopmon": [],
+  "Lucemon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Löwemon": [],
+  "MachGaogamon": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "MadLeomon_(Armed_Mode)": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "MadLeomon_(Final_Mode)": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "MagnaAngemon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "MailBirdramon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Makuramon": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Mamemon": [
+    {
+      "name": "Evoluter × 4",
+      "th": "อีโวลูเตอร์ × 4",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Mammothmon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Marin_Devimon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Matadormon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Matadormon_(X-Antibody_System)": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "MechaNorimon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "MegaKabuterimon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "MegaSeadramon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Megadramon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Meicoomon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Meicrackmon:_Vicious_Mode": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Mephismon": [
+    {
+      "name": "Evoluter × 4",
+      "th": "อีโวลูเตอร์ × 4",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Mercuremon": [],
+  "Merukurimon": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "MetalGreymon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "MetalTyrannomon": [
+    {
+      "name": "Evoluter × 4",
+      "th": "อีโวลูเตอร์ × 4",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Meteormon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Mikemon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Mojyamon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Monochromon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Monodramon": [],
+  "Monzaemon": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "MudFrigimon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Mushroomon": [],
+  "Musyamon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Myotismon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Mystimon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Nefertimon": [
+    {
+      "name": "Digi-Egg of Light",
+      "th": "ดิจิเอ้ก ออฟ ไลท์",
+      "icon": "/images/Digi-Egg_of_Light.png"
+    }
+  ],
+  "Negamon": [],
+  "Negamon_(Evolved_Form)": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "NeoDevimon": [
+    {
+      "name": "Evoluter × 4",
+      "th": "อีโวลูเตอร์ × 4",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Ogremon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Okuwamon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Orochimon": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Otamamon": [],
+  "Paildramon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Paildramon_(Jogress)": [],
+  "Palmon": [],
+  "Palmon_X": [
+    {
+      "name": "Palmon X-Antibody Factor",
+      "th": "เอ็กซ์-แอนติบอดี้ แฟคเตอร์: พัลมอน",
+      "icon": "/images/Palmon_X-Antibody_Factor.png"
+    }
+  ],
+  "Panjyamon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Patamon": [],
+  "PawnChessmon_(Black)": [],
+  "PawnChessmon_(White)": [],
+  "Peckmon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Pegasusmon": [
+    {
+      "name": "Digi-Egg of Hope",
+      "th": "ดิจิเอ้ก ออฟ โฮป",
+      "icon": "/images/Digi-Egg_of_Hope.png"
+    }
+  ],
+  "Petaldramon": [],
+  "Phantomon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Pickmon": [],
+  "Piximon": [
+    {
+      "name": "Evoluter × 4",
+      "th": "อีโวลูเตอร์ × 4",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Psychemon": [],
+  "Pumpkinmon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Raidramon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Ranamon": [],
+  "Rapidmon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Raremon_(Champion)": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "RedVegiemon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Reppamon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "ReptileDramon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "ReptileDramon_(X-Antibody_System)": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "RizeGreymon": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Roachmon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Rockmon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "RookChessmon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Ryudamon": [],
+  "Ryudamon_(X-Antibody_System)": [],
+  "Sabirdramon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Salamon": [],
+  "Sangloupmon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Sangloupmon_(X-Antibody_System)": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "SaviorHackmon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Seadramon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "SealsDramon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Sefirotmon": [],
+  "Shakkoumon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Sharmamon": [],
+  "Shawujingmon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Shellmon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "ShogunGekomon": [
+    {
+      "name": "Evoluter × 4",
+      "th": "อีโวลูเตอร์ × 4",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Shoutmon": [],
+  "Shurimon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Silphymon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Sinduramon": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "SkullGreymon": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "SkullKnightmon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "SkullSatamon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Soulmon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Sparrowmon": [],
+  "Starmon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Starmons": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Stingmon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Strikedramon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Submarimon": [
+    {
+      "name": "Digi-Egg of Reliability",
+      "th": "ดิจิเอ้ก ออฟ รีไลอะบิลิตี้",
+      "icon": "/images/Digi-Egg_of_Reliability.png"
+    }
+  ],
+  "SunFlowmon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "SuperStarmon": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Swimmon": [],
+  "Syakomon": [],
+  "SymbareAngoramon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "TankDramon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Tentomon": [],
+  "Terriermon": [],
+  "Tesla_Jellymon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Thetismon": [
+    {
+      "name": "Evoluter × 6",
+      "th": "อีโวลูเตอร์ × 6",
+      "icon": "/images/items/9004.png"
+    },
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Thundermon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Togemon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Togemon_X": [
+    {
+      "name": "Togemon X-Antibody Factor",
+      "th": "เอ็กซ์-แอนติบอดี้ แฟคเตอร์: โทเกมอน",
+      "icon": "/images/Togemon_X-Antibody_Factor.png"
+    }
+  ],
+  "Toucanmon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "ToyAgumon_(Rookie)": [],
+  "ToyAgumon_(Rookie)(SS%2B)": [],
+  "ToyAgumon_(Ultimate)": [
+    {
+      "name": "Accelerator × 8",
+      "th": "แอคเซลเลอเรเตอร์ × 8",
+      "icon": "/images/Accelerator_Icon.png"
+    }
+  ],
+  "ToyAgumon_(Ultimate)(SS%2B)": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Troopmon": [],
+  "Tsukaimon": [],
+  "Tsunomon": [],
+  "Turuiemon": [
+    {
+      "name": "Evoluter × 1",
+      "th": "อีโวลูเตอร์ × 1",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Tylomon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Ukkomon": [],
+  "Upamon": [],
+  "Vajiramon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Veedramon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Veemon": [],
+  "Vegiemon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Vikaralamon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Volcamon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "WaruMonzaemon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Waspmon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Waspmon_(X-Antibody_System)": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Wendigomon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "WereGarurumon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Whamon": [
+    {
+      "name": "Evoluter × 4",
+      "th": "อีโวลูเตอร์ × 4",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Wingdramon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Witchmon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Wizardmon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Wolfmon": [],
+  "Woodmon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Wormmon": [],
+  "Yasyamon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Zephyrmon": [],
+  "Zhuqiaomon_(Champion)": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ],
+  "Zudomon": [
+    {
+      "name": "Evoluter × 3",
+      "th": "อีโวลูเตอร์ × 3",
+      "icon": "/images/items/9004.png"
+    }
+  ]
+}
