@@ -244,6 +244,63 @@ def extract_combat(data: dict) -> dict:
     return {"stats": stats, "skills": skills, "passives": passives, "lore": lore}
 
 def build_cache():
+    build_image_index()
+    d_cache_file = Path(__file__).resolve().parent / "digimon_cache.json"
+    if d_cache_file.exists():
+        try:
+            print("[INIT] Loading pre-built standalone Digimon cache...")
+            d_cached = json.loads(d_cache_file.read_text(encoding="utf-8"))
+            CACHE["digimon"] = d_cached.get("digimon", [])
+            CACHE["not_in_thai"] = d_cached.get("not_in_thai", [])
+            CACHE["rank_table_th"] = d_cached.get("rank_table_th", {})
+            CACHE["digimon_by_slug"] = {}
+            for d in CACHE["digimon"]:
+                CACHE["digimon_by_slug"][d["slug"].lower()] = d
+                CACHE["digimon_by_slug"].setdefault(d["title"].lower(), d)
+            
+            base = Path(__file__).resolve().parent
+            for key, filename in [
+                ("decks", "decks_cache.json"),
+                ("dungeons", "dungeons_client_cache.json"),
+                ("jogress_quests", "jogress_quests_cache.json"),
+                ("eggs", "eggs_cache.json"),
+                ("dunits", "dunits_cache.json")
+            ]:
+                f = base / filename
+                if f.exists():
+                    CACHE[key] = json.loads(f.read_text(encoding="utf-8"))
+            
+            sm_f = base / "seals_cache.json"
+            if sm_f.exists():
+                sm_p = json.loads(sm_f.read_text(encoding="utf-8"))
+                CACHE["seal_master"] = sm_p
+                CACHE["seals"] = sm_p.get("seals", [])
+                CACHE["seals_by_slug"] = {s["slug"]: s for s in CACHE["seals"]}
+                for s in CACHE["seals"]:
+                    CACHE["seals_by_slug"][str(s["id"])] = s
+
+            tm_f = base / "tamers_cache.json"
+            if tm_f.exists():
+                tm_p = json.loads(tm_f.read_text(encoding="utf-8"))
+                CACHE["tamers"] = tm_p.get("tamers", [])
+                CACHE["tamer_skill_system"] = tm_p.get("skill_system", {})
+                CACHE["tamer_status"] = tm_p.get("tamer_status", {})
+
+            CACHE["stats"] = d_cached.get("stats", {
+                "total_digimon": len(CACHE["digimon"]),
+                "not_in_thai": len(CACHE["not_in_thai"]),
+                "total_seals": len(CACHE.get("seals", [])),
+                "total_dungeons": len(CACHE.get("dungeons", [])),
+                "total_crafts": len(CACHE.get("crafts", [])),
+                "total_tamers": len(CACHE.get("tamers", [])),
+                "total_pages": 1000,
+                "total_images": len(CACHE.get("image_lookup", {}))
+            })
+            print(f"[INIT] Standalone Memory Cache Loaded in <0.1s! ({len(CACHE['digimon'])} Digimon)")
+            return
+        except Exception as cex:
+            print("[WARN] Loading standalone cache failed, falling back to full build:", cex)
+
     print("[INIT] Building High-Speed Memory Cache from dmowiki.db...")
     if not DB_PATH.exists():
         print(f"[ERROR] Database {DB_PATH} not found!")
