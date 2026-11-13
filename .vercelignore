@@ -5,3 +5,6 @@ __pycache__
 venv/
 cloudflared.exe
 *.log
+requirements.txt
+Dockerfile
+render.yaml
