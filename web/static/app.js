@@ -429,6 +429,7 @@ function showTab(tabId) {
   });
 
   if (tabId === 'tamers') { loadTamers(); }
+  if (tabId === 'dungeons') { loadDungeons(); }
   if (tabId === 'patches') { loadPatches(); if (!getRoutePath().startsWith('patch/')) closePatch(true); }
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }

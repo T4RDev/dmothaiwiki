@@ -92,7 +92,8 @@
         // 4. /api/dungeons
         if (path === '/api/dungeons') {
           const d = await loadData('dungeons', '/data/dungeons.json');
-          return jsonResponse(d);
+          const list = Array.isArray(d) ? d : (d.items || []);
+          return jsonResponse({ total: list.length, items: list });
         }
 
         // 5. /api/decks
