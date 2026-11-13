@@ -27,12 +27,16 @@
       "destination": "https://dmothaiwiki.onrender.com/api/:path*"
     },
     {
+      "source": "/images/patch/:path*",
+      "destination": "https://dmothaiwiki.onrender.com/images/patch/:path*"
+    },
+    {
       "source": "/images/:path*",
-      "destination": "https://dmothaiwiki.onrender.com/images/:path*"
+      "destination": "https://pub-f7d271edf6e24f25b6b06f2767a3dfe3.r2.dev/images/:path*"
     },
     {
       "source": "/models/:path*",
-      "destination": "https://dmothaiwiki.onrender.com/models/:path*"
+      "destination": "https://pub-f7d271edf6e24f25b6b06f2767a3dfe3.r2.dev/models/:path*"
     },
     {
       "source": "/((?!api|images|models|static|favicon).*)$",
