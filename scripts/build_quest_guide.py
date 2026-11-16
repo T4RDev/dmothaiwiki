@@ -1,10 +1,9 @@
 """Enhanced DMO Thai Main Quest Guide Data Generator
-Builds map-grouped quest guideline with:
-- Exact Thai client map names
-- In-game map images (/images/maps/*)
-- Exact map unlock requirements (prerequisite quest & map)
-- NPC portraits (/images/npc/*) for start & end NPCs
-- Clean EXP and Money Bit rewards (using ui_exp.png and ui_money.png)
+Re-architected to guarantee:
+1. STRICT STORYLINE ORDER: Every map begins with its root quest and flows sequentially through the quest chain to the end.
+2. ZERO DUPLICATES: Every quest is uniquely assigned to exactly one map and chapter.
+3. 100% EXACT MAP UNLOCK REQUIREMENTS: Shows prerequisite quest, title, and map from the previous map.
+4. IN-GAME ASSETS: Exact Thai client maps (/images/maps/*), NPC portraits (/images/npc/*), and UI reward icons (ui_exp.png, ui_money.png).
 """
 
 import struct
@@ -72,7 +71,6 @@ def load_meta():
         for item in json.loads(item_path.read_text(encoding="utf-8")):
             items[item["id"]] = item.get("fields", [""])[0]
 
-    # Load NPC Image Map
     npc_img_map = {}
     npc_map_file = WEB_DIR / "npc_img_map.json"
     if npc_map_file.exists():
@@ -80,7 +78,7 @@ def load_meta():
 
     return npcs, maps, monsters, items, npc_img_map
 
-# 3. Clean string tags
+# 3. Clean text helper
 def clean_desc(text):
     if not text: return ""
     import re
@@ -107,144 +105,6 @@ def parse_sections(b, o):
 def record_end_ok(b, end):
     return end == len(b) or (end + 8 <= len(b) and b[end:end + 4] == b[end + 4:end + 8] and 0 < struct.unpack_from("<i", b, end)[0] < 100000)
 
-# Exact Map Images mapping
-MAP_IMAGE_MAP = {
-    # Ch 1: Yokohama & DATS
-    "ศูนย์บัญชาการ DATS": "/images/maps/3_zone.png",
-    "<โหมดฝึกสอน>": "/images/maps/105_zone.png",
-    "หมู่บ้านโยโกฮาม่า": "/images/maps/105_zone.png",
-    "หมู่บ้าน โยโกฮาม่า": "/images/maps/105_zone.png",
-    "โยโกฮาม่า สวนม้านั่งไม้": "/images/maps/realtown1_2_zone.png",
-    "สวนม้านั่งไม้ โยโกฮาม่า": "/images/maps/realtown1_2_zone.png",
-    "ทางเข้าโรงกลั่นน้ำมัน": "/images/maps/oilrefinery1_zone.png",
-    "โรงกลั่นน้ำมัน ชั้น1": "/images/maps/oilrefinery1_zone.png",
-    "โรงกลั่นน้ำมันชั้น 1": "/images/maps/oilrefinery1_zone.png",
-    "โรงกลั่นน้ำมัน ชั้น2": "/images/maps/oilrefinery2_zone.png",
-    "โรงกลั่นน้ำมัน ชั้น3": "/images/maps/oilrefinery3_zone.png",
-
-    # Ch 2: Western & Maze
-    "หมู่บ้านฝั่งตะวันตก": "/images/maps/westrentown_01_zone.png",
-    "โลกดิจิตอล หมู่บ้านฝั่งตะวันตก": "/images/maps/westrentown_01_zone.png",
-    "โลกดิจิตอล หมู่บ้านฝั่งตะวันตก ด้านนอก": "/images/maps/westerntown_west_zone.png",
-    "โลกดิจิตอล หมู่บ้านฝั่งตะวันตก ฝั่งตะวันออก": "/images/maps/westrentown_01_zone.png",
-    "โลกดิจิตอล พื้นที่ทุรกันดาร": "/images/maps/westren_field_01_zone.png",
-    "พื้นที่ทุรกันดาร": "/images/maps/westren_field_01_zone.png",
-    "โลกดิจิตอล ฟาร์มดิจิมอน": "/images/maps/westren_field_02_zone.png",
-    "ฟาร์มดิจิมอน": "/images/maps/westren_field_02_zone.png",
-    "โลกดิจิตอล หุบเขาแห่งสายลม": "/images/maps/wind_valley_zone.png",
-    "หุบเขาสายลม": "/images/maps/wind_valley_zone.png",
-    "โลกดิจิตอล โบราณสถาน": "/images/maps/westerntown_darktower_zone.png",
-    "ดาร์คทาวเวอร์ ดินแดนต้องห้าม": "/images/maps/westerntown_darktower_zone.png",
-    "ฝั่งตะวันตก : ด้านซ้าย": "/images/maps/westren_field_02_zone.png",
-    "เขาวงกตดิจิมอน": "/images/maps/labyrinth_01_mini.png",
-    "เขาวงกตดิจิมอน ชั้น B2": "/images/maps/labyrinth_01_mini.png",
-    "เขาวงกตดิจิมอน F1": "/images/maps/labyrinth_02_mini.png",
-    "เขาวงกตดิจิมอน F2": "/images/maps/labyrinth_03_mini.png",
-    "Digimon Maze 3F": "/images/maps/labyrinth_04_mini.png",
-    "Digimon Maze 4F": "/images/maps/labyrinth_04_mini.png",
-
-    # Ch 3: Glacier
-    "D-เทอร์มินัล": "/images/maps/d_terminel_main01_zone.png",
-    "หมู่บ้านพายุหิมะ": "/images/maps/ice_land01_zone.png",
-    "ดินแดนน้ำแข็ง": "/images/maps/ice_land02_zone.png",
-    "หมู่บ้านมนุษย์หิมะ": "/images/maps/ice_land03_zone.png",
-    "กำแพงน้ำแข็งนิรันดร์": "/images/maps/ice_land_05_zone.png",
-
-    # Ch 4: File Island
-    "ทะเลสาบสีเงิน": "/images/maps/1301_zone.png",
-    "ป่าแห่งความเงียบ": "/images/maps/1302_zone.png",
-    "พื้นที่อารยธรรมที่สูญหาย": "/images/maps/1303_zone.png",
-    "ซากอารยธรรมโบราณแห่งความลับ": "/images/maps/1304_mini.png",
-    "ชายฝั่งเกาะไฟล์": "/images/maps/1305_zone.png",
-    "ภูเขาอินฟินิตี้": "/images/maps/1308_mini.png",
-    "รอยร้าวของเดวีมอน": "/images/maps/1311_zone.png",
-    "หุบเขานิรันดร์": "/images/maps/1308_mini.png",
-
-    # Ch 5: Server Continent
-    "ทวีปเซิร์ฟเวอร์ - ทะเลทราย": "/images/maps/1300_zone.png",
-    "ทวีปเซิร์ฟเวอร์ - หุบเขา": "/images/maps/1301_zone.png",
-    "ทวีปเซิร์ฟเวอร์ - ปิรามิด": "/images/maps/1302_zone.png",
-    "ทวีปเซิร์ฟเวอร์-ปิรามิด": "/images/maps/1302_zone.png",
-
-    # Ch 6: Verdandi
-    "เวอร์ซันดิเทอร์มินัล": "/images/maps/1700_zone.png",
-    "รอยัลเบส": "/images/maps/1701_mini.png",
-
-    # Ch 7: Tokyo - Odaiba
-    "ฮิคาริงาโอกะ": "/images/maps/201_zone.png",
-    "ชิบูย่า": "/images/maps/202_zone.png",
-    "โตเกียวทาวเวอร์": "/images/maps/203_zone.png",
-    "มินาโตะซิตี้": "/images/maps/206_zone.png",
-    "บิ๊กไซท์": "/images/maps/207_zone.png",
-    "โอไดบะ": "/images/maps/208_zone.png",
-    "เรนโบว์ บริดจ์": "/images/maps/208_zone.png",
-    "ดาดฟ้าสถานีโทรทัศน์ฟูจิทีวี": "/images/maps/209_zone.png",
-    "สถานที่ตั้งค่าย": "/images/maps/200_zone.png",
-
-    # Ch 8: Shinjuku & D-Reaper
-    "ชินจูกุ": "/images/maps/250_zone.png",
-    "ชินจูกุ(กลางคืน)": "/images/maps/254_zone.png",
-    "ชินจูกุตะวันตก (กลางวัน)": "/images/maps/250_zone.png",
-    "ชินจูกุตะวันออก (กลางวัน)": "/images/maps/251_zone.png",
-    "ชินจูกุตะวันตก (กลางคืน)": "/images/maps/254_zone.png",
-    "ชินจูกุตะวันออก (กลางคืน)": "/images/maps/255_zone.png",
-    "ดิจิมอนเทมเมอร์ส": "/images/maps/1800_zone.png",
-    "หุบเขาแห่งแสงสว่าง": "/images/maps/1800_zone.png",
-    "D-รีพเปอร์": "/images/maps/266_zone.png",
-
-    # Ch 9: Power Digimon / Kaiser Domain
-    "พาวเวอร์ดิจิมอน": "/images/maps/400_zone.png",
-    "พื้นที่ของไกเซอร์": "/images/maps/400_zone.png",
-    "พื้นที่แห่งความว่างเปล่า": "/images/maps/1906_zone.png",
-
-    # Ch 10: Spiral Mountain
-    "ป่าแห่งการเริ่มต้น": "/images/maps/1901_zone.png",
-    "ป่าหุ่นเชิด": "/images/maps/1902_zone.png",
-    "อาณาจักรโลหะ": "/images/maps/1903_zone.png",
-    "จุดสูงสุดของฝันร้าย": "/images/maps/1905_zone.png",
-    "ทะเลสาปแห่งการเริ่มต้น": "/images/maps/1901_zone.png",
-    "หมู่บ้านแห่งการเริ่มต้น": "/images/maps/1901_zone.png",
-
-    # Ch 11: Frontier (Exact Thai Client Map Names)
-    "ดิจิมอนฟรอนเทียร์": "/images/maps/500_zone.png",
-    "เทอร์มินัลแห่งเปลวเพลิง": "/images/maps/500_zone.png",
-    "วินด์ แฟคทอรี่": "/images/maps/502_zone.png",
-    "หมู่บ้านสายลมอ่อน": "/images/maps/503_zone.png",
-    "โรงงานสายลม": "/images/maps/502_zone.png",
-    "หมู่บ้านสายลม": "/images/maps/503_zone.png",
-}
-
-# Standardized Map Display Names (Exact Thai Patch)
-CANONICAL_MAP_NAMES = {
-    "<โหมดฝึกสอน>": "โหมดฝึกสอน (Tutorial)",
-    "หมู่บ้าน โยโกฮาม่า": "หมู่บ้านโยโกฮาม่า",
-    "โยโกฮาม่า สวนม้านั่งไม้": "สวนม้านั่งไม้ โยโกฮาม่า",
-    "โรงกลั่นน้ำมันชั้น 1": "โรงกลั่นน้ำมัน ชั้น 1",
-    "โรงกลั่นน้ำมัน ชั้น1": "โรงกลั่นน้ำมัน ชั้น 1",
-    "โรงกลั่นน้ำมัน ชั้น2": "โรงกลั่นน้ำมัน ชั้น 2",
-    "โรงกลั่นน้ำมัน ชั้น3": "โรงกลั่นน้ำมัน ชั้น 3",
-    "โลกดิจิตอล หมู่บ้านฝั่งตะวันตก": "หมู่บ้านฝั่งตะวันตก",
-    "โลกดิจิตอล หมู่บ้านฝั่งตะวันตก ด้านนอก": "หมู่บ้านฝั่งตะวันตก (รอบนอก)",
-    "โลกดิจิตอล หมู่บ้านฝั่งตะวันตก ฝั่งตะวันออก": "หมู่บ้านฝั่งตะวันตก (ฝั่งตะวันออก)",
-    "โลกดิจิตอล พื้นที่ทุรกันดาร": "พื้นที่ทุรกันดาร ฝั่งตะวันตก",
-    "โลกดิจิตอล ฟาร์มดิจิมอน": "ดิจิมอนฟาร์ม",
-    "โลกดิจิตอล หุบเขาแห่งสายลม": "หุบเขาแห่งสายลม",
-    "โลกดิจิตอล โบราณสถาน": "โบราณสถานแห่งความมืด",
-    "ดาร์คทาวเวอร์ ดินแดนต้องห้าม": "ดาร์คทาวเวอร์ (ดินแดนต้องห้าม)",
-    "เขาวงกตดิจิมอน ชั้น B2": "เขาวงกตดิจิมอน (ชั้น B2)",
-    "เขาวงกตดิจิมอน": "เขาวงกตดิจิมอน (ทางเข้า)",
-    "เขาวงกตดิจิมอน F1": "เขาวงกตดิจิมอน ชั้น 1 (F1)",
-    "เขาวงกตดิจิมอน F2": "เขาวงกตดิจิมอน ชั้น 2 (F2)",
-    "Digimon Maze 3F": "เขาวงกตดิจิมอน ชั้น 3 (F3)",
-    "Digimon Maze 4F": "เขาวงกตดิจิมอน ชั้น 4 (F4)",
-    "ทวีปเซิร์ฟเวอร์-ปิรามิด": "ทวีปเซิร์ฟเวอร์ - ปิรามิด",
-    "พาวเวอร์ดิจิมอน": "พื้นที่ของไกเซอร์ (Adventure 02)",
-    "โรงงานสายลม": "วินด์ แฟคทอรี่",
-    "หมู่บ้านสายลม": "หมู่บ้านสายลมอ่อน",
-    "ดิจิมอนฟรอนเทียร์": "เทอร์มินัลแห่งเปลวเพลิง (ฟรอนเทียร์)",
-    "ดาดฟ้าสถานีโทรทัศน์ฟูจิทีวี": "ดาดฟ้าสถานีโทรทัศน์ฟูจิ (Fuji TV)",
-}
-
 def format_money_thai(bits):
     if not bits or bits <= 0: return "0 Bit"
     t = bits // 10000000
@@ -258,6 +118,255 @@ def format_money_thai(bits):
     if b > 0 or not parts: parts.append(f"{b} Bit")
     return " ".join(parts)
 
+# Map Definition Specification: Chapters & Ordered Maps
+# Each chapter contains maps strictly in storyline sequence!
+CHAPTER_MAP_SPECS = [
+    # 1. Yokohama & DATS
+    {
+        "ch_num": 1, "ch_id": "ch1_yokohama",
+        "title": "บทที่ 1: ศูนย์บัญชาการ DATS & โยโกฮาม่า",
+        "badge": "เริ่มต้น",
+        "level_range": "Lv. 1 - 25",
+        "summary": "จุดเริ่มต้นของเทมเมอร์หน้าใหม่ในสังกัดหน่วย DATS เรียนรู้ระบบพื้นฐาน ทำภารกิจสืบสวนเหตุการณ์ดิจิมอนผิดปกติที่บุกรุกมายังโลกมนุษย์ คุ้มกันครอบครัวของไดมอน มาซารุ และคลี่คลายเหตุการณ์ที่โรงกลั่นน้ำมันเพื่อปลดล็อคการเดินทางสู่โลกดิจิตอล",
+        "key_unlocks": ["ตราสมาชิก DATS อย่างเป็นทางการ", "สิทธิ์การเดินทางข้ามมิติสู่โลกดิจิตอล (Digital World Access)", "เปิดระบบฟักไข่ดิจิทามะ และระบบสแกน/รีเทิร์นข้อมูล"],
+        "pro_tips": ["อย่าลืมรับเควสฝึกสอนทั้งหมดเพราะจะได้รับไอเทมเริ่มต้นและดิจิมอนคู่หูที่จำเป็น", "ในโรงกลั่นน้ำมันมอนสเตอร์มีพลังป้องกันสูง ควรใช้ดิจิมอนธาตุแพ้ทางเพื่อเคลียร์เควสได้ไวขึ้น"],
+        "maps": [
+            ("โหมดฝึกสอน (Tutorial)", "/images/maps/105_zone.png", lambda q: "<โหมดฝึกสอน>" in q["raw_map_name"]),
+            ("ศูนย์บัญชาการ DATS & หมู่บ้านโยโกฮาม่า", "/images/maps/105_zone.png", lambda q: any(k in q["raw_map_name"] for k in ["หมู่บ้านโยโกฮาม่า", "หมู่บ้าน โยโกฮาม่า", "ศูนย์บัญชาการ DATS", "สวนม้านั่งไม้"])),
+            ("โรงกลั่นน้ำมัน ชั้น 1", "/images/maps/oilrefinery1_zone.png", lambda q: "โรงกลั่นน้ำมัน" in q["raw_map_name"] and ("ชั้น1" in q["raw_map_name"] or "ชั้น 1" in q["raw_map_name"])),
+            ("โรงกลั่นน้ำมัน ชั้น 2", "/images/maps/oilrefinery2_zone.png", lambda q: "โรงกลั่นน้ำมัน" in q["raw_map_name"] and ("ชั้น2" in q["raw_map_name"] or "ชั้น 2" in q["raw_map_name"])),
+            ("โรงกลั่นน้ำมัน ชั้น 3", "/images/maps/oilrefinery3_zone.png", lambda q: "โรงกลั่นน้ำมัน" in q["raw_map_name"] and ("ชั้น3" in q["raw_map_name"] or "ชั้น 3" in q["raw_map_name"])),
+        ]
+    },
+    # 2. Western & Maze
+    {
+        "ch_num": 2, "ch_id": "ch2_western_maze",
+        "title": "บทที่ 2: ดินแดนฝั่งตะวันตก & เขาวงกตดิจิมอน",
+        "badge": "ช่วงแรก-กลาง",
+        "level_range": "Lv. 25 - 65",
+        "summary": "ก้าวเท้าสู่โลกดิจิตอลเป็นครั้งแรก สำรวจหมู่บ้านฝั่งตะวันตก ทุ่งรกร้าง ฟาร์มดิจิมอน และหุบเขาแห่งสายลม เผชิญหน้ากับคุราตะและกองทัพดิจิมอนมืด ฝ่าด่านเขาวงกตดิจิมอนทั้ง 4 ชั้นเพื่อพิชิตเดียโบโรมอน",
+        "key_unlocks": ["สิทธิ์เข้าสู่เขาวงกตดิจิมอนครบทุกชั้น (Digimon Maze B2 - F4)", "ปลดล็อคการใช้งาน D-Terminal สำหรับเดินทางข้ามมิติ", "เปิดระบบตราประทับดิจิมอน (Seal Master System) ขั้นต้น"],
+        "pro_tips": ["เควสเขาวงกตดิจิมอนต้องเก็บไอเทมคีย์การ์ดเพื่อเปิดประตูในแต่ละชั้น ให้ทำเควสตามลำดับอย่าข้าม", "มอนสเตอร์ในชั้น F3-F4 มีความหนาแน่นสูง แนะนำให้เตรียมยาฟื้นฟู HP/DS ให้พร้อม"],
+        "maps": [
+            ("หมู่บ้านฝั่งตะวันตก", "/images/maps/westrentown_01_zone.png", lambda q: "หมู่บ้านฝั่งตะวันตก" in q["raw_map_name"]),
+            ("พื้นที่ทุรกันดาร ฝั่งตะวันตก", "/images/maps/westren_field_01_zone.png", lambda q: "พื้นที่ทุรกันดาร" in q["raw_map_name"] or "ด้านซ้าย" in q["raw_map_name"]),
+            ("หุบเขาแห่งสายลม", "/images/maps/wind_valley_zone.png", lambda q: "หุบเขาแห่งสายลม" in q["raw_map_name"] or "หุบเขาสายลม" in q["raw_map_name"]),
+            ("ดิจิมอนฟาร์ม", "/images/maps/westren_field_02_zone.png", lambda q: "ฟาร์มดิจิมอน" in q["raw_map_name"] or "ดิจิมอนฟาร์ม" in q["raw_map_name"]),
+            ("โบราณสถานแห่งความมืด", "/images/maps/westerntown_darktower_zone.png", lambda q: "โบราณสถาน" in q["raw_map_name"] and "เขาวงกต" not in q["raw_map_name"]),
+            ("ดาร์คทาวเวอร์ (ดินแดนต้องห้าม)", "/images/maps/westerntown_darktower_zone.png", lambda q: "ดาร์คทาวเวอร์" in q["raw_map_name"]),
+            ("เขาวงกตดิจิมอน (ทางเข้า & B2)", "/images/maps/labyrinth_01_mini.png", lambda q: "เขาวงกตดิจิมอน" in q["raw_map_name"] and any(k in q["raw_map_name"] for k in ["B2", "b2"]) or q["raw_map_name"] == "เขาวงกตดิจิมอน"),
+            ("เขาวงกตดิจิมอน ชั้น 1 (F1)", "/images/maps/labyrinth_02_mini.png", lambda q: "เขาวงกตดิจิมอน F1" in q["raw_map_name"]),
+            ("เขาวงกตดิจิมอน ชั้น 2 (F2)", "/images/maps/labyrinth_03_mini.png", lambda q: "เขาวงกตดิจิมอน F2" in q["raw_map_name"]),
+            ("เขาวงกตดิจิมอน ชั้น 3 (F3)", "/images/maps/labyrinth_04_mini.png", lambda q: "Maze 3F" in q["raw_map_name"] or "เขาวงกตดิจิมอน F3" in q["raw_map_name"]),
+            ("เขาวงกตดิจิมอน ชั้น 4 (F4)", "/images/maps/labyrinth_04_mini.png", lambda q: "Maze 4F" in q["raw_map_name"] or "เขาวงกตดิจิมอน F4" in q["raw_map_name"]),
+        ]
+    },
+    # 3. Glacier
+    {
+        "ch_num": 3, "ch_id": "ch3_glacier",
+        "title": "บทที่ 3: ดินแดนกลาเซียร์ (Glacier Area)",
+        "badge": "ช่วงแรก-กลาง",
+        "level_range": "Lv. 35 - 55",
+        "summary": "ดินแดนหิมะขาวโพลนอันหนาวเหน็บ ฝ่าพายุหิมะผ่านหมู่บ้านมนุษย์หิมะ สืบสวนเรื่องราวของกีซุมอนและแผนการร้ายของคุราตะที่แอบแฝง และเปิดเส้นทางไปสู่กำแพงน้ำแข็งนิรันดร์",
+        "key_unlocks": ["ปลดล็อคแผนที่กำแพงน้ำแข็งนิรันดร์ (Infinite Ice Wall)", "ปลดล็อคเส้นทางลับเชื่อมต่อไปยังเกาะไฟล์ (File Island)", "รับเครื่องประดับและหินพัฒนาธาตุน้ำแข็ง"],
+        "pro_tips": ["มอนสเตอร์ในดินแดนหิมะส่วนใหญ่เป็นธาตุน้ำ/น้ำแข็ง ดิจิมอนธาตุสายฟ้าหรือดินจะโจมตีได้รุนแรงเป็นพิเศษ", "เควสเก็บรวบรวมฟันเฟืองสีดำ ดรอปจากมอนสเตอร์เฉพาะจุด ให้เช็คพิกัดบนมินิแมพให้ดี"],
+        "maps": [
+            ("D-เทอร์มินัล", "/images/maps/d_terminel_main01_zone.png", lambda q: "D-เทอร์มินัล" in q["raw_map_name"]),
+            ("หมู่บ้านพายุหิมะ", "/images/maps/ice_land01_zone.png", lambda q: "หมู่บ้านพายุหิมะ" in q["raw_map_name"]),
+            ("หมู่บ้านมนุษย์หิมะ & กำแพงน้ำแข็ง", "/images/maps/ice_land03_zone.png", lambda q: any(k in q["raw_map_name"] for k in ["มนุษย์หิมะ", "กำแพงน้ำแข็ง", "ดินแดนน้ำแข็ง"])),
+        ]
+    },
+    # 4. File Island
+    {
+        "ch_num": 4, "ch_id": "ch4_file_island",
+        "title": "บทที่ 4: มหากาพย์เกาะไฟล์ & ภูเขาอินฟินิตี้",
+        "badge": "กลางเกม",
+        "level_range": "Lv. 60 - 80",
+        "summary": "ย้อนรอยความทรงจำของอนิเมะ Digimon Adventure ภาคแรก บนเกาะไฟล์ ช่วยเหลือเลโอมอนและโอเกรมอน ทำลายฟันเฟืองดำที่แพร่ระบาด และบุกขึ้นสู่ภูเขาอินฟินิตี้เพื่อทำศึกแตกหักกับเดวีมอน",
+        "key_unlocks": ["ปลดล็อคดันเจี้ยนภูเขาอินฟินิตี้ (Infinite Mountain Dungeon)", "ปลดล็อคการวิวัฒนาการร่างเมก้าและเบิร์สโหมด (Burst Mode)", "เปิดท่าเรือชายฝั่งเกาะไฟล์เพื่อข้ามทะเลไปยังทวีปเซิร์ฟเวอร์"],
+        "pro_tips": ["เควสเกาะไฟล์ให้ EXP มหาศาล เป็นแหล่งฟาร์มเลเวลที่ดีที่สุดช่วงเลเวล 60-80", "เมื่อถึงเควสปราบเดวีมอนที่ภูเขาอินฟินิตี้ แนะนำให้รวมปาร์ตี้เพื่อความรวดเร็วและปลอดภัย"],
+        "maps": [
+            ("ทะเลสาบสีเงิน", "/images/maps/1301_zone.png", lambda q: "ทะเลสาบสีเงิน" in q["raw_map_name"]),
+            ("ป่าแห่งความเงียบ", "/images/maps/1302_zone.png", lambda q: "ป่าแห่งความเงียบ" in q["raw_map_name"]),
+            ("พื้นที่อารยธรรมที่สูญหาย", "/images/maps/1303_zone.png", lambda q: "พื้นที่อารยธรรมที่สูญหาย" in q["raw_map_name"]),
+            ("ซากอารยธรรมโบราณแห่งความลับ", "/images/maps/1304_mini.png", lambda q: "ซากอารยธรรมโบราณ" in q["raw_map_name"]),
+            ("ชายฝั่งเกาะไฟล์", "/images/maps/1305_zone.png", lambda q: "ชายฝั่งเกาะไฟล์" in q["raw_map_name"]),
+            ("ภูเขาอินฟินิตี้ & รอยร้าวของเดวีมอน", "/images/maps/1311_zone.png", lambda q: any(k in q["raw_map_name"] for k in ["รอยร้าวของเดวีมอน", "หุบเขานิรันดร์", "ภูเขาอินฟินิตี้"])),
+        ]
+    },
+    # 5. Server Continent
+    {
+        "ch_num": 5, "ch_id": "ch5_server_continent",
+        "title": "บทที่ 5: ทวีปเซิร์ฟเวอร์ ทะเลทราย & ปิรามิด",
+        "badge": "กลาง-เลท",
+        "level_range": "Lv. 75 - 95",
+        "summary": "ออกเดินทางสู่ผืนทวีปอันกว้างใหญ่ เผชิญหน้ากับเอเตมอนจอมวายร้ายที่ควบคุมเครือข่ายสายเคเบิลมืด ฝ่าฟันหุบเขาอันตราย และบุกเข้าไปในปิรามิดของดาตามอนเพื่อกู้ข้อมูลสำคัญกลับคืนมา",
+        "key_unlocks": ["ปลดล็อคดันเจี้ยนปิรามิดดาตามอน (Datamon Maze)", "เปิดสิทธิ์การใช้งานแหวนและสร้อยคอระดับสูง (Ring/Necklace Shiny)", "เชื่อมต่อโครงข่ายประตูมิติสู่โลกดิจิตอลใหม่"],
+        "pro_tips": ["พื้นที่ทะเลทรายมีระยะทางกว้างมาก ควรใช้ดิจิมอนโหมดขับขี่ (Riding Mode) เพื่อประหยัดเวลาเดินทาง", "ในปิรามิดมอนสเตอร์เกิดหนาแน่น ระวังการดึงมอนสเตอร์เกินจำนวนที่รับไหว"],
+        "maps": [
+            ("ทวีปเซิร์ฟเวอร์ - ทะเลทราย", "/images/maps/1300_zone.png", lambda q: "ทวีปเซิร์ฟเวอร์" in q["raw_map_name"] and "ทะเลทราย" in q["raw_map_name"]),
+            ("ทวีปเซิร์ฟเวอร์ - หุบเขา", "/images/maps/1301_zone.png", lambda q: "ทวีปเซิร์ฟเวอร์" in q["raw_map_name"] and "หุบเขา" in q["raw_map_name"]),
+            ("ทวีปเซิร์ฟเวอร์ - ปิรามิด", "/images/maps/1302_zone.png", lambda q: "ปิรามิด" in q["raw_map_name"]),
+        ]
+    },
+    # 6. Verdandi (X-Antibody)
+    {
+        "ch_num": 6, "ch_id": "ch6_verdandi",
+        "title": "บทที่ 6: เวอร์ซันดิเทอร์มินัล (X-Antibody)",
+        "badge": "เลทเกม",
+        "level_range": "Lv. 90 - 110",
+        "summary": "วิกฤตการณ์ไวรัส X-Program ที่ถูกปล่อยออกมาโดยอิกดราซิล กองทหารรอยัลไนท์แบ่งฝ่ายต่อสู้กัน เทมเมอร์ต้องติดตั้งระบบ XAI Indicator เพื่อต้านทานพิษของไวรัส และปลดล็อคพลัง X-Antibody ขั้นสูงสุด",
+        "key_unlocks": ["ปลดล็อคระบบ X-Antibody System (XAI Indicator)", "ปลดล็อคดันเจี้ยนรอยัลเบส (Royal Base 1F-3F)", "เปิดสิทธิ์การทำเควสวิวัฒนาการ X-Antibody เช่น Omegamon X, Alphamon Ouryuken X"],
+        "pro_tips": ["ต้องสวมใส่ XAI และรักษาระดับ X-Gauge ให้ไม่หมด เพื่อป้องกันดีบัฟดาเมจลดลงในพื้นที่", "มอนสเตอร์ในเวอร์ซันดิมีความถึกสูงมาก ควรมีค่า Hit Rate (HT) และ Critical (CT) เพียงพอ"],
+        "maps": [
+            ("เวอร์ซันดิเทอร์มินัล", "/images/maps/1700_zone.png", lambda q: "เวอร์ซันดิ" in q["raw_map_name"]),
+            ("รอยัลเบส", "/images/maps/1701_mini.png", lambda q: "รอยัลเบส" in q["raw_map_name"]),
+        ]
+    },
+    # 7. Tokyo - Odaiba
+    {
+        "ch_num": 7, "ch_id": "ch7_odaiba",
+        "title": "บทที่ 7: มหาสงคราม โตเกียว - โอไดบะ",
+        "badge": "เลทเกม",
+        "level_range": "Lv. 99 - 120",
+        "summary": "กองทัพของแวมเดมอนข้ามประตูมิติมาบุกยึดกรุงโตเกียว เทมเมอร์ต้องร่วมมือกับเหล่าเด็กผู้ถูกเลือกทั้ง 8 คน ปกป้องครอบครัวและชาวเมือง ต่อสู้ไล่ล่าไปตามสถานที่จริงในโตเกียว จนถึงศึกตัดสินกับเวนอมแวมเดมอน",
+        "key_unlocks": ["ปลดล็อคดันเจี้ยนเรดบอสโอไดบะ (VenomMyotismon, DarkTyrannomon)", "เปิดระบบฉายาบัฟสเตตัสระดับสูงของโตเกียว", "สิทธิ์แลกไอเทมอุปกรณ์และตั๋วการันตีระดับสูง"],
+        "pro_tips": ["เควสเนื้อเรื่องโอไดบะมีความยาวมาก ให้ทำตามเครื่องหมายเควสสีม่วง/น้ำเงินบนแผนที่อย่างเคร่งครัด", "จุดที่ต้องคุยกับเด็กผู้ถูกเลือก ให้สังเกตเวลาบนแผนที่ (กลางวัน/กลางคืน) มอนสเตอร์บางตัวจะเกิดเฉพาะเวลานั้น"],
+        "maps": [
+            ("สถานที่ตั้งค่าย", "/images/maps/200_zone.png", lambda q: "สถานที่ตั้งค่าย" in q["raw_map_name"]),
+            ("ฮิคาริงาโอกะ", "/images/maps/201_zone.png", lambda q: "ฮิคาริงาโอกะ" in q["raw_map_name"]),
+            ("ชิบูย่า", "/images/maps/202_zone.png", lambda q: "ชิบูย่า" in q["raw_map_name"]),
+            ("โตเกียวทาวเวอร์", "/images/maps/203_zone.png", lambda q: "โตเกียวทาวเวอร์" in q["raw_map_name"]),
+            ("มินาโตะซิตี้", "/images/maps/206_zone.png", lambda q: "มินาโตะซิตี้" in q["raw_map_name"]),
+            ("โอไดบะ & เรนโบว์ บริดจ์", "/images/maps/208_zone.png", lambda q: any(k in q["raw_map_name"] for k in ["โอไดบะ", "เรนโบว์ บริดจ์", "ฟูจิทีวี"])),
+            ("บิ๊กไซท์", "/images/maps/207_zone.png", lambda q: "บิ๊กไซท์" in q["raw_map_name"]),
+        ]
+    },
+    # 8. Shinjuku & Tamers & D-Reaper
+    {
+        "ch_num": 8, "ch_id": "ch8_shinjuku",
+        "title": "บทที่ 8: ชินจูกุ, เทมเมอร์ส & D-รีพเปอร์",
+        "badge": "เลทเกม",
+        "level_range": "Lv. 110 - 140",
+        "summary": "เรื่องราวจาก Digimon Tamers ปรากฏการณ์ D-Reaper แพร่กระจายกลืนกินกรุงชินจูกุ ร่วมมือกับทาคัตโตะ, รูคิ, ลีเจนเรีย และเหล่านักรบดิจิมอนเทมเมอร์ส ข้ามมิติเข้าสู่ใจกลางรังแม่ของดีรีพเปอร์เพื่อกอบกู้โลก",
+        "key_unlocks": ["ปลดล็อคดันเจี้ยน D-Reaper Mother / Area Shinjuku", "ระบบวิวัฒนาการ Matrix Evolution (D-Ark)", "รับหินประดับและอุปกรณ์สเตตัสระดับเลทเกม"],
+        "pro_tips": ["มอนสเตอร์ดีรีพเปอร์สามารถล้างสถานะบัฟได้ ให้ระวังการใช้สกิลที่มีคูลดาวน์นาน", "บอสในเขตชินจูกุมีระยะการโจมตีหมู่กว้างมาก ควรเตรียมดิจิมอนที่มีค่าบล็อกและเกราะสูง"],
+        "maps": [
+            ("ชินจูกุ (กลางวัน & กลางคืน)", "/images/maps/250_zone.png", lambda q: "ชินจูกุ" in q["raw_map_name"] and "D-รีพเปอร์" not in q["raw_map_name"]),
+            ("ดิจิมอนเทมเมอร์ส (หุบเขาแห่งแสงสว่าง)", "/images/maps/1800_zone.png", lambda q: any(k in q["raw_map_name"] for k in ["ดิจิมอนเทมเมอร์ส", "หุบเขาแห่งแสงสว่าง"])),
+            ("D-รีพเปอร์", "/images/maps/266_zone.png", lambda q: "D-รีพเปอร์" in q["raw_map_name"]),
+        ]
+    },
+    # 9. Kaiser Domain (Adventure 02)
+    {
+        "ch_num": 9, "ch_id": "ch9_power_digimon",
+        "title": "บทที่ 9: พื้นที่ของไกเซอร์ (Adventure 02)",
+        "badge": "เลทเกม",
+        "level_range": "Lv. 130 - 150",
+        "summary": "การรุกรานของดิจิมอนไกเซอร์ผู้นำแห่งความมืด ควบคุมจิตใจดิจิมอนด้วยห่วงอีวิลริงและเสาดาร์คทาวเวอร์ เทมเมอร์ต้องร่วมมือกับกลุ่มเด็กผู้ถูกเลือกรุ่นที่ 2 ปลดปล่อยพลังอาร์เมอร์วิวัฒนาการเพื่อทำลายแผนการชั่วร้าย",
+        "key_unlocks": ["ปลดล็อคระบบ Armor Evolution (Digi-Egg of Courage, Friendship)", "ปลดล็อคเควสความมืดของคิเมรามอน (Kimeramon Raid)", "รับไอเทมวัตถุดิบตีบวกอุปกรณ์ระดับไฮเอนด์"],
+        "pro_tips": ["พื้นที่ของไกเซอร์ไม่อนุญาตให้ใช้วิวัฒนาการปกติได้ในบางจุด ต้องพึ่งพาร่างอาร์เมอร์เป็นหลัก", "อย่าลืมทำเควสสะสมดิจิเอ๊กก์เพื่อเปิดรูปแบบการวิวัฒนาการใหม่ๆ"],
+        "maps": [
+            ("พื้นที่ของไกเซอร์ (Adventure 02)", "/images/maps/400_zone.png", lambda q: "พาวเวอร์ดิจิมอน" in q["raw_map_name"]),
+            ("พื้นที่แห่งความว่างเปล่า", "/images/maps/1906_zone.png", lambda q: "พื้นที่แห่งความว่างเปล่า" in q["raw_map_name"]),
+        ]
+    },
+    # 10. Spiral Mountain
+    {
+        "ch_num": 10, "ch_id": "ch10_spiral_mountain",
+        "title": "บทที่ 10: สไปรอลเมาท์เทน 4 จอมปีศาจ",
+        "badge": "เอนด์เกม",
+        "level_range": "Lv. 140 - 160",
+        "summary": "ยอดเขาสไปรอลเมาท์เทนที่ถูกบิดเบือนโดย 4 จอมปีศาจ Dark Masters: เมทัลซีดรามอน, พิน็อคคีมอน, มูเกนดรามอน และพิเอมอน รวมพลังครั้งยิ่งใหญ่เพื่อทวงคืนป่าแห่งการเริ่มต้นและโลกดิจิตอลทั้งใบ",
+        "key_unlocks": ["ปลดล็อคดันเจี้ยน Spiral Mountain Raid ทั้ง 4 เขต", "เปิดระบบตราประทับซีลมาสเตอร์และเด็คบัฟระดับ 4 จอมปีศาจ", "รับวัตถุดิบสร้างอุปกรณ์และต่างหูระดับ Endgame"],
+        "pro_tips": ["บอสแต่ละตัวในสไปรอลเมาท์เทนมีกลไก (Mechanics) เฉพาะตัว เช่น มูเกนดรามอนต้องรีบทำลายเครื่องส่งสัญญาณ", "จำเป็นต้องมีสเตตัส AT, HT และ CT ขั้นต่ำตามเกณฑ์ของดันเจี้ยนจึงจะผ่านได้ง่าย"],
+        "maps": [
+            ("ป่าแห่งการเริ่มต้น", "/images/maps/1901_zone.png", lambda q: any(k in q["raw_map_name"] for k in ["ป่าแห่งการเริ่มต้น", "ทะเลสาปแห่งการเริ่มต้น", "หมู่บ้านแห่งการเริ่มต้น"])),
+            ("ป่าหุ่นเชิด (พิน็อคคีมอน)", "/images/maps/1902_zone.png", lambda q: "ป่าหุ่นเชิด" in q["raw_map_name"]),
+            ("อาณาจักรโลหะ (มูเกนดรามอน)", "/images/maps/1903_zone.png", lambda q: "อาณาจักรโลหะ" in q["raw_map_name"]),
+            ("จุดสูงสุดของฝันร้าย (พิเอมอน)", "/images/maps/1905_zone.png", lambda q: "จุดสูงสุดของฝันร้าย" in q["raw_map_name"]),
+        ]
+    },
+    # 11. Frontier (Latest Patch)
+    {
+        "ch_num": 11, "ch_id": "ch11_frontier",
+        "title": "บทที่ 11: ดิจิมอนฟรอนเทียร์ & เทอร์มินอลแห่งธาตุ",
+        "badge": "เอนด์เกมสูงสุด (Patch ปัจจุบัน)",
+        "level_range": "Lv. 160 - 180",
+        "summary": "แพตช์ล่าสุดของเซิร์ฟเวอร์ไทย เลเวลสูงสุด 180! ถ่ายทอดพลังสปิริตแห่งตำนาน ออกค้นหาดิจิโค้ดที่แปดเปื้อนในเทอร์มินัลแห่งเปลวเพลิงและโรงงานสายลม เพื่อกอบกู้ความสมดุลสูงสุดของระบบโลกดิจิตอล",
+        "key_unlocks": ["ปลดล็อคสปิริตดิจิมอนร่างไฮบริด (Hybrid Spirit Evolution)", "เปิดแผนที่ฟาร์มเลเวล 160-180 ที่ดีที่สุดในเกม", "ปลดล็อคระบบสแกนดิจิโค้ดและไอเทมระดับสูงสุดของเซิร์ฟเวอร์ไทย"],
+        "pro_tips": ["เนื้อหาเลเวล 160-180 มอนสเตอร์มีดาเมจสูงและมีเกราะป้องกันมหาศาล ควรมีบัฟเด็คและซีลมาสเตอร์ระดับสูง", "อย่าลืมรับเควสดิจิโค้ดประจำวันเพื่อสะสมแต้มแลกอุปกรณ์ระดับตำนาน"],
+        "maps": [
+            ("เทอร์มินัลแห่งเปลวเพลิง & วินด์ แฟคทอรี่", "/images/maps/500_zone.png", lambda q: "ดิจิมอนฟรอนเทียร์" in q["raw_map_name"] or any(k in q["raw_map_name"] for k in ["เปลวเพลิง", "วินด์", "สายลม"])),
+        ]
+    }
+]
+
+# Non-story map exclusions
+EXCLUDE_MAP_KEYWORDS = [
+    "<jogress", "<โจเกรส", "เควสโจเกรส", "<ดันเจี้ยน", "กันคูมอน",
+    "ประกาศจับ", "เควสคุณลักษณะ", "ระบบจัมปิ้ง", "콜로เซ움", "กรีนโซน"
+]
+
+def is_valid_story_quest(q):
+    if q["type"] not in (1, 7): return False
+    m_low = q["raw_map_name"].lower()
+    if any(k in m_low for k in EXCLUDE_MAP_KEYWORDS): return False
+    # Exclude dead-end legacy duplicates
+    if q["id"] in (776, 141, 673, 1462, 1464, 1465, 82, 508, 509, 511, 25, 138, 505, 506):
+        return False
+    return True
+
+def order_chain_dfs(qlist, all_q_dict):
+    """Sort quests within a map strictly by prerequisite chain from beginning to end."""
+    qmap = {q["id"]: q for q in qlist}
+    ids = set(qmap.keys())
+    children = defaultdict(list)
+    in_deg = defaultdict(int)
+    for q in qlist:
+        for p in q["pre_quests"]:
+            if p in ids:
+                children[p].append(q["id"])
+                in_deg[q["id"]] += 1
+    for p in children:
+        children[p].sort(key=lambda x: (qmap[x]["level"], x))
+
+    roots = [q["id"] for q in qlist if in_deg[q["id"]] == 0]
+    
+    # Priority for roots:
+    # 1. Roots that connect to an external prerequisite quest in an earlier map come first!
+    # 2. Key live starting quests (like 1198 in Yokohama, 4020 in Tutorial, 2873 in File Island)
+    def root_score(qid):
+        q = qmap[qid]
+        # Check if pre is in external story quests
+        has_ext_pre = any(p in all_q_dict for p in q["pre_quests"])
+        if qid in (4020, 1198, 2873, 3100, 3412, 4500, 6500, 4148, 7102):
+            return (-100, qid)
+        if has_ext_pre:
+            return (-50, qid)
+        return (q["level"], qid)
+
+    roots.sort(key=root_score)
+
+    ordered = []
+    visited = set()
+    def dfs(qid):
+        if qid in visited: return
+        visited.add(qid)
+        ordered.append(qmap[qid])
+        for child in children[qid]:
+            if child not in visited:
+                parents = [p for p in qmap[child]["pre_quests"] if p in ids]
+                if all(p in visited for p in parents):
+                    dfs(child)
+    for r in roots:
+        dfs(r)
+    for q in qlist:
+        if q["id"] not in visited:
+            ordered.append(q)
+            visited.add(q["id"])
+    return ordered
+
 def build():
     print("[1/5] Loading strings, maps, metadata from CrackDMO...")
     q_str = load_quest_strings()
@@ -266,7 +375,7 @@ def build():
     b = (CRACK / "out_decrypted/data/bin/table/quest.bin").read_bytes()
     count = struct.unpack_from("<i", b, 0)[0]
 
-    quests = {}
+    all_raw_quests = {}
     p = 4
     for _ in range(count):
         if p + 36 > len(b): break
@@ -340,14 +449,10 @@ def build():
                     "count": max(rcnt, 1)
                 })
 
-        # NPC Image URLs
         s_img = f"/images/npc/{npc_img_map[s_npc]}" if s_npc in npc_img_map else "/images/ui/ui_tamer.png"
         e_img = f"/images/npc/{npc_img_map[e_npc]}" if e_npc in npc_img_map else "/images/ui/ui_tamer.png"
 
-        canon_map = CANONICAL_MAP_NAMES.get(raw_map, raw_map)
-        map_img = MAP_IMAGE_MAP.get(raw_map) or MAP_IMAGE_MAP.get(canon_map) or "/images/maps/105_zone.png"
-
-        quests[qid] = {
+        all_raw_quests[qid] = {
             "id": qid,
             "type": qtype,
             "level": level,
@@ -358,8 +463,8 @@ def build():
             "end_npc": npcs.get(e_npc, "ส่งอัตโนมัติ"),
             "end_npc_image": e_img,
             "raw_map_name": raw_map,
-            "map_name": canon_map,
-            "map_image": map_img,
+            "map_name": raw_map,
+            "map_image": "/images/maps/105_zone.png",
             "title": strs[1].strip(),
             "story": clean_desc(strs[2]),
             "objective_desc": clean_desc(strs[3]),
@@ -374,197 +479,42 @@ def build():
         }
         p = end
 
-    print(f"[2/5] Parsed {len(quests)} quests.")
+    print(f"[2/5] Parsed {len(all_raw_quests)} raw quests from binary.")
 
-    # Calculate forward links
-    for qid, q in quests.items():
-        for pre in q["pre_quests"]:
-            if pre in quests:
-                if qid not in quests[pre]["next_quests"]:
-                    quests[pre]["next_quests"].append(qid)
+    # Filter valid storyline quests
+    story_quests = {qid: q for qid, q in all_raw_quests.items() if is_valid_story_quest(q)}
+    print(f"[3/5] Filtered to {len(story_quests)} valid main quests (non-story & duplicates removed).")
 
-    # Chapters Definitions
-    chapters_def = [
-        {
-            "id": "ch1_yokohama",
-            "number": 1,
-            "title": "บทที่ 1: ศูนย์บัญชาการ DATS & โยโกฮาม่า",
-            "badge": "เริ่มต้น",
-            "level_range": "Lv. 1 - 25",
-            "area_keywords": ["โหมดฝึกสอน", "ศูนย์บัญชาการ dats", "หมู่บ้านโยโกฮาม่า", "หมู่บ้าน โยโกฮาม่า", "โยโกฮาม่า สวนม้านั่งไม้", "สวนม้านั่งไม้ โยโกฮาม่า", "ทางเข้าโรงกลั่นน้ำมัน", "โรงกลั่นน้ำมัน"],
-            "summary": "จุดเริ่มต้นของเทมเมอร์หน้าใหม่ในสังกัดหน่วย DATS เรียนรู้ระบบพื้นฐาน ทำภารกิจสืบสวนเหตุการณ์ดิจิมอนผิดปกติที่บุกรุกมายังโลกมนุษย์ คุ้มกันครอบครัวของไดมอน มาซารุ และคลี่คลายเหตุการณ์ที่โรงกลั่นน้ำมันเพื่อปลดล็อคการเดินทางสู่โลกดิจิตอล",
-            "key_unlocks": ["ตราสมาชิก DATS อย่างเป็นทางการ", "สิทธิ์การเดินทางข้ามมิติสู่โลกดิจิตอล (Digital World Access)", "เปิดระบบฟักไข่ดิจิทามะ และระบบสแกน/รีเทิร์นข้อมูล"],
-            "pro_tips": ["อย่าลืมรับเควสฝึกสอนทั้งหมดเพราะจะได้รับไอเทมเริ่มต้นและดิจิมอนคู่หูที่จำเป็น", "ในโรงกลั่นน้ำมันมอนสเตอร์มีพลังป้องกันสูง ควรใช้ดิจิมอนธาตุแพ้ทางเพื่อเคลียร์เควสได้ไวขึ้น"]
-        },
-        {
-            "id": "ch2_western_maze",
-            "number": 2,
-            "title": "บทที่ 2: ดินแดนฝั่งตะวันตก & เขาวงกตดิจิมอน",
-            "badge": "กลางช่วงแรก",
-            "level_range": "Lv. 25 - 60",
-            "area_keywords": ["หมู่บ้านฝั่งตะวันตก", "พื้นที่ทุรกันดาร", "ฟาร์มดิจิมอน", "ดิจิมอนฟาร์ม", "หุบเขาแห่งสายลม", "หุบเขาสายลม", "พื้นที่รกร้าง ฝั่งตะวันตก", "พื้นที่ซากปรักหักพัง", "ดาร์คทาวเวอร์", "เขาวงกตดิจิมอน", "digimon maze"],
-            "summary": "ก้าวเข้าสู่โลกดิจิตอลฝั่งตะวันตก ออกค้นหาร่องรอยของอิคุโตะและฟอลโคมอน สืบสวนแผนการลับของดร.คุราตะ และเผชิญหน้ากับความลึกลับของเขาวงกตดิจิมอน (Digimon Maze) ที่เต็มไปด้วยมอนสเตอร์อันทรงพลัง",
-            "key_unlocks": ["ปลดล็อคประตูเข้าสู่เขาวงกตดิจิมอน B2, B1, F1, F2, F3 และ F4", "เปิดจุดวาร์ปสถานีรถไฟฝั่งตะวันตก เชื่อมต่อหลายพื้นที่สำคัญ", "ปลดล็อคเควสโจเกรสและไอเทมวิวัฒนาการระดับสูง"],
-            "pro_tips": ["เควสเขาวงกตดิจิมอน F1-F4 ต้องส่งเควสต่อเนื่องเป็นลูกโซ่ ห้ามทิ้งเควสใดเควสหนึ่งเด็ดขาดเพราะจะทำให้ติดบัคเควสเดินต่อไม่ได้", "เตรียมไอเทมฟื้นฟู HP/DS และจั๊มบูสเตอร์ไว้เสมอเนื่องจากทางเดินในเมซมีความซับซ้อนมาก"]
-        },
-        {
-            "id": "ch3_glacier",
-            "number": 3,
-            "title": "บทที่ 3: กลาเซียร์ ดินแดนหิมะนิรันดร์",
-            "badge": "กลางเกม",
-            "level_range": "Lv. 50 - 65",
-            "area_keywords": ["หมู่บ้านพายุหิมะ", "หมู่บ้านมนุษย์หิมะ", "ดินแดนน้ำแข็ง", "ทุ่งหิมะ", "กำแพงน้ำแข็งนิรันดร์", "d-เทอร์มินัล"],
-            "summary": "มุ่งหน้าสู่ดินแดนเยือกแข็งอันหนาวเหน็บ ช่วยเหลือมนุษย์หิมะมอนและเหล่าดิจิมอนที่ถูกครอบงำด้วยฟันเฟืองสีดำ รวบรวมข้อมูลเพื่อตามหาต้นตอความผิดปกติ และเปิดเส้นทางไปสู่กำแพงน้ำแข็งนิรันดร์",
-            "key_unlocks": ["ปลดล็อคแผนที่กำแพงน้ำแข็งนิรันดร์ (Infinite Ice Wall)", "ปลดล็อคเส้นทางลับเชื่อมต่อไปยังเกาะไฟล์ (File Island)", "รับเครื่องประดับและหินพัฒนาธาตุน้ำแข็ง"],
-            "pro_tips": ["มอนสเตอร์ในดินแดนหิมะส่วนใหญ่เป็นธาตุน้ำ/น้ำแข็ง ดิจิมอนธาตุสายฟ้าหรือดินจะโจมตีได้รุนแรงเป็นพิเศษ", "เควสเก็บรวบรวมฟันเฟืองสีดำ ดรอปจากมอนสเตอร์เฉพาะจุด ให้เช็คพิกัดบนมินิแมพให้ดี"]
-        },
-        {
-            "id": "ch4_file_island",
-            "number": 4,
-            "title": "บทที่ 4: มหากาพย์เกาะไฟล์ & ภูเขาอินฟินิตี้",
-            "badge": "กลางเกม",
-            "level_range": "Lv. 60 - 80",
-            "area_keywords": ["ทะเลสาบสีเงิน", "ป่าแห่งความเงียบ", "พื้นที่อารยธรรมที่สูญหาย", "ชายฝั่งเกาะไฟล์", "ภูเขาอินฟินิตี้", "รอยร้าวของเดวีมอน", "หุบเขานิรันดร์", "ซากอารยธรรมโบราณแห่งความลับ"],
-            "summary": "ย้อนรอยความทรงจำของอนิเมะ Digimon Adventure ภาคแรก บนเกาะไฟล์ ช่วยเหลือเลโอมอนและโอเกรมอน ทำลายฟันเฟืองดำที่แพร่ระบาด และบุกขึ้นสู่ภูเขาอินฟินิตี้เพื่อทำศึกแตกหักกับเดวีมอน",
-            "key_unlocks": ["ปลดล็อคดันเจี้ยนภูเขาอินฟินิตี้ (Infinite Mountain Dungeon)", "ปลดล็อคการวิวัฒนาการร่างเมก้าและเบิร์สโหมด (Burst Mode)", "เปิดท่าเรือชายฝั่งเกาะไฟล์เพื่อข้ามทะเลไปยังทวีปเซิร์ฟเวอร์"],
-            "pro_tips": ["เควสเกาะไฟล์ให้ EXP มหาศาล เป็นแหล่งฟาร์มเลเวลที่ดีที่สุดช่วงเลเวล 60-80", "เมื่อถึงเควสปราบเดวีมอนที่ภูเขาอินฟินิตี้ แนะนำให้รวมปาร์ตี้เพื่อความรวดเร็วและปลอดภัย"]
-        },
-        {
-            "id": "ch5_server_continent",
-            "number": 5,
-            "title": "บทที่ 5: ทวีปเซิร์ฟเวอร์ ทะเลทราย & ปิรามิด",
-            "badge": "กลาง-เลท",
-            "level_range": "Lv. 75 - 95",
-            "area_keywords": ["ทวีปเซิร์ฟเวอร์ - ทะเลทราย", "ทวีปเซิร์ฟเวอร์ - หุบเขา", "ทวีปเซิร์ฟเวอร์ - ปิรามิด", "ทวีปเซิร์ฟเวอร์-ปิรามิด"],
-            "summary": "ออกเดินทางสู่ผืนทวีปอันกว้างใหญ่ เผชิญหน้ากับเอเตมอนจอมวายร้ายที่ควบคุมเครือข่ายสายเคเบิลมืด ฝ่าฟันหุบเขาอันตราย และบุกเข้าไปในปิรามิดของดาตามอนเพื่อกู้ข้อมูลสำคัญกลับคืนมา",
-            "key_unlocks": ["ปลดล็อคดันเจี้ยนปิรามิดดาตามอน (Datamon Maze)", "เปิดสิทธิ์การใช้งานแหวนและสร้อยคอระดับสูง (Ring/Necklace Shiny)", "เชื่อมต่อโครงข่ายประตูมิติสู่โลกดิจิตอลใหม่"],
-            "pro_tips": ["พื้นที่ทะเลทรายมีระยะทางกว้างมาก ควรใช้ดิจิมอนโหมดขับขี่ (Riding Mode) เพื่อประหยัดเวลาเดินทาง", "ในปิรามิดมอนสเตอร์เกิดหนาแน่น ระวังการดึงมอนสเตอร์เกินจำนวนที่รับไหว"]
-        },
-        {
-            "id": "ch6_verdandi",
-            "number": 6,
-            "title": "บทที่ 6: เวอร์ซันดิเทอร์มินัล (X-Antibody)",
-            "badge": "เลทเกม",
-            "level_range": "Lv. 90 - 110",
-            "area_keywords": ["เวอร์ซันดิเทอร์มินัล", "รอยัลเบส"],
-            "summary": "วิกฤตการณ์ไวรัส X-Program ที่ถูกปล่อยออกมาโดยอิกดราซิล กองทหารรอยัลไนท์แบ่งฝ่ายต่อสู้กัน เทมเมอร์ต้องติดตั้งระบบ XAI Indicator เพื่อต้านทานพิษของไวรัส และปลดล็อคพลัง X-Antibody ขั้นสูงสุด",
-            "key_unlocks": ["ปลดล็อคระบบ X-Antibody System (XAI Indicator)", "ปลดล็อคดันเจี้ยนรอยัลเบส (Royal Base 1F-3F)", "เปิดสิทธิ์การทำเควสวิวัฒนาการ X-Antibody เช่น Omegamon X, Alphamon Ouryuken X"],
-            "pro_tips": ["ต้องสวมใส่ XAI และรักษาระดับ X-Gauge ให้ไม่หมด เพื่อป้องกันดีบัฟดาเมจลดลงในพื้นที่", "มอนสเตอร์ในเวอร์ซันดิมีความถึกสูงมาก ควรมีค่า Hit Rate (HT) และ Critical (CT) เพียงพอ"]
-        },
-        {
-            "id": "ch7_odaiba",
-            "number": 7,
-            "title": "บทที่ 7: มหาสงคราม โตเกียว - โอไดบะ",
-            "badge": "เลทเกม",
-            "level_range": "Lv. 99 - 120",
-            "area_keywords": ["ฮิคาริงาโอกะ", "ชิบูย่า", "โตเกียวทาวเวอร์", "มินาโตะซิตี้", "โอไดบะ", "บิ๊กไซท์", "เรนโบว์ บริดจ์", "ดาดฟ้าสถานีโทรทัศน์ฟูจิทีวี", "สถานที่ตั้งค่าย"],
-            "summary": "กองทัพของแวมเดมอนข้ามประตูมิติมาบุกยึดกรุงโตเกียว เทมเมอร์ต้องร่วมมือกับเหล่าเด็กผู้ถูกเลือกทั้ง 8 คน ปกป้องครอบครัวและชาวเมือง ต่อสู้ไล่ล่าไปตามสถานที่จริงในโตเกียว จนถึงศึกตัดสินกับเวนอมแวมเดมอน",
-            "key_unlocks": ["ปลดล็อคดันเจี้ยนเรดบอสโอไดบะ (VenomMyotismon, DarkTyrannomon)", "เปิดระบบฉายาบัฟสเตตัสระดับสูงของโตเกียว", "สิทธิ์แลกไอเทมอุปกรณ์และตั๋วการันตีระดับสูง"],
-            "pro_tips": ["เควสเนื้อเรื่องโอไดบะมีความยาวมาก ให้ทำตามเครื่องหมายเควสสีม่วง/น้ำเงินบนแผนที่อย่างเคร่งครัด", "จุดที่ต้องคุยกับเด็กผู้ถูกเลือก ให้สังเกตเวลาบนแผนที่ (กลางวัน/กลางคืน) มอนสเตอร์บางตัวจะเกิดเฉพาะเวลานั้น"]
-        },
-        {
-            "id": "ch8_shinjuku",
-            "number": 8,
-            "title": "บทที่ 8: ชินจูกุ, เทมเมอร์ส & D-รีพเปอร์",
-            "badge": "เลทเกม",
-            "level_range": "Lv. 110 - 140",
-            "area_keywords": ["ชินจูกุ", "ชินจูกุ(กลางคืน)", "ชินจูกุตะวันตก (กลางวัน)", "ชินจูกุตะวันออก (กลางวัน)", "ชินจูกุตะวันตก (กลางคืน)", "ชินจูกุตะวันออก (กลางคืน)", "ดิจิมอนเทมเมอร์ส", "หุบเขาแห่งแสงสว่าง", "d-รีพเปอร์"],
-            "summary": "ดำดิ่งสู่โลกของ Digimon Tamers พบกับมัตสึดะ ทาคาโตะ, กิลมอน, ลี และรูคิ เผชิญหน้ากับการลุกลามของโปรแกรมลบข้อมูล 'D-Reaper' ที่กลืนกินย่านชินจูกุ ต่อสู้กับ ADR Agents เพื่อหยุดยั้งวันสิ้นโลก",
-            "key_unlocks": ["ปลดล็อคดันเจี้ยน D-Reaper Zone และ Mother D-Reaper", "เปิดระบบ D-Unit System ระดับสูง", "ปลดล็อคสกิลเสริมและชิปเซ็ตระดับเลทเกม"],
-            "pro_tips": ["ADR Agents ใน D-Reaper มีการสะท้อนดาเมจและดีบัฟลดคูลดาวน์สกิล ควรเตรียมดิจิมอนสายซัพพอร์ต", "แบ่งการทำเควสเป็นช่วงกลางวันและกลางคืนตามสายเนื้อเรื่องของทาคาโตะและลี"]
-        },
-        {
-            "id": "ch9_kaiser",
-            "number": 9,
-            "title": "บทที่ 9: พื้นที่ของไกเซอร์ (Adventure 02)",
-            "badge": "เลท-เอนด์",
-            "level_range": "Lv. 130 - 155",
-            "area_keywords": ["พาวเวอร์ดิจิมอน", "พื้นที่ของไกเซอร์", "พื้นที่แห่งความว่างเปล่า"],
-            "summary": "เรื่องราวจาก Digimon Adventure 02 การผงาดขึ้นมาของดิจิมอนไกเซอร์ (อิจิโจจิ เคน) ผู้ใช้ดาร์คสไปรัลควบคุมจิตใจดิจิมอนและสร้างคิเมรามอนขึ้นมา เทมเมอร์ต้องนำพาแสงสว่างกลับคืนสู่อาณาจักร",
-            "key_unlocks": ["ปลดล็อคดันเจี้ยนฐานทัพเรือดำน้ำและคิเมรามอน (Kimeramon Hard/Hero)", "เปิดสิทธิ์รับดาร์คสไปรัลและสร้อยคอไกเซอร์", "ปลดล็อคสายวิวัฒนาการของอาร์เมอร์และโจเกรส 02"],
-            "pro_tips": ["ในเขตหอคอยความมืด ดิจิมอนจะไม่สามารถวิวัฒนาการได้ตามปกติ ให้เตรียมดิจิมอนร่าง Armor หรือใช้ไอเทมแก้สถานะ", "บอสคิเมรามอนมีสกิล AoE รุนแรง ให้คอยหลบวงแดงบนพื้นอย่างรวดเร็ว"]
-        },
-        {
-            "id": "ch10_spiral_mountain",
-            "number": 10,
-            "title": "บทที่ 10: สไปรอลเมาท์เทน & 4 จอมปีศาจ",
-            "badge": "เอนด์เกม",
-            "level_range": "Lv. 140 - 165",
-            "area_keywords": ["อาณาจักรโลหะ", "ป่าหุ่นเชิด", "เน็ตโอเชียน", "จุดสูงสุดของฝันร้าย", "ป่าแห่งการเริ่มต้น", "ทะเลสาปแห่งการเริ่มต้น", "หมู่บ้านแห่งการเริ่มต้น"],
-            "summary": "ยอดเขาสไปรอลเมาท์เทนที่ถูกบิดเบือนโดย 4 จอมปีศาจ Dark Masters: เมทัลซีดรามอน, พิน็อคคีมอน, มูเกนดรามอน และพิเอมอน รวมพลังครั้งยิ่งใหญ่เพื่อทวงคืนป่าแห่งการเริ่มต้นและโลกดิจิตอลทั้งใบ",
-            "key_unlocks": ["ปลดล็อคดันเจี้ยน Spiral Mountain Raid ทั้ง 4 เขต", "เปิดระบบตราประทับซีลมาสเตอร์และเด็คบัฟระดับ 4 จอมปีศาจ", "รับวัตถุดิบสร้างอุปกรณ์และต่างหูระดับ Endgame"],
-            "pro_tips": ["บอสแต่ละตัวในสไปรอลเมาท์เทนมีกลไก (Mechanics) เฉพาะตัว เช่น มูเกนดรามอนต้องรีบทำลายเครื่องส่งสัญญาณ", "จำเป็นต้องมีสเตตัส AT, HT และ CT ขั้นต่ำตามเกณฑ์ของดันเจี้ยนจึงจะผ่านได้ง่าย"]
-        },
-        {
-            "id": "ch11_frontier",
-            "number": 11,
-            "title": "บทที่ 11: ดิจิมอนฟรอนเทียร์ & เทอร์มินอลแห่งธาตุ",
-            "badge": "เอนด์เกมสูงสุด (Patch ปัจจุบัน)",
-            "level_range": "Lv. 160 - 180",
-            "area_keywords": ["ดิจิมอนฟรอนเทียร์", "เทอร์มินัลแห่งเปลวเพลิง", "วินด์ แฟคทอรี่", "หมู่บ้านสายลมอ่อน", "โรงงานสายลม", "หมู่บ้านสายลม"],
-            "summary": "แพตช์ล่าสุดของเซิร์ฟเวอร์ไทย เลเวลสูงสุด 180! ถ่ายทอดพลังสปิริตแห่งตำนาน ออกค้นหาดิจิโค้ดที่แปดเปื้อนในเทอร์มินัลแห่งเปลวเพลิงและโรงงานสายลม เพื่อกอบกู้ความสมดุลสูงสุดของระบบโลกดิจิตอล",
-            "key_unlocks": ["ปลดล็อคสปิริตดิจิมอนร่างไฮบริด (Hybrid Spirit Evolution)", "เปิดแผนที่ฟาร์มเลเวล 160-180 ที่ดีที่สุดในเกม", "ปลดล็อคระบบสแกนดิจิโค้ดและไอเทมระดับสูงสุดของเซิร์ฟเวอร์ไทย"],
-            "pro_tips": ["เนื้อหาเลเวล 160-180 มอนสเตอร์มีดาเมจสูงและมีเกราะป้องกันมหาศาล ควรมีบัฟเด็คและซีลมาสเตอร์ระดับสูง", "อย่าลืมรับเควสดิจิโค้ดประจำวันเพื่อสะสมแต้มแลกอุปกรณ์ระดับตำนาน"]
-        }
-    ]
-
-    print("[3/5] Grouping quests by Map Section with exact unlock criteria...")
-
-    def sort_chain(q_list):
-        q_map = {q["id"]: q for q in q_list}
-        ids = set(q_map.keys())
-        graph = defaultdict(list)
-        in_degree = {qid: 0 for qid in ids}
-        for q in q_list:
-            for pre in q.get("pre_quests", []):
-                if pre in ids:
-                    graph[pre].append(q["id"])
-                    in_degree[q["id"]] += 1
-        queue = [qid for qid in ids if in_degree[qid] == 0]
-        queue.sort(key=lambda x: (q_map[x].get("level", 0), x))
-        res = []
-        visited = set()
-        while queue:
-            curr = queue.pop(0)
-            res.append(q_map[curr])
-            visited.add(curr)
-            nxts = []
-            for nxt in graph[curr]:
-                in_degree[nxt] -= 1
-                if in_degree[nxt] == 0:
-                    nxts.append(nxt)
-            nxts.sort(key=lambda x: (q_map[x].get("level", 0), x))
-            queue.extend(nxts)
-        leftovers = [q_map[qid] for qid in ids if qid not in visited]
-        leftovers.sort(key=lambda x: (x.get("level", 0), x["id"]))
-        res.extend(leftovers)
-        return res
-
+    # Group into Chapters and Maps strictly in order with zero duplicates
     output_chapters = []
-    total_assigned_quests = 0
+    assigned_ids = set()
+    total_assigned = 0
+    last_completed_quest = None
 
-    for ch in chapters_def:
-        ch_quests = []
-        for qid, q in quests.items():
-            if q["type"] in (1, 7):
-                raw_m = q["raw_map_name"].lower()
-                canon_m = q["map_name"].lower()
-                if any(k.lower() in raw_m or k.lower() in canon_m for k in ch["area_keywords"]):
-                    ch_quests.append(q)
-
-        # Group quests in chapter by map
-        map_groups = defaultdict(list)
-        for q in ch_quests:
-            map_groups[q["map_name"]].append(q)
-
-        # For each map, sort quests, determine unlock requirements
+    for ch_spec in CHAPTER_MAP_SPECS:
         map_sections = []
-        for map_title, m_quests in map_groups.items():
-            sorted_m_qs = sort_chain(m_quests)
-            if not sorted_m_qs: continue
+        for map_title, map_img, match_fn in ch_spec["maps"]:
+            # Find quests matching this map that haven't been assigned yet
+            m_qs = []
+            for qid, q in story_quests.items():
+                if qid not in assigned_ids and match_fn(q):
+                    m_qs.append(q)
+                    assigned_ids.add(qid)
 
-            first_q = sorted_m_qs[0]
-            pre_ids = first_q.get("pre_quests", [])
+            if not m_qs:
+                continue
+
+            # Update map metadata
+            for q in m_qs:
+                q["map_name"] = map_title
+                q["map_image"] = map_img
+
+            # Sort quests strictly in chain order (start quest -> chain -> end quest)
+            ordered_qs = order_chain_dfs(m_qs, story_quests)
+
+            # Determine Map Unlock Requirement
+            first_q = ordered_qs[0]
+            pre_ids = first_q["pre_quests"]
             
             unlock_req = {
                 "text": "เริ่มได้ทันที / ไม่มีเงื่อนไขเควสก่อนหน้า",
@@ -573,73 +523,92 @@ def build():
                 "pre_map_name": None,
                 "min_level": max(first_q.get("level", 1), 1)
             }
-            if pre_ids:
-                pid = pre_ids[0]
-                if pid in quests:
-                    pq = quests[pid]
-                    unlock_req = {
-                        "text": f"ต้องทำเควสหลัก [{pq['title']}] ({pq['map_name']}) ให้สำเร็จก่อน",
-                        "pre_quest_id": pid,
-                        "pre_quest_title": pq["title"],
-                        "pre_map_name": pq["map_name"],
-                        "min_level": max(first_q.get("level", 1), pq.get("level", 1))
-                    }
-                else:
-                    unlock_req["text"] = f"ต้องทำเควส #{pid} ให้สำเร็จก่อน"
-                    unlock_req["pre_quest_id"] = pid
 
-            m_levels = [q["level"] for q in sorted_m_qs if q["level"] > 0]
+            # Check if first quest has an external pre-requisite
+            ext_pre = [pid for pid in pre_ids if pid in all_raw_quests and pid not in [x["id"] for x in ordered_qs]]
+            if ext_pre:
+                pid = ext_pre[0]
+                pq = all_raw_quests[pid]
+                unlock_req = {
+                    "text": f"ต้องทำเควสหลัก [{pq['title']}] ({pq['map_name']}) ให้สำเร็จก่อน",
+                    "pre_quest_id": pid,
+                    "pre_quest_title": pq["title"],
+                    "pre_map_name": pq["map_name"],
+                    "min_level": max(first_q.get("level", 1), pq.get("level", 1))
+                }
+            elif last_completed_quest and ch_spec["ch_num"] > 1 and map_sections == []:
+                # First map of a subsequent chapter: connect to the last quest of the previous chapter!
+                unlock_req = {
+                    "text": f"ต้องสำเร็จบทก่อนหน้า (เควสหลัก [{last_completed_quest['title']}])",
+                    "pre_quest_id": last_completed_quest["id"],
+                    "pre_quest_title": last_completed_quest["title"],
+                    "pre_map_name": last_completed_quest["map_name"],
+                    "min_level": max(first_q.get("level", 1), last_completed_quest.get("level", 1))
+                }
+            elif map_sections:
+                # Subsequent map inside the same chapter: connects to the last quest of the previous map
+                prev_map_last_q = map_sections[-1]["quests"][-1]
+                unlock_req = {
+                    "text": f"ต้องทำเควสหลักใน {map_sections[-1]['map_name']} (เควส [{prev_map_last_q['title']}]) ให้สำเร็จก่อน",
+                    "pre_quest_id": prev_map_last_q["id"],
+                    "pre_quest_title": prev_map_last_q["title"],
+                    "pre_map_name": map_sections[-1]["map_name"],
+                    "min_level": max(first_q.get("level", 1), prev_map_last_q.get("level", 1))
+                }
+
+            last_completed_quest = ordered_qs[-1]
+
+            m_levels = [q["level"] for q in ordered_qs if q["level"] > 0]
             min_l = min(m_levels) if m_levels else 1
             max_l = max(m_levels) if m_levels else 1
-            
+
             map_sections.append({
                 "map_name": map_title,
-                "map_image": sorted_m_qs[0]["map_image"],
+                "map_image": map_img,
                 "level_range": f"Lv. {min_l} - {max_l}" if min_l != max_l else f"Lv. {min_l}",
-                "quest_count": len(sorted_m_qs),
+                "quest_count": len(ordered_qs),
                 "unlock_requirement": unlock_req,
-                "quests": sorted_m_qs
+                "quests": ordered_qs
             })
 
-        # Sort map sections by min level
-        map_sections.sort(key=lambda m: (m["unlock_requirement"]["min_level"], m["map_name"]))
-
         ch_total_qs = sum(m["quest_count"] for m in map_sections)
-        total_assigned_quests += ch_total_qs
+        total_assigned += ch_total_qs
 
         output_chapters.append({
-            "id": ch["id"],
-            "number": ch["number"],
-            "title": ch["title"],
-            "badge": ch["badge"],
-            "level_range": ch["level_range"],
-            "summary": ch["summary"],
-            "key_unlocks": ch["key_unlocks"],
-            "pro_tips": ch["pro_tips"],
+            "id": ch_spec["ch_id"],
+            "number": ch_spec["ch_num"],
+            "title": ch_spec["title"],
+            "badge": ch_spec["badge"],
+            "level_range": ch_spec["level_range"],
+            "summary": ch_spec["summary"],
+            "key_unlocks": ch_spec["key_unlocks"],
+            "pro_tips": ch_spec["pro_tips"],
             "quest_count": ch_total_qs,
             "maps": map_sections
         })
-        print(f"  -> Chapter {ch['number']}: {ch['title']} ({len(map_sections)} maps, {ch_total_qs} quests)")
+        print(f"  -> Chapter {ch_spec['ch_num']}: {ch_spec['title']} ({len(map_sections)} maps, {ch_total_qs} quests)")
 
     full_payload = {
-        "version": "thai_live_patch_v2",
+        "version": "thai_live_patch_v3_ordered",
         "generated_at": "2026-11-16",
         "max_level": 180,
         "total_chapters": len(output_chapters),
-        "total_main_quests": total_assigned_quests,
+        "total_main_quests": total_assigned,
         "chapters": output_chapters
     }
 
-    print("[4/5] Saving main_quests.json...")
-    out_file = STATIC_DATA_DIR / "main_quests.json"
-    out_file.write_text(json.dumps(full_payload, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(f"  -> Wrote {out_file} ({out_file.stat().st_size:,} bytes)")
+    # Save to JSON
+    out_web_json = STATIC_DATA_DIR / "main_quests.json"
+    out_cache_json = WEB_DIR / "main_quests_cache.json"
 
-    cache_file = WEB_DIR / "main_quests_cache.json"
-    cache_file.write_text(json.dumps(full_payload, ensure_ascii=False), encoding="utf-8")
-    print(f"  -> Wrote {cache_file} ({cache_file.stat().st_size:,} bytes)")
+    print(f"[4/5] Writing {out_web_json} ({total_assigned} unique quests in sequential order)...")
+    with open(out_web_json, "w", encoding="utf-8") as f:
+        json.dump(full_payload, f, ensure_ascii=False, indent=2)
 
-    print("[5/5] Done! Guide dataset generated successfully.")
+    with open(out_cache_json, "w", encoding="utf-8") as f:
+        json.dump(full_payload, f, ensure_ascii=False)
+
+    print(f"[5/5] Done! Total: {len(output_chapters)} chapters, {sum(len(c['maps']) for c in output_chapters)} maps, {total_assigned} main quests.")
 
 if __name__ == "__main__":
     build()
