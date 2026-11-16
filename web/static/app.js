@@ -774,7 +774,7 @@ async function showDigimonDetailPage(slug) {
                     <div class="skill-dmg">ดาเมจ: <span class="skill-dmg-val" data-levels="${esc(JSON.stringify(s.levels))}">${esc(s.levels[0] || '-')}</span></div>
                   </div>
                   <div class="skill-meta-tags">
-                    <span class="skill-meta-tag"><img src="/images/AS.png" class="stat-icon-inline" alt="CD"> ${esc(skillMetaTh(s.cooldown))}</span>
+                    <span class="skill-meta-tag">${esc(skillMetaTh(s.cooldown))}</span>
                     <span class="skill-meta-tag"><img src="/images/DS.png" class="stat-icon-inline" alt="DS"> ${esc(skillMetaTh(s.ds_consumed))}</span>
                     <span class="skill-meta-tag">แต้ม: ${esc(skillMetaTh(s.upgrade_points))}</span>
                     <span class="skill-meta-tag">อนิเมชัน: ${esc(skillMetaTh(s.animation))}</span>
@@ -4631,13 +4631,13 @@ function renderGuide() {
 
       // Chapter unlocks tags
       const unlocksHtml = (ch.key_unlocks || []).map(u => `
-        <span class="guide-unlock-tag"><img src="/images/ui/ui_check.png" class="stat-icon-inline" alt=""> ${esc(u)}</span>
+        <span class="guide-unlock-tag">${esc(u)}</span>
       `).join('');
 
       // Chapter tips
       const tipsHtml = (ch.pro_tips || []).map(t => `
         <div style="display:flex;gap:6px;align-items:flex-start;margin-bottom:4px;">
-          <img src="/images/ui/ui_book.png" class="stat-icon-inline" style="width:16px;height:16px;margin-top:2px;" alt=""> <div>${esc(t)}</div>
+          <div>${esc(t)}</div>
         </div>
       `).join('');
 
@@ -4667,7 +4667,7 @@ function renderGuide() {
           if (q.exp > 0) {
             rewTags.push(`
               <span class="guide-rew-tag exp" title="EXP ที่ได้รับ">
-                <img src="/images/ui/ui_exp.png" class="stat-icon-inline" alt="EXP"> EXP +${q.exp.toLocaleString()}
+                <img src="/images/ui/ui_exp.png" class="stat-icon-inline" alt="EXP"> +${q.exp.toLocaleString()}
               </span>
             `);
           }
@@ -4683,9 +4683,9 @@ function renderGuide() {
           });
 
           // Badges for Levels
-          let lvlBadges = `<span class="guide-badge-lvl" title="เลเวลเทมเมอร์ขั้นต่ำ"><img src="/images/ui/ui_tamer.png" class="stat-icon-inline" alt=""> เทมเมอร์ Lv. ${q.tamer_level || q.level || 1}</span>`;
+          let lvlBadges = `<span class="guide-badge-lvl" title="เลเวลเทมเมอร์ขั้นต่ำ">เทมเมอร์ Lv. ${q.tamer_level || q.level || 1}</span>`;
           if (q.digimon_level && q.digimon_level > 0) {
-            lvlBadges += ` <span class="guide-badge-digilvl" title="เลเวลดิจิมอนขั้นต่ำ"><img src="/images/ui/ui_digimon.png" class="stat-icon-inline" alt=""> ดิจิมอน Lv. ${q.digimon_level}</span>`;
+            lvlBadges += ` <span class="guide-badge-digilvl" title="เลเวลดิจิมอนขั้นต่ำ">ดิจิมอน Lv. ${q.digimon_level}</span>`;
           }
 
           // Pre-quest titles pill
@@ -4693,7 +4693,7 @@ function renderGuide() {
           if (q.pre_quest_titles && q.pre_quest_titles.length > 0) {
             preQuestHtml = `
               <div class="guide-quest-pre-badge" title="เควสที่ต้องทำสำเร็จก่อนหน้านี้">
-                <img src="/images/ui/ui_quest.png" class="stat-icon-inline" alt=""> <span>เงื่อนไข: ผ่านเควส [${esc(q.pre_quest_titles.join(', '))}]</span>
+                <span>เงื่อนไข: ผ่านเควส [${esc(q.pre_quest_titles.join(', '))}]</span>
               </div>
             `;
           }
@@ -4709,7 +4709,7 @@ function renderGuide() {
                 <div class="guide-quest-title-row">
                   <span class="guide-quest-title">#${qIdx + 1}. ${esc(q.title)}</span>
                   ${lvlBadges}
-                  <span class="guide-badge-map"><img src="/images/ui/ui_dungeon.png" class="btn-game-icon" style="width:12px;height:12px;margin:0" alt=""> ${esc(q.map_name)}</span>
+                  <span class="guide-badge-map">${esc(q.map_name)}</span>
                   <small style="color:var(--text-sub);font-size:0.75rem;">(ID: ${q.id})</small>
                 </div>
 
@@ -4720,7 +4720,7 @@ function renderGuide() {
                   <span class="guide-npc-badge">
                     <img src="${q.start_npc_image}" class="npc-thumb-micro" onerror="this.src='/images/ui/ui_tamer.png'"> ผู้มอบ: <strong>${esc(q.start_npc)}</strong>
                   </span>
-                  <span class="guide-flow-arrow"><img src="/images/ui/ui_next.png" class="stat-icon-inline" style="width:12px;height:12px;" alt=""></span>
+                  <span class="guide-flow-arrow">&rarr;</span>
                   <span class="guide-npc-badge">
                     <img src="${q.end_npc_image}" class="npc-thumb-micro" onerror="this.src='/images/ui/ui_tamer.png'"> ผู้รับส่ง: <strong>${esc(q.end_npc)}</strong>
                   </span>
@@ -4742,22 +4742,21 @@ function renderGuide() {
 
         // Map Unlock requirement info
         const unReq = mSec.unlock_requirement || {};
-        let unReqExtra = `<img src="/images/ui/ui_tamer.png" class="stat-icon-inline" alt=""> เทมเมอร์ Lv. ${unReq.min_tamer_level || 1}+`;
+        let unReqExtra = `เทมเมอร์ Lv. ${unReq.min_tamer_level || 1}+`;
         if (unReq.min_digimon_level && unReq.min_digimon_level > 0) {
-          unReqExtra += ` · <img src="/images/ui/ui_digimon.png" class="stat-icon-inline" alt=""> ดิจิมอน Lv. ${unReq.min_digimon_level}+`;
+          unReqExtra += ` · ดิจิมอน Lv. ${unReq.min_digimon_level}+`;
         }
 
         // Next Map unlock info
         const nextUn = mSec.next_map_unlock || {};
         let nextMapHtml = '';
         if (nextUn.next_map_name) {
-          let nextReqExtra = `<img src="/images/ui/ui_tamer.png" class="stat-icon-inline" alt=""> เทมเมอร์ Lv. ${nextUn.next_tamer_level || 1}+`;
+          let nextReqExtra = `เทมเมอร์ Lv. ${nextUn.next_tamer_level || 1}+`;
           if (nextUn.next_digimon_level && nextUn.next_digimon_level > 0) {
-            nextReqExtra += ` · <img src="/images/ui/ui_digimon.png" class="stat-icon-inline" alt=""> ดิจิมอน Lv. ${nextUn.next_digimon_level}+`;
+            nextReqExtra += ` · ดิจิมอน Lv. ${nextUn.next_digimon_level}+`;
           }
           nextMapHtml = `
             <div class="guide-map-next-box" title="เมื่อเคลียร์เควสหลักทั้งหมดในแผนที่นี้">
-              <span><img src="/images/ui/ui_next.png" class="stat-icon-inline" style="width:16px;height:16px;" alt=""></span>
               <div>
                 <strong>ปลดล็อคแผนที่ถัดไป:</strong> <span style="color:#60a5fa;font-weight:700;">${esc(nextUn.next_map_name)}</span>
                 (เคลียร์เควส [${esc(nextUn.required_quest_title)}] · ${nextReqExtra})
@@ -4767,7 +4766,6 @@ function renderGuide() {
         } else {
           nextMapHtml = `
             <div class="guide-map-next-box" style="border-color:rgba(16,185,129,0.25);background:rgba(16,185,129,0.08);color:#a7f3d0;">
-              <span><img src="/images/ui/ui_ach.png" class="stat-icon-inline" style="width:16px;height:16px;" alt=""></span>
               <div><strong>สิ้นสุดเนื้อเรื่องเควสหลักแพตช์ปัจจุบัน (Lv. 180)</strong></div>
             </div>
           `;
@@ -4779,13 +4777,13 @@ function renderGuide() {
               <!-- Map Image Thumbnail with Click-to-Zoom -->
               <div class="guide-map-thumb-wrap" onclick="openGuideMapModal('${esc(mSec.map_name)}', '${esc(mSec.map_image)}')" title="กดเพื่อดูรูปแผนที่ขนาดใหญ่">
                 <img src="${mSec.map_image}" class="guide-map-thumb-img" alt="${esc(mSec.map_name)}" onerror="this.src='/images/maps/105_zone.png'">
-                <div class="guide-map-thumb-overlay"><img src="/images/ui/ui_map.png" class="stat-icon-inline" alt=""> ดูรูป Map</div>
+                <div class="guide-map-thumb-overlay">ดูรูป Map</div>
               </div>
 
               <div class="guide-map-meta-wrap">
                 <div class="guide-map-meta-title-row">
                   <h4>
-                    <span><img src="/images/ui/ui_map.png" class="stat-icon-inline" alt=""> แผนที่: ${esc(mSec.map_name)}</span>
+                    <span>แผนที่: ${esc(mSec.map_name)}</span>
                     <span class="guide-badge-lvl">${esc(mSec.level_range)}</span>
                   </h4>
                   <span class="badge" style="background:rgba(255,255,255,0.06);color:var(--text-muted);border-color:var(--border-color);">${mSec.quest_count} เควส</span>
@@ -4793,7 +4791,6 @@ function renderGuide() {
 
                 <!-- Exact Map Unlock Requirement -->
                 <div class="guide-map-unlock-box ${unReq.pre_quest_id ? '' : 'unlocked'}">
-                  <span>${unReq.pre_quest_id ? '<img src="/images/ui/ui_lock.png" class="stat-icon-inline" alt="Lock">' : '<img src="/images/ui/ui_unlock.png" class="stat-icon-inline" alt="Unlock">'}</span>
                   <div>
                     <strong>เงื่อนไขปลดล็อคแผนที่นี้:</strong> ${esc(unReq.text)}
                     <span style="opacity:0.85;margin-left:4px;">(${unReqExtra})</span>
@@ -4873,7 +4870,7 @@ function openGuideMapModal(name, url) {
     <div class="guide-map-modal-card">
       <div class="guide-map-modal-header">
         <h3 style="margin:0;font-size:1.1rem;color:#fff;display:flex;align-items:center;gap:8px;">
-          <span><img src="/images/ui/ui_map.png" class="stat-icon-inline" alt=""></span> แผนที่: ${esc(name)} (ภาพในเกมเซิร์ฟไทย)
+          แผนที่: ${esc(name)} (ภาพในเกมเซิร์ฟไทย)
         </h3>
         <button class="modal-close" onclick="closeGuideMapModal()" style="font-size:1.6rem;background:none;border:none;color:#fff;cursor:pointer;padding:0 4px;">&times;</button>
       </div>

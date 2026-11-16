@@ -365,5 +365,5 @@
     }
   }
 
-  console.log('[CLIENT_API] ⚡ Serverless Client-Side API Engine Ready (v1.3.0 with Preloader)!');
+  console.log('[CLIENT_API] Serverless Client-Side API Engine Ready (v1.3.0 with Preloader)!');
 })();
