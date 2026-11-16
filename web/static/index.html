@@ -954,33 +954,27 @@
             </span>
           </div>
           <p style="font-size: 0.84rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 12px;">
-            คู่มือเควสเนื้อเรื่องหลักที่ผู้เล่นทุกคนต้องทำ รวบรวมจากไฟล์เกมเซิร์ฟไทยแท้ 100% แสดงแมพเริ่มต้น, NPC ผู้มอบเควส, มอนสเตอร์และไอเทมเป้าหมาย, และของรางวัล พร้อมระบบบันทึกความคืบหน้า (Checkbox บันทึกในเครื่องอัตโนมัติ)
+            คู่มือเควสเนื้อเรื่องหลักที่ผู้เล่นทุกคนต้องทำ รวบรวมจากไฟล์เกมเซิร์ฟไทยแท้ 100% แสดงรูปแผนที่ในเกม (กดซูมดูรูป Map ได้), เงื่อนไขการปลดล็อคเควสในแต่ละแมพ, รูป NPC ผู้มอบและผู้รับส่งเควส, มอนสเตอร์และไอเทมเป้าหมาย, และของรางวัล EXP & เงิน Bit
           </p>
 
-          <!-- Search & Action Bar -->
-          <div style="display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; margin-bottom: 12px;">
+          <!-- Search Bar -->
+          <div style="margin-bottom: 12px;">
             <div class="search-box">
               <svg class="search-icon" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
               </svg>
               <input type="text" id="guide-search-input"
-                placeholder="ค้นหาชื่อเควส, แมพ, NPC, มอนสเตอร์เป้าหมาย หรือไอเทมรางวัล..."
+                placeholder="ค้นหาชื่อเควส, แผนที่, NPC ผู้มอบ/ผู้ส่ง, มอนสเตอร์เป้าหมาย หรือไอเทมรางวัล..."
                 oninput="onGuideSearchChange()">
             </div>
-            <button class="btn-secondary" onclick="resetGuideProgress()" style="white-space: nowrap; font-size: 0.8rem; padding: 8px 12px; height: 100%; border-radius: 6px; cursor: pointer;">
-              ล้างบันทึกความคืบหน้า
-            </button>
           </div>
 
-          <!-- Overall Progress Box -->
+          <!-- Overall Summary Box -->
           <div class="guide-progress-box" id="guide-progress-card">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-size: 0.82rem;">
-              <span>ความคืบหน้าเควสหลักโดยรวม:</span>
-              <strong id="guide-progress-text" style="color: var(--color-primary);">0 / 1,649 (0%)</strong>
-            </div>
-            <div class="guide-progress-track">
-              <div id="guide-progress-bar" class="guide-progress-fill" style="width: 0%;"></div>
+            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.84rem; flex-wrap: wrap; gap: 8px;">
+              <span>ฐานข้อมูลเควสหลักเซิร์ฟไทย:</span>
+              <strong id="guide-progress-text" style="color: var(--color-primary);">11 บท · 57 แผนที่ · รวม 1,664 เควสหลัก</strong>
             </div>
           </div>
 
@@ -992,7 +986,7 @@
 
           <div class="egg-note" style="margin-top: 10px;">
             แสดง: <strong id="guide-shown-count" style="color: var(--color-primary);">0</strong> เควสในบทที่เลือก ·
-            กดติ๊กถูกหน้าเควสเพื่อบันทึกว่าทำเสร็จแล้ว
+            กดที่รูปแผนที่เพื่อซูมดูรูป Map ในเกม
           </div>
         </div>
 
