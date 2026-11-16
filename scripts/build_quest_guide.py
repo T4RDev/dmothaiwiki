@@ -136,7 +136,8 @@ CHAPTER_MAP_SPECS = [
         "pro_tips": ["อย่าลืมรับเควสฝึกสอนทั้งหมดเพราะจะได้รับไอเทมเริ่มต้นและดิจิมอนคู่หูที่จำเป็น", "ในโรงกลั่นน้ำมันมอนสเตอร์มีพลังป้องกันสูง ควรใช้ดิจิมอนธาตุแพ้ทางเพื่อเคลียร์เควสได้ไวขึ้น"],
         "maps": [
             ("โหมดฝึกสอน (Tutorial)", "/images/maps/105_zone.png", lambda q: "<โหมดฝึกสอน>" in q["raw_map_name"]),
-            ("ศูนย์บัญชาการ DATS & หมู่บ้านโยโกฮาม่า", "/images/maps/105_zone.png", lambda q: any(k in q["raw_map_name"] for k in ["หมู่บ้านโยโกฮาม่า", "หมู่บ้าน โยโกฮาม่า", "ศูนย์บัญชาการ DATS", "สวนม้านั่งไม้"])),
+            ("ศูนย์บัญชาการ DATS", "/images/maps/dats_in_zone.png", lambda q: "ศูนย์บัญชาการ DATS" in q["raw_map_name"]),
+            ("หมู่บ้านโยโกฮาม่า", "/images/maps/105_zone.png", lambda q: any(k in q["raw_map_name"] for k in ["หมู่บ้านโยโกฮาม่า", "หมู่บ้าน โยโกฮาม่า", "สวนม้านั่งไม้"])),
             ("โรงกลั่นน้ำมัน ชั้น 1", "/images/maps/oilrefinery1_zone.png", lambda q: "โรงกลั่นน้ำมัน" in q["raw_map_name"] and ("ชั้น1" in q["raw_map_name"] or "ชั้น 1" in q["raw_map_name"])),
             ("โรงกลั่นน้ำมัน ชั้น 2", "/images/maps/oilrefinery2_zone.png", lambda q: "โรงกลั่นน้ำมัน" in q["raw_map_name"] and ("ชั้น2" in q["raw_map_name"] or "ชั้น 2" in q["raw_map_name"])),
             ("โรงกลั่นน้ำมัน ชั้น 3", "/images/maps/oilrefinery3_zone.png", lambda q: "โรงกลั่นน้ำมัน" in q["raw_map_name"] and ("ชั้น3" in q["raw_map_name"] or "ชั้น 3" in q["raw_map_name"])),
@@ -158,7 +159,8 @@ CHAPTER_MAP_SPECS = [
             ("ดิจิมอนฟาร์ม", "/images/maps/digimon_farm_zone.png", lambda q: "ฟาร์มดิจิมอน" in q["raw_map_name"] or "ดิจิมอนฟาร์ม" in q["raw_map_name"]),
             ("โบราณสถานแห่งความมืด", "/images/maps/westerntown_darktower_zone.png", lambda q: "โบราณสถาน" in q["raw_map_name"] and "เขาวงกต" not in q["raw_map_name"]),
             ("ดาร์คทาวเวอร์ (ดินแดนต้องห้าม)", "/images/maps/westerntown_darktower_zone.png", lambda q: "ดาร์คทาวเวอร์" in q["raw_map_name"]),
-            ("เขาวงกตดิจิมอน (ทางเข้า & B2)", "/images/maps/digimon_labyrinth_field_zone.png", lambda q: "เขาวงกตดิจิมอน" in q["raw_map_name"] and any(k in q["raw_map_name"] for k in ["B2", "b2"]) or q["raw_map_name"] == "เขาวงกตดิจิมอน"),
+            ("เขาวงกตดิจิมอน (ทางเข้า)", "/images/maps/digimon_labyrinth_field_zone.png", lambda q: q["raw_map_name"] == "เขาวงกตดิจิมอน"),
+            ("เขาวงกตดิจิมอน ชั้น B2", "/images/maps/digimon_labyrinth_field_zone.png", lambda q: "เขาวงกตดิจิมอน" in q["raw_map_name"] and any(k in q["raw_map_name"] for k in ["B2", "b2"])),
             ("เขาวงกตดิจิมอน ชั้น 1 (F1)", "/images/maps/labyrinth_01_zone.png", lambda q: "เขาวงกตดิจิมอน F1" in q["raw_map_name"]),
             ("เขาวงกตดิจิมอน ชั้น 2 (F2)", "/images/maps/labyrinth_02_zone.png", lambda q: "เขาวงกตดิจิมอน F2" in q["raw_map_name"]),
             ("เขาวงกตดิจิมอน ชั้น 3 (F3)", "/images/maps/labyrinth_03_zone.png", lambda q: "Maze 3F" in q["raw_map_name"] or "เขาวงกตดิจิมอน F3" in q["raw_map_name"]),
@@ -177,7 +179,7 @@ CHAPTER_MAP_SPECS = [
         "maps": [
             ("D-เทอร์มินัล", "/images/maps/d_terminel_main01_zone.png", lambda q: "D-เทอร์มินัล" in q["raw_map_name"]),
             ("หมู่บ้านพายุหิมะ", "/images/maps/ice_land01_zone.png", lambda q: "หมู่บ้านพายุหิมะ" in q["raw_map_name"]),
-            ("หมู่บ้านมนุษย์หิมะ & กำแพงน้ำแข็ง", "/images/maps/ice_land03_zone.png", lambda q: any(k in q["raw_map_name"] for k in ["มนุษย์หิมะ", "กำแพงน้ำแข็ง", "ดินแดนน้ำแข็ง"])),
+            ("หมู่บ้านมนุษย์หิมะ", "/images/maps/ice_land03_zone.png", lambda q: any(k in q["raw_map_name"] for k in ["มนุษย์หิมะ", "กำแพงน้ำแข็ง", "ดินแดนน้ำแข็ง"])),
         ]
     },
     # 4. File Island
@@ -195,7 +197,8 @@ CHAPTER_MAP_SPECS = [
             ("พื้นที่อารยธรรมที่สูญหาย", "/images/maps/1303_zone.png", lambda q: "พื้นที่อารยธรรมที่สูญหาย" in q["raw_map_name"]),
             ("ซากอารยธรรมโบราณแห่งความลับ", "/images/maps/1304_mini.png", lambda q: "ซากอารยธรรมโบราณ" in q["raw_map_name"]),
             ("ชายฝั่งเกาะไฟล์", "/images/maps/1305_zone.png", lambda q: "ชายฝั่งเกาะไฟล์" in q["raw_map_name"]),
-            ("ภูเขาอินฟินิตี้ & รอยร้าวของเดวีมอน", "/images/maps/1311_zone.png", lambda q: any(k in q["raw_map_name"] for k in ["รอยร้าวของเดวีมอน", "หุบเขานิรันดร์", "ภูเขาอินฟินิตี้"])),
+            ("ภูเขาอินฟินิตี้", "/images/maps/1311_zone.png", lambda q: any(k in q["raw_map_name"] for k in ["หุบเขานิรันดร์", "ภูเขาอินฟินิตี้"])),
+            ("รอยร้าวของเดวีมอน", "/images/maps/1309_mini.png", lambda q: "รอยร้าวของเดวีมอน" in q["raw_map_name"]),
         ]
     },
     # 5. Server Continent
@@ -242,7 +245,8 @@ CHAPTER_MAP_SPECS = [
             ("ชิบูย่า", "/images/maps/202_zone.png", lambda q: "ชิบูย่า" in q["raw_map_name"]),
             ("โตเกียวทาวเวอร์", "/images/maps/203_zone.png", lambda q: "โตเกียวทาวเวอร์" in q["raw_map_name"]),
             ("มินาโตะซิตี้", "/images/maps/206_zone.png", lambda q: "มินาโตะซิตี้" in q["raw_map_name"]),
-            ("โอไดบะ & เรนโบว์ บริดจ์", "/images/maps/208_zone.png", lambda q: any(k in q["raw_map_name"] for k in ["โอไดบะ", "เรนโบว์ บริดจ์", "ฟูจิทีวี"])),
+            ("โอไดบะ", "/images/maps/208_zone.png", lambda q: "โอไดบะ" in q["raw_map_name"] or "ฟูจิทีวี" in q["raw_map_name"]),
+            ("เรนโบว์ บริดจ์", "/images/maps/208_zone.png", lambda q: "เรนโบว์ บริดจ์" in q["raw_map_name"]),
             ("บิ๊กไซท์", "/images/maps/207_zone.png", lambda q: "บิ๊กไซท์" in q["raw_map_name"]),
         ]
     },
@@ -256,9 +260,9 @@ CHAPTER_MAP_SPECS = [
         "key_unlocks": ["ปลดล็อคดันเจี้ยน D-Reaper Mother / Area Shinjuku", "ระบบวิวัฒนาการ Matrix Evolution (D-Ark)", "รับหินประดับและอุปกรณ์สเตตัสระดับเลทเกม"],
         "pro_tips": ["มอนสเตอร์ดีรีพเปอร์สามารถล้างสถานะบัฟได้ ให้ระวังการใช้สกิลที่มีคูลดาวน์นาน", "บอสในเขตชินจูกุมีระยะการโจมตีหมู่กว้างมาก ควรเตรียมดิจิมอนที่มีค่าบล็อกและเกราะสูง"],
         "maps": [
-            ("ชินจูกุ (กลางวัน & กลางคืน)", "/images/maps/250_zone.png", lambda q: "ชินจูกุ" in q["raw_map_name"] and "D-รีพเปอร์" not in q["raw_map_name"]),
+            ("ชินจูกุ", "/images/maps/250_zone.png", lambda q: "ชินจูกุ" in q["raw_map_name"] and "D-รีพเปอร์" not in q["raw_map_name"]),
             ("ดิจิมอนเทมเมอร์ส (หุบเขาแห่งแสงสว่าง)", "/images/maps/1800_zone.png", lambda q: any(k in q["raw_map_name"] for k in ["ดิจิมอนเทมเมอร์ส", "หุบเขาแห่งแสงสว่าง"])),
-            ("D-รีพเปอร์", "/images/maps/266_zone.png", lambda q: "D-รีพเปอร์" in q["raw_map_name"]),
+            ("D-รีพเปอร์", "/images/maps/266_Zone.png", lambda q: "D-รีพเปอร์" in q["raw_map_name"]),
         ]
     },
     # 9. Kaiser Domain (Adventure 02)
@@ -271,7 +275,7 @@ CHAPTER_MAP_SPECS = [
         "key_unlocks": ["ปลดล็อคระบบ Armor Evolution (Digi-Egg of Courage, Friendship)", "ปลดล็อคเควสความมืดของคิเมรามอน (Kimeramon Raid)", "รับไอเทมวัตถุดิบตีบวกอุปกรณ์ระดับไฮเอนด์"],
         "pro_tips": ["พื้นที่ของไกเซอร์ไม่อนุญาตให้ใช้วิวัฒนาการปกติได้ในบางจุด ต้องพึ่งพาร่างอาร์เมอร์เป็นหลัก", "อย่าลืมทำเควสสะสมดิจิเอ๊กก์เพื่อเปิดรูปแบบการวิวัฒนาการใหม่ๆ"],
         "maps": [
-            ("พื้นที่ของไกเซอร์ (Adventure 02)", "/images/maps/400_zone.png", lambda q: "พาวเวอร์ดิจิมอน" in q["raw_map_name"]),
+            ("พื้นที่ของไกเซอร์ (Adventure 02)", "/images/maps/400_Zone.png", lambda q: "พาวเวอร์ดิจิมอน" in q["raw_map_name"]),
             ("พื้นที่แห่งความว่างเปล่า", "/images/maps/1906_zone.png", lambda q: "พื้นที่แห่งความว่างเปล่า" in q["raw_map_name"]),
         ]
     },
@@ -301,7 +305,7 @@ CHAPTER_MAP_SPECS = [
         "key_unlocks": ["ปลดล็อคสปิริตดิจิมอนร่างไฮบริด (Hybrid Spirit Evolution)", "เปิดแผนที่ฟาร์มเลเวล 160-180 ที่ดีที่สุดในเกม", "ปลดล็อคระบบสแกนดิจิโค้ดและไอเทมระดับสูงสุดของเซิร์ฟเวอร์ไทย"],
         "pro_tips": ["เนื้อหาเลเวล 160-180 มอนสเตอร์มีดาเมจสูงและมีเกราะป้องกันมหาศาล ควรมีบัฟเด็คและซีลมาสเตอร์ระดับสูง", "อย่าลืมรับเควสดิจิโค้ดประจำวันเพื่อสะสมแต้มแลกอุปกรณ์ระดับตำนาน"],
         "maps": [
-            ("เทอร์มินัลแห่งเปลวเพลิง & วินด์ แฟคทอรี่", "/images/maps/500_zone.png", lambda q: "ดิจิมอนฟรอนเทียร์" in q["raw_map_name"] or any(k in q["raw_map_name"] for k in ["เปลวเพลิง", "วินด์", "สายลม"])),
+            ("ดิจิมอนฟรอนเทียร์", "/images/maps/500_Zone.png", lambda q: "ดิจิมอนฟรอนเทียร์" in q["raw_map_name"] or any(k in q["raw_map_name"] for k in ["เปลวเพลิง", "วินด์", "สายลม"])),
         ]
     }
 ]

@@ -4776,7 +4776,7 @@ function renderGuide() {
             <div class="guide-map-header-card">
               <!-- Map Image Thumbnail with Click-to-Zoom -->
               <div class="guide-map-thumb-wrap" onclick="openGuideMapModal('${esc(mSec.map_name)}', '${esc(mSec.map_image)}')" title="กดเพื่อดูรูปแผนที่ขนาดใหญ่">
-                <img src="${mSec.map_image}" class="guide-map-thumb-img" alt="${esc(mSec.map_name)}" onerror="this.src='/images/maps/105_zone.png'">
+                <img src="${mSec.map_image}" class="guide-map-thumb-img" alt="${esc(mSec.map_name)}" onerror="if(!this.dataset.cdn){this.dataset.cdn='1';this.src='https://pub-f7d271edf6e24f25b6b06f2767a3dfe3.r2.dev${mSec.map_image}';}else{this.src='/images/maps/105_zone.png';}">
                 <div class="guide-map-thumb-overlay">ดูรูป Map</div>
               </div>
 
@@ -4875,7 +4875,7 @@ function openGuideMapModal(name, url) {
         <button class="modal-close" onclick="closeGuideMapModal()" style="font-size:1.6rem;background:none;border:none;color:#fff;cursor:pointer;padding:0 4px;">&times;</button>
       </div>
       <div class="guide-map-modal-body">
-        <img src="${url}" class="guide-map-modal-img" alt="${esc(name)}" onerror="this.src='/images/maps/105_zone.png'">
+        <img src="${url}" class="guide-map-modal-img" alt="${esc(name)}" onerror="if(!this.dataset.cdn){this.dataset.cdn='1';this.src='https://pub-f7d271edf6e24f25b6b06f2767a3dfe3.r2.dev${url}';}else{this.src='/images/maps/105_zone.png';}">
       </div>
     </div>
   `;
