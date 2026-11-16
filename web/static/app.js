@@ -1,7 +1,7 @@
 // Digimon Thai Wiki - Interactive SPA Engine
 // Offline-first client. Digimon dex + dmowiki-style dossier with full evolution tree.
 
-const TABS = ['home', 'digimon', 'tamers', 'dungeons', 'patches', 'currency'];
+const TABS = ['home', 'digimon', 'tamers', 'dungeons', 'guide', 'patches', 'currency'];
 
 const STATE = {
   currentTab: 'home',
@@ -19,7 +19,15 @@ const STATE = {
     hasMore: true
   },
   tamers: { items: [], series: 'all', type: 'all', skillSystem: null },
-  dungeons: { items: [], map: 'all', kind: 'all' }
+  dungeons: { items: [], map: 'all', kind: 'all' },
+  guide: {
+    data: null,
+    chapters: [],
+    activeChapter: 'all',
+    searchQuery: '',
+    completedQuests: new Set(),
+    expandedChapters: new Set(['ch1_yokohama'])
+  }
 };
 
 const PLACEHOLDER = 'data:image/svg+xml,' + encodeURIComponent(
@@ -310,6 +318,14 @@ function handleRoute() {
     showDexView('eggs');
     if (ekey) openEgg(ekey);
     else closeEgg(true);
+  } else if (rawRoute === 'guide' || rawRoute.startsWith('guide/')) {
+    const chParam = rawRoute.startsWith('guide/') ? decodeURIComponent(rawRoute.slice(6)).trim() : '';
+    showTab('guide');
+    if (chParam && STATE.guide) {
+      STATE.guide.activeChapter = chParam;
+      STATE.guide.expandedChapters.add(chParam);
+      renderGuide();
+    }
   } else if (TABS.includes(rawRoute)) {
     showTab(rawRoute);
     if (rawRoute === 'tamers') showTamerList();
@@ -430,6 +446,7 @@ function showTab(tabId) {
 
   if (tabId === 'tamers') { loadTamers(); }
   if (tabId === 'dungeons') { loadDungeons(); }
+  if (tabId === 'guide') { loadGuide(); }
   if (tabId === 'patches') { loadPatches(); if (!getRoutePath().startsWith('patch/')) closePatch(true); }
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -4477,4 +4494,359 @@ function closeDUnitGroupModal() {
   const modal = document.getElementById('dunit-group-modal');
   if (modal) modal.style.display = 'none';
   document.body.style.overflow = '';
+}
+
+
+// ==========================================
+// GUIDE TAB (ไกด์เควสหลัก Main Quest Guideline)
+// ==========================================
+const GUIDE_STORAGE_KEY = 'dmo_guide_completed_quests_v1';
+
+function initGuideCompletedQuests() {
+  if (STATE.guide.completedQuests.size > 0) return;
+  try {
+    const raw = localStorage.getItem(GUIDE_STORAGE_KEY);
+    if (raw) {
+      const arr = JSON.parse(raw);
+      if (Array.isArray(arr)) {
+        STATE.guide.completedQuests = new Set(arr);
+      }
+    }
+  } catch (e) {
+    console.warn('Failed to load completed quests from localStorage:', e);
+  }
+}
+
+function saveGuideCompletedQuests() {
+  try {
+    const arr = Array.from(STATE.guide.completedQuests);
+    localStorage.setItem(GUIDE_STORAGE_KEY, JSON.stringify(arr));
+  } catch (e) {
+    console.warn('Failed to save completed quests to localStorage:', e);
+  }
+}
+
+async function loadGuide() {
+  initGuideCompletedQuests();
+  const container = document.getElementById('guide-chapters-container');
+  if (container && !STATE.guide.data) {
+    container.innerHTML = `
+      <div style="padding: 40px; text-align: center; color: var(--text-muted);">
+        <div class="skel" style="width: 48px; height: 48px; border-radius: 50%; margin: 0 auto 16px auto;"></div>
+        <div>กำลังโหลดข้อมูลไกด์เควสหลักจากเซิร์ฟเวอร์ไทย...</div>
+      </div>
+    `;
+  }
+
+  try {
+    const res = await fetch('/api/guide');
+    const data = await res.json();
+    STATE.guide.data = data;
+    STATE.guide.chapters = data.chapters || [];
+    renderGuide();
+  } catch (err) {
+    console.error('Failed to load guide data:', err);
+    if (container) {
+      container.innerHTML = `
+        <div style="padding: 30px; text-align: center; color: var(--color-danger);">
+          ไม่สามารถโหลดข้อมูลไกด์เควสหลักได้ กรุณาลองใหม่อีกครั้ง
+        </div>
+      `;
+    }
+  }
+}
+
+function renderGuide() {
+  const chapters = STATE.guide.chapters || [];
+  if (!chapters.length) return;
+
+  const searchQ = (STATE.guide.searchQuery || '').trim().toLowerCase();
+  const activeCh = STATE.guide.activeChapter || 'all';
+
+  // 1. Render Chapter Pills
+  const pillsBox = document.getElementById('guide-chapter-pills');
+  if (pillsBox) {
+    let pillsHtml = `
+      <button class="filter-pill ${activeCh === 'all' ? 'active' : ''}" onclick="setGuideActiveChapter('all')">
+        ทุกบท (ทั้งหมด 11 บท)
+      </button>
+    `;
+    chapters.forEach(ch => {
+      const isActive = activeCh === ch.id;
+      pillsHtml += `
+        <button class="filter-pill ${isActive ? 'active' : ''}" onclick="setGuideActiveChapter('${esc(ch.id)}')">
+          บทที่ ${ch.number}: ${esc(ch.badge)} <small>${ch.quest_count}</small>
+        </button>
+      `;
+    });
+    pillsBox.innerHTML = pillsHtml;
+  }
+
+  // 2. Calculate Progress
+  let totalQuestsCount = 0;
+  let totalDoneCount = 0;
+  let shownQuestsCount = 0;
+
+  chapters.forEach(ch => {
+    (ch.quests || []).forEach(q => {
+      totalQuestsCount++;
+      if (STATE.guide.completedQuests.has(q.id)) {
+        totalDoneCount++;
+      }
+    });
+  });
+
+  const pct = totalQuestsCount > 0 ? Math.round((totalDoneCount / totalQuestsCount) * 100) : 0;
+  const pText = document.getElementById('guide-progress-text');
+  const pBar = document.getElementById('guide-progress-bar');
+  if (pText) pText.innerText = `${totalDoneCount.toLocaleString()} / ${totalQuestsCount.toLocaleString()} เควส (${pct}%)`;
+  if (pBar) pBar.style.width = `${pct}%`;
+
+  // 3. Filter Chapters & Quests
+  const container = document.getElementById('guide-chapters-container');
+  if (!container) return;
+
+  let chaptersHtml = '';
+
+  chapters.forEach(ch => {
+    if (activeCh !== 'all' && activeCh !== ch.id) return;
+
+    let quests = ch.quests || [];
+    if (searchQ) {
+      quests = quests.filter(q => {
+        const title = (q.title || '').toLowerCase();
+        const map = (q.map_name || '').toLowerCase();
+        const snpc = (q.start_npc || '').toLowerCase();
+        const enpc = (q.end_npc || '').toLowerCase();
+        const story = (q.story || '').toLowerCase();
+        const objs = (q.objectives || []).map(o => (o.target_name || '').toLowerCase()).join(' ');
+        const rews = (q.reward_items || []).map(r => (r.name || '').toLowerCase()).join(' ');
+        return title.includes(searchQ) || map.includes(searchQ) || snpc.includes(searchQ) ||
+               enpc.includes(searchQ) || story.includes(searchQ) || objs.includes(searchQ) || rews.includes(searchQ);
+      });
+    }
+
+    if (activeCh !== 'all' || !searchQ || quests.length > 0) {
+      shownQuestsCount += quests.length;
+      const isExpanded = searchQ ? true : STATE.guide.expandedChapters.has(ch.id);
+      
+      // Calculate chapter done count
+      const chDoneCount = (ch.quests || []).filter(q => STATE.guide.completedQuests.has(q.id)).length;
+      const chPct = ch.quest_count > 0 ? Math.round((chDoneCount / ch.quest_count) * 100) : 0;
+
+      // Maps HTML tags
+      const mapsHtml = (ch.maps || []).map(m => `
+        <span class="guide-badge-map"><img src="/images/ui/ui_dungeon.png" class="btn-game-icon" style="width:12px;height:12px;margin:0" alt=""> ${esc(m)}</span>
+      `).join('');
+
+      // Unlocks HTML
+      const unlocksHtml = (ch.key_unlocks || []).map(u => `
+        <span class="guide-unlock-tag">✔ ${esc(u)}</span>
+      `).join('');
+
+      // Pro Tips HTML
+      const tipsHtml = (ch.pro_tips || []).map(t => `
+        <div style="display:flex;gap:6px;align-items:flex-start;margin-bottom:4px;">
+          <span>💡</span> <div>${esc(t)}</div>
+        </div>
+      `).join('');
+
+      // Quests list HTML
+      let questsHtml = '';
+      if (quests.length === 0) {
+        questsHtml = `<div style="padding: 16px; text-align: center; color: var(--text-muted); font-size: 0.85rem;">ไม่พบเควสที่ตรงกับคำค้นหาในบทนี้</div>`;
+      } else {
+        questsHtml = quests.map((q, idx) => {
+          const isDone = STATE.guide.completedQuests.has(q.id);
+
+          // Objectives
+          const objLines = (q.objectives || []).map(o => {
+            let tagClass = 'item';
+            if (o.type === 0) tagClass = 'defeat';
+            if (o.type === 4) tagClass = 'talk';
+            return `
+              <div class="guide-obj-line">
+                <span class="guide-obj-tag ${tagClass}">${esc(o.type_label)}</span>
+                <strong>${esc(o.target_name)}</strong>
+                ${o.count > 1 ? `<span style="color:var(--color-primary);font-weight:700;">x${o.count}</span>` : ''}
+              </div>
+            `;
+          }).join('');
+
+          // Rewards
+          let rewTags = [];
+          if (q.exp > 0) rewTags.push(`<span class="guide-rew-tag exp">EXP +${q.exp.toLocaleString()}</span>`);
+          if (q.bit > 0) {
+            const bitStr = formatMoneyThai(q.bit);
+            rewTags.push(`<span class="guide-rew-tag bit"><img src="/images/Currency_Tera.png" class="btn-game-icon" style="width:12px;height:12px;margin:0" alt=""> ${bitStr}</span>`);
+          }
+          (q.reward_items || []).forEach(r => {
+            rewTags.push(`<span class="guide-rew-tag item">🎁 ${esc(r.name)} x${r.count}</span>`);
+          });
+
+          return `
+            <div class="guide-quest-item ${isDone ? 'is-done' : ''}" id="quest-item-${q.id}">
+              <input type="checkbox" class="guide-quest-check" ${isDone ? 'checked' : ''} onchange="toggleQuestDone(${q.id})" title="ติ๊กเมื่อทำเควสนี้เสร็จแล้ว">
+              <div class="guide-quest-main">
+                <div class="guide-quest-title-row">
+                  <span class="guide-quest-title">#${idx + 1}. ${esc(q.title)}</span>
+                  <span class="guide-badge-lvl">Lv. ${q.level || 1}</span>
+                  <span class="guide-badge-map"><img src="/images/ui/ui_dungeon.png" class="btn-game-icon" style="width:12px;height:12px;margin:0" alt=""> ${esc(q.map_name || 'ไม่ระบุแมพ')}</span>
+                  <small style="color:var(--text-sub);font-size:0.75rem;">(ID: ${q.id})</small>
+                </div>
+
+                <div class="guide-quest-flow">
+                  <span>ผู้มอบ: <span class="guide-npc-badge">${esc(q.start_npc || 'เริ่มอัตโนมัติ')}</span></span>
+                  <span class="guide-flow-arrow">➔</span>
+                  <span>ผู้รับส่ง: <span class="guide-npc-badge">${esc(q.end_npc || 'ส่งอัตโนมัติ')}</span></span>
+                </div>
+
+                ${objLines ? `<div class="guide-quest-obj">${objLines}</div>` : ''}
+
+                ${q.story ? `
+                  <div style="font-size:0.78rem;color:var(--text-sub);line-height:1.45;background:rgba(0,0,0,0.25);padding:6px 10px;border-radius:4px;">
+                    ${esc(q.story).replace(/\\n/g, '<br>')}
+                  </div>
+                ` : ''}
+
+                ${rewTags.length > 0 ? `<div class="guide-quest-rewards">${rewTags.join('')}</div>` : ''}
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      chaptersHtml += `
+        <div class="guide-chapter-card ${isExpanded ? 'expanded' : ''}" id="guide-ch-card-${ch.id}">
+          <div class="guide-chapter-header" onclick="toggleGuideChapter('${esc(ch.id)}')">
+            <div class="guide-ch-left">
+              <div class="guide-ch-num">${ch.number}</div>
+              <div class="guide-ch-title-wrap">
+                <h3>
+                  <span>${esc(ch.title)}</span>
+                  <span class="badge" style="background:rgba(56,189,248,0.15);color:#38bdf8;border-color:rgba(56,189,248,0.3);font-size:0.74rem;">${esc(ch.level_range)}</span>
+                </h3>
+                <div class="guide-ch-meta">
+                  <span>ความคืบหน้า: <strong style="color:${chPct === 100 ? '#10b981' : 'var(--color-primary)'};">${chDoneCount}/${ch.quest_count} (${chPct}%)</strong></span>
+                  <span>·</span>
+                  <span>แมพ: ${mapsHtml}</span>
+                </div>
+              </div>
+            </div>
+            <div class="guide-ch-right">
+              <span class="badge" style="background:rgba(255,255,255,0.06);color:var(--text-muted);border-color:var(--border-color);">${quests.length} เควส</span>
+              <div class="guide-ch-toggle-btn">▼</div>
+            </div>
+          </div>
+
+          <div class="guide-chapter-body" style="display: ${isExpanded ? 'block' : 'none'};">
+            <div class="guide-ch-details-box">
+              <p class="guide-summary-p"><strong>เนื้อเรื่องย่อ:</strong> ${esc(ch.summary)}</p>
+              ${unlocksHtml ? `
+                <div style="display:flex;flex-direction:column;gap:4px;">
+                  <span style="font-size:0.8rem;color:var(--text-muted);font-weight:600;">สิ่งที่ปลดล็อคในบทนี้:</span>
+                  <div class="guide-unlocks-box">${unlocksHtml}</div>
+                </div>
+              ` : ''}
+              ${tipsHtml ? `<div class="guide-tip-box">${tipsHtml}</div>` : ''}
+            </div>
+
+            <div class="guide-quests-list">
+              ${questsHtml}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+  });
+
+  container.innerHTML = chaptersHtml;
+
+  const shownCountEl = document.getElementById('guide-shown-count');
+  if (shownCountEl) shownCountEl.innerText = shownQuestsCount.toLocaleString();
+}
+
+function formatMoneyThai(bits) {
+  if (!bits || bits <= 0) return '0 B';
+  let t = Math.floor(bits / 10000000);
+  let rem = bits % 10000000;
+  let m = Math.floor(rem / 10000);
+  rem = rem % 10000;
+  let b = rem;
+  
+  let parts = [];
+  if (t > 0) parts.push(`${t} T`);
+  if (m > 0) parts.push(`${m} M`);
+  if (b > 0 || parts.length === 0) parts.push(`${b} B`);
+  return parts.join(' ');
+}
+
+function toggleGuideChapter(chId) {
+  if (STATE.guide.expandedChapters.has(chId)) {
+    STATE.guide.expandedChapters.delete(chId);
+  } else {
+    STATE.guide.expandedChapters.add(chId);
+  }
+  const card = document.getElementById(`guide-ch-card-${chId}`);
+  if (card) {
+    const isExp = STATE.guide.expandedChapters.has(chId);
+    card.classList.toggle('expanded', isExp);
+    const body = card.querySelector('.guide-chapter-body');
+    if (body) body.style.display = isExp ? 'block' : 'none';
+  }
+}
+
+function setGuideActiveChapter(chId) {
+  STATE.guide.activeChapter = chId;
+  if (chId !== 'all') {
+    STATE.guide.expandedChapters.add(chId);
+  }
+  renderGuide();
+}
+
+let _guideSearchTimeout = null;
+function onGuideSearchChange() {
+  clearTimeout(_guideSearchTimeout);
+  _guideSearchTimeout = setTimeout(() => {
+    const inp = document.getElementById('guide-search-input');
+    STATE.guide.searchQuery = inp ? inp.value : '';
+    renderGuide();
+  }, 200);
+}
+
+function toggleQuestDone(questId) {
+  if (STATE.guide.completedQuests.has(questId)) {
+    STATE.guide.completedQuests.delete(questId);
+  } else {
+    STATE.guide.completedQuests.add(questId);
+  }
+  saveGuideCompletedQuests();
+
+  const itemEl = document.getElementById(`quest-item-${questId}`);
+  if (itemEl) {
+    itemEl.classList.toggle('is-done', STATE.guide.completedQuests.has(questId));
+  }
+
+  // Update progress numbers without rebuilding full dom
+  let totalQuestsCount = 0;
+  let totalDoneCount = 0;
+  (STATE.guide.chapters || []).forEach(ch => {
+    (ch.quests || []).forEach(q => {
+      totalQuestsCount++;
+      if (STATE.guide.completedQuests.has(q.id)) totalDoneCount++;
+    });
+  });
+  const pct = totalQuestsCount > 0 ? Math.round((totalDoneCount / totalQuestsCount) * 100) : 0;
+  const pText = document.getElementById('guide-progress-text');
+  const pBar = document.getElementById('guide-progress-bar');
+  if (pText) pText.innerText = `${totalDoneCount.toLocaleString()} / ${totalQuestsCount.toLocaleString()} เควส (${pct}%)`;
+  if (pBar) pBar.style.width = `${pct}%`;
+}
+
+function resetGuideProgress() {
+  if (confirm('คุณต้องการล้างประวัติการทำเควสที่บันทึกไว้ทั้งหมดหรือไม่?')) {
+    STATE.guide.completedQuests.clear();
+    saveGuideCompletedQuests();
+    renderGuide();
+  }
 }

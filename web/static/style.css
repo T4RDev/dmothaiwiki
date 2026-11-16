@@ -5045,3 +5045,366 @@ html[data-boot-route="not-found"] #view-not-found { display: block !important; }
     grid-template-columns: 1fr 1fr;
   }
 }
+
+
+/* ==========================================================================
+   GUIDE TAB (ไกด์เควสหลัก Main Quest Guideline)
+   ========================================================================== */
+.guide-progress-box {
+  background: rgba(19, 27, 40, 0.85);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 10px 14px;
+}
+
+.guide-progress-track {
+  width: 100%;
+  height: 8px;
+  background: rgba(11, 15, 23, 0.9);
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.guide-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #f59e0b, #10b981);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.guide-chapter-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  transition: border-color 0.2s ease;
+}
+
+.guide-chapter-card:hover {
+  border-color: var(--border-light);
+}
+
+.guide-chapter-card.expanded {
+  border-color: rgba(245, 158, 11, 0.45);
+}
+
+.guide-chapter-header {
+  padding: 16px 20px;
+  background: linear-gradient(180deg, rgba(30, 42, 63, 0.6) 0%, rgba(19, 27, 40, 0.9) 100%);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  user-select: none;
+}
+
+.guide-ch-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex: 1;
+}
+
+.guide-ch-num {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(16, 185, 129, 0.15));
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  color: var(--color-primary);
+  font-weight: 800;
+  font-size: 1.15rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.guide-ch-title-wrap h3 {
+  margin: 0 0 4px 0;
+  font-size: 1.1rem;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.guide-ch-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  flex-wrap: wrap;
+}
+
+.guide-ch-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.guide-ch-toggle-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.25s ease, background 0.2s ease;
+}
+
+.guide-chapter-card.expanded .guide-ch-toggle-btn {
+  transform: rotate(180deg);
+  background: rgba(245, 158, 11, 0.15);
+  color: var(--color-primary);
+}
+
+.guide-chapter-body {
+  padding: 0 20px 20px 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.guide-ch-details-box {
+  background: rgba(11, 15, 23, 0.6);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin: 16px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.guide-summary-p {
+  font-size: 0.86rem;
+  color: var(--text-main);
+  line-height: 1.55;
+  margin: 0;
+}
+
+.guide-unlocks-box {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.guide-unlock-tag {
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: #34d399;
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 0.76rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.guide-tip-box {
+  background: rgba(245, 158, 11, 0.08);
+  border-left: 3px solid var(--color-primary);
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 0.8rem;
+  color: #fde68a;
+  line-height: 1.45;
+}
+
+.guide-quests-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.guide-quest-item {
+  background: rgba(19, 27, 40, 0.7);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 12px 14px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 12px;
+  align-items: flex-start;
+  transition: background 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+}
+
+.guide-quest-item:hover {
+  background: rgba(30, 42, 63, 0.5);
+  border-color: var(--border-light);
+}
+
+.guide-quest-item.is-done {
+  opacity: 0.65;
+  background: rgba(16, 185, 129, 0.05);
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+.guide-quest-check {
+  margin-top: 2px;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  accent-color: #10b981;
+}
+
+.guide-quest-main {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.guide-quest-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.guide-quest-title {
+  font-weight: 700;
+  font-size: 0.94rem;
+  color: #fff;
+}
+
+.guide-quest-item.is-done .guide-quest-title {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+
+.guide-badge-lvl {
+  background: rgba(56, 189, 248, 0.15);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  color: #38bdf8;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+.guide-badge-map {
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  color: #fbbf24;
+  font-size: 0.72rem;
+  padding: 1px 6px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.guide-quest-flow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  flex-wrap: wrap;
+}
+
+.guide-npc-badge {
+  color: #e2e8f0;
+  font-weight: 600;
+}
+
+.guide-flow-arrow {
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+.guide-quest-obj {
+  font-size: 0.82rem;
+  color: var(--text-main);
+  background: rgba(11, 15, 23, 0.7);
+  padding: 6px 10px;
+  border-radius: 6px;
+  border-left: 2px solid var(--color-accent);
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.guide-obj-line {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.guide-obj-tag {
+  font-size: 0.72rem;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-weight: 600;
+}
+
+.guide-obj-tag.defeat { background: rgba(239, 68, 68, 0.2); color: #f87171; }
+.guide-obj-tag.item { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
+.guide-obj-tag.talk { background: rgba(56, 189, 248, 0.2); color: #38bdf8; }
+
+.guide-quest-rewards {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  font-size: 0.76rem;
+}
+
+.guide-rew-tag {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-color);
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.guide-rew-tag.exp {
+  background: rgba(168, 85, 247, 0.12);
+  border-color: rgba(168, 85, 247, 0.3);
+  color: #c084fc;
+}
+
+.guide-rew-tag.bit {
+  background: rgba(245, 158, 11, 0.12);
+  border-color: rgba(245, 158, 11, 0.3);
+  color: #fbbf24;
+}
+
+.guide-rew-tag.item {
+  background: rgba(16, 185, 129, 0.12);
+  border-color: rgba(16, 185, 129, 0.3);
+  color: #34d399;
+}
+
+@media (max-width: 640px) {
+  .guide-chapter-header {
+    padding: 12px 14px;
+  }
+  .guide-ch-num {
+    width: 36px;
+    height: 36px;
+    font-size: 0.95rem;
+  }
+  .guide-chapter-body {
+    padding: 0 12px 16px 12px;
+  }
+  .guide-quest-item {
+    grid-template-columns: auto 1fr;
+    padding: 10px 12px;
+  }
+}

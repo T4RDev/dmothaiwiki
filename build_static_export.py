@@ -68,6 +68,7 @@ caches = [
     ("npc_exchanges_cache.json", "npc_exchanges.json"),
     ("seals_cache.json", "seals.json"),
     ("tamers_cache.json", "tamers.json"),
+    ("main_quests_cache.json", "main_quests.json"),
 ]
 
 for src_name, dst_name in caches:

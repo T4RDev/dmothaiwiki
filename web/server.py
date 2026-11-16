@@ -265,7 +265,8 @@ def build_cache():
                 ("jogress_quests", "jogress_quests_cache.json"),
                 ("eggs", "eggs_cache.json"),
                 ("dunits", "dunits_cache.json"),
-                ("npc_exchanges", "npc_exchanges_cache.json")
+                ("npc_exchanges", "npc_exchanges_cache.json"),
+                ("guide", "main_quests_cache.json")
             ]:
                 f = base / filename
                 if f.exists():
@@ -1147,6 +1148,18 @@ def get_dungeons(q: Optional[str] = Query(None), dtype: Optional[str] = Query(No
         results = [d for d in results if d.get("tier") == dtype]
     return {"total": len(results), "items": results}
 
+
+@app.get("/api/guide")
+def get_guide():
+    """Main quest guideline chapters (Early game to Endgame Lv. 180) from Thai client."""
+    if "guide" not in CACHE:
+        f = Path(__file__).resolve().parent / "main_quests_cache.json"
+        if f.exists():
+            CACHE["guide"] = json.loads(f.read_text(encoding="utf-8"))
+        else:
+            return {"chapters": [], "total_chapters": 0}
+    return CACHE["guide"]
+
 @app.get("/api/crafts")
 def get_crafts(q: Optional[str] = Query(None), npc: Optional[str] = Query(None)):
     results = CACHE["crafts"]
@@ -1239,6 +1252,8 @@ def _render_index_html(status_code: int = 200):
 @app.get("/tamer-equip")
 @app.get("/dungeons")
 @app.get("/dungeon/{rest:path}")
+@app.get("/guide")
+@app.get("/guide/{rest:path}")
 @app.get("/patches")
 @app.get("/patch/{rest:path}")
 @app.get("/currency")
@@ -1270,10 +1285,10 @@ def on_startup():
 
 if __name__ == "__main__":
     build_cache()
+    port = int(os.environ.get("PORT", 8000))
     print("\n=======================================================")
     print(" [DMO WIKI] DIGIMON THAI WIKI SERVER IS RUNNING!")
-    print(" [DMO WIKI] URL: http://localhost:8001")
+    print(f" [DMO WIKI] URL: http://localhost:{port}")
     print(" [DMO WIKI] Ready for Mobile & Desktop (100% Offline Capable)")
     print("=======================================================\n")
-    port = int(os.environ.get("PORT", 8001))
     uvicorn.run(app, host="0.0.0.0", port=port)

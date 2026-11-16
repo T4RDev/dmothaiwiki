@@ -16,6 +16,7 @@
     jogress: null,
     dunits: null,
     npcExchanges: null,
+    guide: null,
     patches: null,
     stats: null
   };
@@ -94,6 +95,12 @@
           const d = await loadData('dungeons', '/data/dungeons.json');
           const list = Array.isArray(d) ? d : (d.items || []);
           return jsonResponse({ total: list.length, items: list });
+        }
+
+        // 4.1 /api/guide
+        if (path === '/api/guide') {
+          const d = await loadData('guide', '/data/main_quests.json');
+          return jsonResponse(d || { chapters: [], total_chapters: 0 });
         }
 
         // 5. /api/decks
