@@ -5520,6 +5520,44 @@ html[data-boot-route="not-found"] #view-not-found { display: block !important; }
   color: #a7f3d0;
 }
 
+.guide-map-next-box {
+  background: rgba(59, 130, 246, 0.08);
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 0.8rem;
+  color: #bfdbfe;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.guide-badge-digilvl {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  background: rgba(168, 85, 247, 0.15);
+  color: #d8b4fe;
+  border: 1px solid rgba(168, 85, 247, 0.3);
+}
+
+.guide-quest-pre-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.72rem;
+  color: #fcd34d;
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  margin-top: 4px;
+}
+
 .guide-npc-avatar-box {
   width: 48px;
   height: 48px;

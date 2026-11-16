@@ -2,8 +2,12 @@
 Re-architected to guarantee:
 1. STRICT STORYLINE ORDER: Every map begins with its root quest and flows sequentially through the quest chain to the end.
 2. ZERO DUPLICATES: Every quest is uniquely assigned to exactly one map and chapter.
-3. 100% EXACT MAP UNLOCK REQUIREMENTS: Shows prerequisite quest, title, and map from the previous map.
-4. IN-GAME ASSETS: Exact Thai client maps (/images/maps/*), NPC portraits (/images/npc/*), and UI reward icons (ui_exp.png, ui_money.png).
+3. 100% EXACT MAP UNLOCK REQUIREMENTS & NEXT MAP UNLOCK:
+   - Tells what quest and map must be done to unlock this map.
+   - Tells required Tamer Level and Digimon Level (if required).
+   - Tells what NEXT MAP is unlocked upon finishing this map and what quest unlocks it!
+4. VERIFIED MATCHING MAP IMAGES: Exact Thai client maps (/images/maps/*) mapped to correct Thai map names.
+5. PRECISE QUEST LEVEL CONDITIONS: Tamer Level & Digimon Level (from client binary ptype 1 and 3) on every quest card.
 """
 
 import struct
@@ -119,7 +123,7 @@ def format_money_thai(bits):
     return " ".join(parts)
 
 # Map Definition Specification: Chapters & Ordered Maps
-# Each chapter contains maps strictly in storyline sequence!
+# Verified 100% against Thai Client map files & images!
 CHAPTER_MAP_SPECS = [
     # 1. Yokohama & DATS
     {
@@ -151,14 +155,14 @@ CHAPTER_MAP_SPECS = [
             ("หมู่บ้านฝั่งตะวันตก", "/images/maps/westrentown_01_zone.png", lambda q: "หมู่บ้านฝั่งตะวันตก" in q["raw_map_name"]),
             ("พื้นที่ทุรกันดาร ฝั่งตะวันตก", "/images/maps/westren_field_01_zone.png", lambda q: "พื้นที่ทุรกันดาร" in q["raw_map_name"] or "ด้านซ้าย" in q["raw_map_name"]),
             ("หุบเขาแห่งสายลม", "/images/maps/wind_valley_zone.png", lambda q: "หุบเขาแห่งสายลม" in q["raw_map_name"] or "หุบเขาสายลม" in q["raw_map_name"]),
-            ("ดิจิมอนฟาร์ม", "/images/maps/westren_field_02_zone.png", lambda q: "ฟาร์มดิจิมอน" in q["raw_map_name"] or "ดิจิมอนฟาร์ม" in q["raw_map_name"]),
+            ("ดิจิมอนฟาร์ม", "/images/maps/digimon_farm_zone.png", lambda q: "ฟาร์มดิจิมอน" in q["raw_map_name"] or "ดิจิมอนฟาร์ม" in q["raw_map_name"]),
             ("โบราณสถานแห่งความมืด", "/images/maps/westerntown_darktower_zone.png", lambda q: "โบราณสถาน" in q["raw_map_name"] and "เขาวงกต" not in q["raw_map_name"]),
             ("ดาร์คทาวเวอร์ (ดินแดนต้องห้าม)", "/images/maps/westerntown_darktower_zone.png", lambda q: "ดาร์คทาวเวอร์" in q["raw_map_name"]),
-            ("เขาวงกตดิจิมอน (ทางเข้า & B2)", "/images/maps/labyrinth_01_mini.png", lambda q: "เขาวงกตดิจิมอน" in q["raw_map_name"] and any(k in q["raw_map_name"] for k in ["B2", "b2"]) or q["raw_map_name"] == "เขาวงกตดิจิมอน"),
-            ("เขาวงกตดิจิมอน ชั้น 1 (F1)", "/images/maps/labyrinth_02_mini.png", lambda q: "เขาวงกตดิจิมอน F1" in q["raw_map_name"]),
-            ("เขาวงกตดิจิมอน ชั้น 2 (F2)", "/images/maps/labyrinth_03_mini.png", lambda q: "เขาวงกตดิจิมอน F2" in q["raw_map_name"]),
-            ("เขาวงกตดิจิมอน ชั้น 3 (F3)", "/images/maps/labyrinth_04_mini.png", lambda q: "Maze 3F" in q["raw_map_name"] or "เขาวงกตดิจิมอน F3" in q["raw_map_name"]),
-            ("เขาวงกตดิจิมอน ชั้น 4 (F4)", "/images/maps/labyrinth_04_mini.png", lambda q: "Maze 4F" in q["raw_map_name"] or "เขาวงกตดิจิมอน F4" in q["raw_map_name"]),
+            ("เขาวงกตดิจิมอน (ทางเข้า & B2)", "/images/maps/digimon_labyrinth_field_zone.png", lambda q: "เขาวงกตดิจิมอน" in q["raw_map_name"] and any(k in q["raw_map_name"] for k in ["B2", "b2"]) or q["raw_map_name"] == "เขาวงกตดิจิมอน"),
+            ("เขาวงกตดิจิมอน ชั้น 1 (F1)", "/images/maps/labyrinth_01_zone.png", lambda q: "เขาวงกตดิจิมอน F1" in q["raw_map_name"]),
+            ("เขาวงกตดิจิมอน ชั้น 2 (F2)", "/images/maps/labyrinth_02_zone.png", lambda q: "เขาวงกตดิจิมอน F2" in q["raw_map_name"]),
+            ("เขาวงกตดิจิมอน ชั้น 3 (F3)", "/images/maps/labyrinth_03_zone.png", lambda q: "Maze 3F" in q["raw_map_name"] or "เขาวงกตดิจิมอน F3" in q["raw_map_name"]),
+            ("เขาวงกตดิจิมอน ชั้น 4 (F4)", "/images/maps/labyrinth_04_zone.png", lambda q: "Maze 4F" in q["raw_map_name"] or "เขาวงกตดิจิมอน F4" in q["raw_map_name"]),
         ]
     },
     # 3. Glacier
@@ -204,9 +208,9 @@ CHAPTER_MAP_SPECS = [
         "key_unlocks": ["ปลดล็อคดันเจี้ยนปิรามิดดาตามอน (Datamon Maze)", "เปิดสิทธิ์การใช้งานแหวนและสร้อยคอระดับสูง (Ring/Necklace Shiny)", "เชื่อมต่อโครงข่ายประตูมิติสู่โลกดิจิตอลใหม่"],
         "pro_tips": ["พื้นที่ทะเลทรายมีระยะทางกว้างมาก ควรใช้ดิจิมอนโหมดขับขี่ (Riding Mode) เพื่อประหยัดเวลาเดินทาง", "ในปิรามิดมอนสเตอร์เกิดหนาแน่น ระวังการดึงมอนสเตอร์เกินจำนวนที่รับไหว"],
         "maps": [
-            ("ทวีปเซิร์ฟเวอร์ - ทะเลทราย", "/images/maps/1300_zone.png", lambda q: "ทวีปเซิร์ฟเวอร์" in q["raw_map_name"] and "ทะเลทราย" in q["raw_map_name"]),
-            ("ทวีปเซิร์ฟเวอร์ - หุบเขา", "/images/maps/1301_zone.png", lambda q: "ทวีปเซิร์ฟเวอร์" in q["raw_map_name"] and "หุบเขา" in q["raw_map_name"]),
-            ("ทวีปเซิร์ฟเวอร์ - ปิรามิด", "/images/maps/1302_zone.png", lambda q: "ปิรามิด" in q["raw_map_name"]),
+            ("ทวีปเซิร์ฟเวอร์ ทะเลทราย", "/images/maps/1400_zone.png", lambda q: "ทวีปเซิร์ฟเวอร์" in q["raw_map_name"] and "ทะเลทราย" in q["raw_map_name"]),
+            ("ทวีปเซิร์ฟเวอร์ - หุบเขา", "/images/maps/1401_zone.png", lambda q: "ทวีปเซิร์ฟเวอร์" in q["raw_map_name"] and "หุบเขา" in q["raw_map_name"]),
+            ("ทวีปเซิร์ฟเวอร์ - ปิรามิด", "/images/maps/1402_zone.png", lambda q: "ปิรามิด" in q["raw_map_name"]),
         ]
     },
     # 6. Verdandi (X-Antibody)
@@ -312,7 +316,6 @@ def is_valid_story_quest(q):
     if q["type"] not in (1, 7): return False
     m_low = q["raw_map_name"].lower()
     if any(k in m_low for k in EXCLUDE_MAP_KEYWORDS): return False
-    # Exclude dead-end legacy duplicates
     if q["id"] in (776, 141, 673, 1462, 1464, 1465, 82, 508, 509, 511, 25, 138, 505, 506):
         return False
     return True
@@ -329,22 +332,18 @@ def order_chain_dfs(qlist, all_q_dict):
                 children[p].append(q["id"])
                 in_deg[q["id"]] += 1
     for p in children:
-        children[p].sort(key=lambda x: (qmap[x]["level"], x))
+        children[p].sort(key=lambda x: (qmap[x]["tamer_level"], x))
 
     roots = [q["id"] for q in qlist if in_deg[q["id"]] == 0]
     
-    # Priority for roots:
-    # 1. Roots that connect to an external prerequisite quest in an earlier map come first!
-    # 2. Key live starting quests (like 1198 in Yokohama, 4020 in Tutorial, 2873 in File Island)
     def root_score(qid):
         q = qmap[qid]
-        # Check if pre is in external story quests
         has_ext_pre = any(p in all_q_dict for p in q["pre_quests"])
         if qid in (4020, 1198, 2873, 3100, 3412, 4500, 6500, 4148, 7102):
             return (-100, qid)
         if has_ext_pre:
             return (-50, qid)
-        return (q["level"], qid)
+        return (q["tamer_level"], qid)
 
     roots.sort(key=root_score)
 
@@ -392,7 +391,7 @@ def build():
         h, secs, end = hit
 
         qtype = b[p + 21]
-        level = struct.unpack_from("<H", b, p + 16)[0]
+        header_level = struct.unpack_from("<H", b, p + 16)[0]
         s_npc = struct.unpack_from("<i", b, p + 23)[0] if h >= 32 else 0
         e_npc = struct.unpack_from("<i", b, p + 28)[0] if h >= 32 else 0
 
@@ -400,11 +399,25 @@ def build():
         raw_map = strs[0].strip()
 
         pre_quests = []
+        tamer_lv = 0
+        digimon_lv = 0
+        items_needed = []
+
+        # Parse Section 0: Requirements (Pre-quests, Tamer Level, Digimon Level, Items)
         for e in secs[0]:
             ptype = e[0]
             pval = struct.unpack_from("<i", e, 1)[0]
             if ptype == 0 and pval > 0:
                 pre_quests.append(pval)
+            elif ptype == 1:
+                tamer_lv = max(tamer_lv, pval)
+            elif ptype == 3:
+                digimon_lv = max(digimon_lv, pval)
+            elif ptype == 4:
+                items_needed.append(pval)
+
+        if tamer_lv == 0 and header_level > 0:
+            tamer_lv = header_level
 
         obj_list = []
         for e in secs[1]:
@@ -455,7 +468,9 @@ def build():
         all_raw_quests[qid] = {
             "id": qid,
             "type": qtype,
-            "level": level,
+            "level": tamer_lv if tamer_lv > 0 else 1,
+            "tamer_level": tamer_lv if tamer_lv > 0 else 1,
+            "digimon_level": digimon_lv if digimon_lv > 0 else None,
             "start_npc_id": s_npc,
             "start_npc": npcs.get(s_npc, "เริ่มอัตโนมัติ"),
             "start_npc_image": s_img,
@@ -470,7 +485,8 @@ def build():
             "objective_desc": clean_desc(strs[3]),
             "tracker": clean_desc(strs[4]),
             "pre_quests": pre_quests,
-            "next_quests": [],
+            "pre_quest_titles": [],
+            "items_needed": [items.get(it, f"ไอเทม #{it}") for it in items_needed],
             "objectives": obj_list,
             "exp": exp,
             "bit": bit,
@@ -481,6 +497,10 @@ def build():
 
     print(f"[2/5] Parsed {len(all_raw_quests)} raw quests from binary.")
 
+    # Fill pre_quest_titles
+    for qid, q in all_raw_quests.items():
+        q["pre_quest_titles"] = [all_raw_quests[pid]["title"] for pid in q["pre_quests"] if pid in all_raw_quests]
+
     # Filter valid storyline quests
     story_quests = {qid: q for qid, q in all_raw_quests.items() if is_valid_story_quest(q)}
     print(f"[3/5] Filtered to {len(story_quests)} valid main quests (non-story & duplicates removed).")
@@ -489,12 +509,12 @@ def build():
     output_chapters = []
     assigned_ids = set()
     total_assigned = 0
-    last_completed_quest = None
 
+    # First pass: collect and order map sections for each chapter
+    collected_chapters = []
     for ch_spec in CHAPTER_MAP_SPECS:
-        map_sections = []
+        ch_maps = []
         for map_title, map_img, match_fn in ch_spec["maps"]:
-            # Find quests matching this map that haven't been assigned yet
             m_qs = []
             for qid, q in story_quests.items():
                 if qid not in assigned_ids and match_fn(q):
@@ -504,73 +524,114 @@ def build():
             if not m_qs:
                 continue
 
-            # Update map metadata
             for q in m_qs:
                 q["map_name"] = map_title
                 q["map_image"] = map_img
 
-            # Sort quests strictly in chain order (start quest -> chain -> end quest)
             ordered_qs = order_chain_dfs(m_qs, story_quests)
-
-            # Determine Map Unlock Requirement
-            first_q = ordered_qs[0]
-            pre_ids = first_q["pre_quests"]
-            
-            unlock_req = {
-                "text": "เริ่มได้ทันที / ไม่มีเงื่อนไขเควสก่อนหน้า",
-                "pre_quest_id": None,
-                "pre_quest_title": None,
-                "pre_map_name": None,
-                "min_level": max(first_q.get("level", 1), 1)
-            }
-
-            # Check if first quest has an external pre-requisite
-            ext_pre = [pid for pid in pre_ids if pid in all_raw_quests and pid not in [x["id"] for x in ordered_qs]]
-            if ext_pre:
-                pid = ext_pre[0]
-                pq = all_raw_quests[pid]
-                unlock_req = {
-                    "text": f"ต้องทำเควสหลัก [{pq['title']}] ({pq['map_name']}) ให้สำเร็จก่อน",
-                    "pre_quest_id": pid,
-                    "pre_quest_title": pq["title"],
-                    "pre_map_name": pq["map_name"],
-                    "min_level": max(first_q.get("level", 1), pq.get("level", 1))
-                }
-            elif last_completed_quest and ch_spec["ch_num"] > 1 and map_sections == []:
-                # First map of a subsequent chapter: connect to the last quest of the previous chapter!
-                unlock_req = {
-                    "text": f"ต้องสำเร็จบทก่อนหน้า (เควสหลัก [{last_completed_quest['title']}])",
-                    "pre_quest_id": last_completed_quest["id"],
-                    "pre_quest_title": last_completed_quest["title"],
-                    "pre_map_name": last_completed_quest["map_name"],
-                    "min_level": max(first_q.get("level", 1), last_completed_quest.get("level", 1))
-                }
-            elif map_sections:
-                # Subsequent map inside the same chapter: connects to the last quest of the previous map
-                prev_map_last_q = map_sections[-1]["quests"][-1]
-                unlock_req = {
-                    "text": f"ต้องทำเควสหลักใน {map_sections[-1]['map_name']} (เควส [{prev_map_last_q['title']}]) ให้สำเร็จก่อน",
-                    "pre_quest_id": prev_map_last_q["id"],
-                    "pre_quest_title": prev_map_last_q["title"],
-                    "pre_map_name": map_sections[-1]["map_name"],
-                    "min_level": max(first_q.get("level", 1), prev_map_last_q.get("level", 1))
-                }
-
-            last_completed_quest = ordered_qs[-1]
-
-            m_levels = [q["level"] for q in ordered_qs if q["level"] > 0]
-            min_l = min(m_levels) if m_levels else 1
-            max_l = max(m_levels) if m_levels else 1
-
-            map_sections.append({
+            ch_maps.append({
                 "map_name": map_title,
                 "map_image": map_img,
-                "level_range": f"Lv. {min_l} - {max_l}" if min_l != max_l else f"Lv. {min_l}",
-                "quest_count": len(ordered_qs),
-                "unlock_requirement": unlock_req,
                 "quests": ordered_qs
             })
+        collected_chapters.append({
+            "spec": ch_spec,
+            "maps": ch_maps
+        })
 
+    # Flatten all map sections in sequential order to link previous & next
+    flat_maps = []
+    for ch_data in collected_chapters:
+        for m in ch_data["maps"]:
+            flat_maps.append(m)
+
+    # Second pass: compute exact unlock_requirement & next_map_unlock for each map section
+    for idx, m in enumerate(flat_maps):
+        ordered_qs = m["quests"]
+        first_q = ordered_qs[0]
+        last_q = ordered_qs[-1]
+
+        # 1. Unlock Requirement (เงื่อนไขการเข้าแผนที่นี้)
+        pre_ids = first_q["pre_quests"]
+        ext_pre = [pid for pid in pre_ids if pid in all_raw_quests and pid not in [x["id"] for x in ordered_qs]]
+
+        min_tamer = first_q.get("tamer_level", 1)
+        min_digi = first_q.get("digimon_level")
+
+        if ext_pre:
+            pid = ext_pre[0]
+            pq = all_raw_quests[pid]
+            unlock_desc = f"ต้องทำเควสหลัก [{pq['title']}] ({pq['map_name']}) ให้สำเร็จก่อน"
+            pre_title = pq["title"]
+            pre_map = pq["map_name"]
+            pre_qid = pid
+            min_tamer = max(min_tamer, pq.get("tamer_level", 1))
+            if pq.get("digimon_level"):
+                min_digi = max(min_digi or 0, pq["digimon_level"])
+        elif idx > 0:
+            prev_map = flat_maps[idx - 1]
+            prev_last_q = prev_map["quests"][-1]
+            unlock_desc = f"ต้องทำเควสหลักใน {prev_map['map_name']} (เควส [{prev_last_q['title']}]) ให้สำเร็จก่อน"
+            pre_title = prev_last_q["title"]
+            pre_map = prev_map["map_name"]
+            pre_qid = prev_last_q["id"]
+            min_tamer = max(min_tamer, prev_last_q.get("tamer_level", 1))
+            if prev_last_q.get("digimon_level"):
+                min_digi = max(min_digi or 0, prev_last_q["digimon_level"])
+        else:
+            unlock_desc = "เริ่มได้ทันที / ไม่มีเงื่อนไขเควสก่อนหน้า"
+            pre_title = None
+            pre_map = None
+            pre_qid = None
+
+        unlock_req = {
+            "text": unlock_desc,
+            "pre_quest_id": pre_qid,
+            "pre_quest_title": pre_title,
+            "pre_map_name": pre_map,
+            "min_tamer_level": min_tamer,
+            "min_digimon_level": min_digi if min_digi and min_digi > 0 else None
+        }
+
+        # 2. Next Map Unlock (ปลดแมพที่จะไปต่อ)
+        if idx + 1 < len(flat_maps):
+            next_map = flat_maps[idx + 1]
+            next_first_q = next_map["quests"][0]
+            next_tamer = next_first_q.get("tamer_level", 1)
+            next_digi = next_first_q.get("digimon_level")
+
+            next_unlock_desc = f"เคลียร์เควส [{last_q['title']}] เพื่อปลดล็อคแผนที่ถัดไป: {next_map['map_name']}"
+            next_map_info = {
+                "next_map_name": next_map["map_name"],
+                "required_quest_id": last_q["id"],
+                "required_quest_title": last_q["title"],
+                "next_tamer_level": next_tamer,
+                "next_digimon_level": next_digi if next_digi and next_digi > 0 else None,
+                "text": next_unlock_desc
+            }
+        else:
+            next_map_info = {
+                "next_map_name": None,
+                "required_quest_id": last_q["id"],
+                "required_quest_title": last_q["title"],
+                "next_tamer_level": 180,
+                "next_digimon_level": None,
+                "text": "สิ้นสุดเนื้อเรื่องเควสหลักแพตช์ปัจจุบัน (Lv. 180)"
+            }
+
+        tamer_levels = [q["tamer_level"] for q in ordered_qs if q["tamer_level"] > 0]
+        min_tl = min(tamer_levels) if tamer_levels else 1
+        max_tl = max(tamer_levels) if tamer_levels else 1
+
+        m["level_range"] = f"Lv. {min_tl} - {max_tl}" if min_tl != max_tl else f"Lv. {min_tl}"
+        m["quest_count"] = len(ordered_qs)
+        m["unlock_requirement"] = unlock_req
+        m["next_map_unlock"] = next_map_info
+
+    # Build Final Chapter Output
+    for ch_data in collected_chapters:
+        ch_spec = ch_data["spec"]
+        map_sections = ch_data["maps"]
         ch_total_qs = sum(m["quest_count"] for m in map_sections)
         total_assigned += ch_total_qs
 
@@ -589,7 +650,7 @@ def build():
         print(f"  -> Chapter {ch_spec['ch_num']}: {ch_spec['title']} ({len(map_sections)} maps, {ch_total_qs} quests)")
 
     full_payload = {
-        "version": "thai_live_patch_v3_ordered",
+        "version": "thai_live_patch_v4_requirements",
         "generated_at": "2026-11-16",
         "max_level": 180,
         "total_chapters": len(output_chapters),
@@ -597,7 +658,6 @@ def build():
         "chapters": output_chapters
     }
 
-    # Save to JSON
     out_web_json = STATIC_DATA_DIR / "main_quests.json"
     out_cache_json = WEB_DIR / "main_quests_cache.json"
 

@@ -4682,6 +4682,22 @@ function renderGuide() {
             rewTags.push(`<span class="guide-rew-tag item">🎁 ${esc(r.name)} x${r.count}</span>`);
           });
 
+          // Badges for Levels
+          let lvlBadges = `<span class="guide-badge-lvl" title="เลเวลเทมเมอร์ขั้นต่ำ">🛡️ เทมเมอร์ Lv. ${q.tamer_level || q.level || 1}</span>`;
+          if (q.digimon_level && q.digimon_level > 0) {
+            lvlBadges += ` <span class="guide-badge-digilvl" title="เลเวลดิจิมอนขั้นต่ำ">🦖 ดิจิมอน Lv. ${q.digimon_level}</span>`;
+          }
+
+          // Pre-quest titles pill
+          let preQuestHtml = '';
+          if (q.pre_quest_titles && q.pre_quest_titles.length > 0) {
+            preQuestHtml = `
+              <div class="guide-quest-pre-badge" title="เควสที่ต้องทำสำเร็จก่อนหน้านี้">
+                <span>🔑 เงื่อนไข: ผ่านเควส [${esc(q.pre_quest_titles.join(', '))}]</span>
+              </div>
+            `;
+          }
+
           return `
             <div class="guide-quest-item" id="quest-item-${q.id}">
               <!-- NPC Avatar of Start NPC (replaces checkbox) -->
@@ -4692,10 +4708,12 @@ function renderGuide() {
               <div class="guide-quest-main">
                 <div class="guide-quest-title-row">
                   <span class="guide-quest-title">#${qIdx + 1}. ${esc(q.title)}</span>
-                  <span class="guide-badge-lvl">Lv. ${q.level || 1}</span>
+                  ${lvlBadges}
                   <span class="guide-badge-map"><img src="/images/ui/ui_dungeon.png" class="btn-game-icon" style="width:12px;height:12px;margin:0" alt=""> ${esc(q.map_name)}</span>
                   <small style="color:var(--text-sub);font-size:0.75rem;">(ID: ${q.id})</small>
                 </div>
+
+                ${preQuestHtml}
 
                 <!-- NPC Progression Flow -->
                 <div class="guide-quest-flow">
@@ -4722,6 +4740,39 @@ function renderGuide() {
           `;
         }).join('');
 
+        // Map Unlock requirement info
+        const unReq = mSec.unlock_requirement || {};
+        let unReqExtra = `🛡️ เทมเมอร์ Lv. ${unReq.min_tamer_level || 1}+`;
+        if (unReq.min_digimon_level && unReq.min_digimon_level > 0) {
+          unReqExtra += ` · 🦖 ดิจิมอน Lv. ${unReq.min_digimon_level}+`;
+        }
+
+        // Next Map unlock info
+        const nextUn = mSec.next_map_unlock || {};
+        let nextMapHtml = '';
+        if (nextUn.next_map_name) {
+          let nextReqExtra = `🛡️ เทมเมอร์ Lv. ${nextUn.next_tamer_level || 1}+`;
+          if (nextUn.next_digimon_level && nextUn.next_digimon_level > 0) {
+            nextReqExtra += ` · 🦖 ดิจิมอน Lv. ${nextUn.next_digimon_level}+`;
+          }
+          nextMapHtml = `
+            <div class="guide-map-next-box" title="เมื่อเคลียร์เควสหลักทั้งหมดในแผนที่นี้">
+              <span>🚀</span>
+              <div>
+                <strong>ปลดล็อคแผนที่ถัดไป:</strong> <span style="color:#60a5fa;font-weight:700;">${esc(nextUn.next_map_name)}</span>
+                (เคลียร์เควส [${esc(nextUn.required_quest_title)}] · ${nextReqExtra})
+              </div>
+            </div>
+          `;
+        } else {
+          nextMapHtml = `
+            <div class="guide-map-next-box" style="border-color:rgba(16,185,129,0.25);background:rgba(16,185,129,0.08);color:#a7f3d0;">
+              <span>🏆</span>
+              <div><strong>สิ้นสุดเนื้อเรื่องเควสหลักแพตช์ปัจจุบัน (Lv. 180)</strong></div>
+            </div>
+          `;
+        }
+
         mapsSectionsHtml += `
           <div class="guide-map-section">
             <div class="guide-map-header-card">
@@ -4741,10 +4792,16 @@ function renderGuide() {
                 </div>
 
                 <!-- Exact Map Unlock Requirement -->
-                <div class="guide-map-unlock-box ${mSec.unlock_requirement && mSec.unlock_requirement.pre_quest_id ? '' : 'unlocked'}">
-                  <span>${mSec.unlock_requirement && mSec.unlock_requirement.pre_quest_id ? '🔒' : '🔓'}</span>
-                  <div><strong>เงื่อนไขปลดล็อคเควสแมพนี้:</strong> ${esc(mSec.unlock_requirement.text)}</div>
+                <div class="guide-map-unlock-box ${unReq.pre_quest_id ? '' : 'unlocked'}">
+                  <span>${unReq.pre_quest_id ? '🔒' : '🔓'}</span>
+                  <div>
+                    <strong>เงื่อนไขปลดล็อคแผนที่นี้:</strong> ${esc(unReq.text)}
+                    <span style="opacity:0.85;margin-left:4px;">(${unReqExtra})</span>
+                  </div>
                 </div>
+
+                <!-- Next Map Unlock Box -->
+                ${nextMapHtml}
               </div>
             </div>
 
