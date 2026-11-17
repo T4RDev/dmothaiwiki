@@ -5654,3 +5654,218 @@ html[data-boot-route="not-found"] #view-not-found { display: block !important; }
     height: 140px;
   }
 }
+
+/* ========================================== */
+/* LEVELING GUIDE STYLES                     */
+/* ========================================== */
+.guide-mode-nav .filter-pill.active {
+  background: var(--color-primary);
+  color: #fff;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 12px rgba(59, 130, 246, 0.4);
+}
+
+.guide-exp-mechanics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.guide-exp-card {
+  background: rgba(15, 23, 42, 0.65);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 12px 14px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.guide-exp-card:hover {
+  border-color: rgba(59, 130, 246, 0.5);
+  transform: translateY(-2px);
+}
+
+.guide-exp-card-icon {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.guide-exp-card-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #e2e8f0;
+  margin-bottom: 4px;
+}
+
+.guide-exp-card-desc {
+  font-size: 0.80rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+
+.leveling-tier-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.leveling-tier-card:hover {
+  border-color: rgba(59, 130, 246, 0.4);
+}
+
+.leveling-tier-header {
+  padding: 14px 18px;
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+  gap: 12px;
+}
+
+.leveling-tier-num {
+  width: 34px;
+  height: 34px;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: #fff;
+  border-radius: 8px;
+  font-weight: 800;
+  font-size: 1.05rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+}
+
+.leveling-tier-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+.leveling-tier-body {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.leveling-layout-grid {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 18px;
+}
+
+@media (max-width: 860px) {
+  .leveling-layout-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.leveling-map-box {
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.leveling-map-thumb-wrap {
+  position: relative;
+  width: 100%;
+  height: 180px;
+  background: #000;
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.leveling-map-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+
+.leveling-map-thumb-wrap:hover .leveling-map-thumb-img {
+  transform: scale(1.05);
+}
+
+.leveling-map-thumb-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 4px 8px;
+  background: rgba(0, 0, 0, 0.7);
+  font-size: 0.75rem;
+  color: #38bdf8;
+  text-align: center;
+}
+
+.leveling-monsters-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.84rem;
+}
+
+.leveling-monsters-table th {
+  background: rgba(15, 23, 42, 0.8);
+  color: #94a3b8;
+  padding: 8px 10px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+  font-weight: 600;
+}
+
+.leveling-monsters-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  vertical-align: middle;
+}
+
+.leveling-monsters-table tr:last-child td {
+  border-bottom: none;
+}
+
+.leveling-monsters-table tr:hover td {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.leveling-pro-tip {
+  background: rgba(245, 158, 11, 0.08);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  border-radius: 8px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.84rem;
+  color: #fde68a;
+  line-height: 1.5;
+}
+
+.leveling-pro-tip-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+

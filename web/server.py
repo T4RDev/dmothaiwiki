@@ -266,7 +266,8 @@ def build_cache():
                 ("eggs", "eggs_cache.json"),
                 ("dunits", "dunits_cache.json"),
                 ("npc_exchanges", "npc_exchanges_cache.json"),
-                ("guide", "main_quests_cache.json")
+                ("guide", "main_quests_cache.json"),
+                ("leveling_guide", "leveling_guide_cache.json")
             ]:
                 f = base / filename
                 if f.exists():
@@ -1159,6 +1160,17 @@ def get_guide():
         else:
             return {"chapters": [], "total_chapters": 0}
     return CACHE["guide"]
+
+@app.get("/api/leveling-guide")
+def get_leveling_guide():
+    """Digimon Leveling Guide (Lv. 1 - 180 Max Level) from Thai client."""
+    if "leveling_guide" not in CACHE:
+        f = Path(__file__).resolve().parent / "leveling_guide_cache.json"
+        if f.exists():
+            CACHE["leveling_guide"] = json.loads(f.read_text(encoding="utf-8"))
+        else:
+            return {"tiers": [], "total_tiers": 0}
+    return CACHE["leveling_guide"]
 
 @app.get("/api/crafts")
 def get_crafts(q: Optional[str] = Query(None), npc: Optional[str] = Query(None)):

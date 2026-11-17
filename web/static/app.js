@@ -21,12 +21,18 @@ const STATE = {
   tamers: { items: [], series: 'all', type: 'all', skillSystem: null },
   dungeons: { items: [], map: 'all', kind: 'all' },
   guide: {
+    mode: 'quests',
     data: null,
     chapters: [],
     activeChapter: 'all',
     searchQuery: '',
     completedQuests: new Set(),
-    expandedChapters: new Set(['ch1_yokohama'])
+    expandedChapters: new Set(['ch1_yokohama']),
+    levelingData: null,
+    levelingTiers: [],
+    activeTier: 'all',
+    levelingSearchQuery: '',
+    expandedTiers: new Set(['tier1', 'tier2', 'tier3', 'tier4', 'tier5', 'tier6', 'tier7', 'tier8'])
   }
 };
 
@@ -321,10 +327,15 @@ function handleRoute() {
   } else if (rawRoute === 'guide' || rawRoute.startsWith('guide/')) {
     const chParam = rawRoute.startsWith('guide/') ? decodeURIComponent(rawRoute.slice(6)).trim() : '';
     showTab('guide');
-    if (chParam && STATE.guide) {
-      STATE.guide.activeChapter = chParam;
-      STATE.guide.expandedChapters.add(chParam);
-      renderGuide();
+    if (chParam === 'leveling') {
+      switchGuideMode('leveling');
+    } else if (chParam) {
+      switchGuideMode('quests');
+      if (STATE.guide) {
+        STATE.guide.activeChapter = chParam;
+        STATE.guide.expandedChapters.add(chParam);
+        renderGuide();
+      }
     }
   } else if (TABS.includes(rawRoute)) {
     showTab(rawRoute);
@@ -4528,6 +4539,14 @@ function saveGuideCompletedQuests() {
 
 async function loadGuide() {
   initGuideCompletedQuests();
+  if (STATE.guide.mode === 'leveling') {
+    if (!STATE.guide.levelingData) {
+      await loadLevelingGuide();
+    } else {
+      renderLevelingGuide();
+    }
+    return;
+  }
   const container = document.getElementById('guide-chapters-container');
   if (container && !STATE.guide.data) {
     container.innerHTML = `
@@ -4919,5 +4938,284 @@ function onGuideSearchChange() {
     const inp = document.getElementById('guide-search-input');
     STATE.guide.searchQuery = inp ? inp.value : '';
     renderGuide();
+  }, 200);
+}
+
+// ==========================================
+// LEVELING GUIDE (ไกด์ฟาร์มเวลเซิร์ฟไทย Lv. 1 - 180)
+// ==========================================
+function switchGuideMode(mode) {
+  STATE.guide.mode = mode;
+  const questsView = document.getElementById('guide-quests-view');
+  const levelingView = document.getElementById('guide-leveling-view');
+  const btnQuests = document.getElementById('btn-guide-mode-quests');
+  const btnLeveling = document.getElementById('btn-guide-mode-leveling');
+
+  if (mode === 'leveling') {
+    if (questsView) questsView.style.display = 'none';
+    if (levelingView) levelingView.style.display = 'block';
+    if (btnQuests) btnQuests.classList.remove('active');
+    if (btnLeveling) btnLeveling.classList.add('active');
+    if (!STATE.guide.levelingData) {
+      loadLevelingGuide();
+    } else {
+      renderLevelingGuide();
+    }
+  } else {
+    if (questsView) questsView.style.display = 'block';
+    if (levelingView) levelingView.style.display = 'none';
+    if (btnQuests) btnQuests.classList.add('active');
+    if (btnLeveling) btnLeveling.classList.remove('active');
+    renderGuide();
+  }
+}
+
+async function loadLevelingGuide() {
+  const container = document.getElementById('leveling-tiers-container');
+  if (container && !STATE.guide.levelingData) {
+    container.innerHTML = `
+      <div style="padding: 40px; text-align: center; color: var(--text-muted);">
+        <div class="skel" style="width: 48px; height: 48px; border-radius: 50%; margin: 0 auto 16px auto;"></div>
+        <div>กำลังโหลดข้อมูลไกด์ฟาร์มเลเวลจากเซิร์ฟเวอร์ไทย...</div>
+      </div>
+    `;
+  }
+
+  try {
+    const res = await fetch('/api/leveling-guide');
+    const data = await res.json();
+    STATE.guide.levelingData = data;
+    STATE.guide.levelingTiers = data.tiers || [];
+    renderLevelingGuide();
+  } catch (err) {
+    console.error('Failed to load leveling guide:', err);
+    if (container) {
+      container.innerHTML = `
+        <div style="padding: 30px; text-align: center; color: var(--color-danger);">
+          ไม่สามารถโหลดข้อมูลไกด์ฟาร์มเวลได้ กรุณาลองใหม่อีกครั้ง
+        </div>
+      `;
+    }
+  }
+}
+
+function renderLevelingGuide() {
+  const tiers = STATE.guide.levelingTiers || [];
+  if (!tiers.length) return;
+
+  const data = STATE.guide.levelingData || {};
+  const mechanics = data.exp_mechanics || [];
+  const searchQ = (STATE.guide.levelingSearchQuery || '').trim().toLowerCase();
+  const activeTier = STATE.guide.activeTier || 'all';
+
+  // 1. Render EXP Mechanics Cards
+  const mechContainer = document.getElementById('guide-exp-mechanics-container');
+  if (mechContainer && mechanics.length) {
+    mechContainer.innerHTML = mechanics.map(m => `
+      <div class="guide-exp-card">
+        <img src="${m.icon}" class="guide-exp-card-icon" alt="" onerror="this.src='/images/ui/ui_gift.png';">
+        <div>
+          <div class="guide-exp-card-title">${esc(m.title)}</div>
+          <div class="guide-exp-card-desc">${esc(m.desc)}</div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // 2. Render Leveling Tier Pills
+  const pillsBox = document.getElementById('leveling-tier-pills');
+  if (pillsBox) {
+    let pillsHtml = `
+      <button class="filter-pill ${activeTier === 'all' ? 'active' : ''}" onclick="setLevelingActiveTier('all')">
+        ทั้งหมด (8 ช่วงเลเวล)
+      </button>
+    `;
+    tiers.forEach((t) => {
+      const isAct = activeTier === t.id;
+      pillsHtml += `
+        <button class="filter-pill ${isAct ? 'active' : ''}" onclick="setLevelingActiveTier('${t.id}')">
+          ${t.level_range}
+        </button>
+      `;
+    });
+    pillsBox.innerHTML = pillsHtml;
+  }
+
+  // 3. Filter Tiers
+  let shownCount = 0;
+  const filteredTiers = tiers.filter(t => {
+    if (activeTier !== 'all' && t.id !== activeTier) return false;
+    if (searchQ) {
+      const inRange = (t.level_range || '').toLowerCase().includes(searchQ);
+      const inStage = (t.stage_name || '').toLowerCase().includes(searchQ);
+      const inMap = (t.map_name || '').toLowerCase().includes(searchQ);
+      const inSum = (t.summary || '').toLowerCase().includes(searchQ);
+      const inMons = (t.monsters || []).some(m =>
+        (m.name || '').toLowerCase().includes(searchQ) ||
+        (m.notes || '').toLowerCase().includes(searchQ)
+      );
+      return inRange || inStage || inMap || inSum || inMons;
+    }
+    return true;
+  });
+
+  const container = document.getElementById('leveling-tiers-container');
+  if (!container) return;
+
+  if (filteredTiers.length === 0) {
+    container.innerHTML = `
+      <div style="padding: 40px; text-align: center; color: var(--text-muted); background: var(--bg-card); border-radius: 8px; border: 1px solid var(--border-color);">
+        ไม่พบข้อมูลช่วงเลเวลที่ตรงกับการค้นหา "${esc(searchQ)}"
+      </div>
+    `;
+    const countEl = document.getElementById('leveling-shown-count');
+    if (countEl) countEl.innerText = '0';
+    return;
+  }
+
+  let tiersHtml = '';
+  filteredTiers.forEach((tier, index) => {
+    shownCount++;
+    const isExpanded = STATE.guide.expandedTiers.has(tier.id);
+    const tierNum = index + 1;
+
+    // Monsters rows
+    const monstersRows = (tier.monsters || []).map(m => `
+      <tr>
+        <td style="font-weight: 600; color: #fff;">
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <img src="/images/ui/ui_digimon.png" class="stat-icon-inline" alt="" style="width: 16px; height: 16px;">
+            <span>${esc(m.name)}</span>
+          </div>
+        </td>
+        <td><span class="badge" style="background: rgba(59,130,246,0.15); color: #60a5fa; border-color: rgba(59,130,246,0.3);">${esc(m.level)}</span></td>
+        <td style="color: var(--text-muted); font-size: 0.8rem;">${esc(m.type)}</td>
+        <td style="color: #cbd5e1; font-size: 0.82rem; line-height: 1.4;">${esc(m.notes)}</td>
+      </tr>
+    `).join('');
+
+    tiersHtml += `
+      <div class="leveling-tier-card ${isExpanded ? 'expanded' : ''}" id="leveling-tier-card-${tier.id}">
+        <div class="leveling-tier-header" onclick="toggleLevelingTier('${tier.id}')">
+          <div style="display: flex; align-items: center; gap: 14px; flex: 1;">
+            <div class="leveling-tier-num">${tierNum}</div>
+            <div class="leveling-tier-title-wrap">
+              <span class="badge" style="background: rgba(16,185,129,0.2); color: #34d399; border-color: rgba(16,185,129,0.4); font-size: 0.88rem; font-weight: 700;">
+                ${esc(tier.level_range)}
+              </span>
+              <span style="font-size: 1.05rem; font-weight: 700; color: #fff;">
+                ${esc(tier.stage_name)}
+              </span>
+              <span class="badge" style="background: rgba(245,158,11,0.15); color: #fbbf24; border-color: rgba(245,158,11,0.3);">
+                ระดับ: ${esc(tier.difficulty)}
+              </span>
+              <span class="badge" style="background: rgba(139,92,246,0.15); color: #c084fc; border-color: rgba(139,92,246,0.3);">
+                ร่างแนะนำ: ${esc(tier.recommended_forms)}
+              </span>
+            </div>
+          </div>
+          <div class="chapter-toggle-btn" style="color: var(--text-muted); font-size: 1.1rem; padding: 4px 8px;">
+            ${isExpanded ? '▲' : '▼'}
+          </div>
+        </div>
+
+        <div class="leveling-tier-body" style="display: ${isExpanded ? 'flex' : 'none'};">
+          <div class="leveling-layout-grid">
+            <!-- Left: Map Preview Box -->
+            <div class="leveling-map-box">
+              <div class="leveling-map-thumb-wrap" onclick="openGuideMapModal('${esc(tier.map_name)}', '${esc(tier.map_image)}')" title="กดเพื่อดูรูปแผนที่ขนาดใหญ่">
+                <img src="${tier.map_image}" class="leveling-map-thumb-img" alt="${esc(tier.map_name)}" onerror="if(!this.dataset.cdn){this.dataset.cdn='1';this.src='https://pub-f7d271edf6e24f25b6b06f2767a3dfe3.r2.dev${tier.map_image}';}else{this.src='/images/maps/105_zone.png';}">
+                <div class="leveling-map-thumb-overlay">
+                  <img src="/images/ui/ui_map.png" class="stat-icon-inline" alt="" style="width: 14px; height: 14px; vertical-align: middle;"> คลิกเพื่อซูมรูปแผนที่
+                </div>
+              </div>
+              <div style="font-size: 0.95rem; font-weight: 700; color: #38bdf8; display: flex; align-items: center; gap: 6px;">
+                <img src="/images/ui/ui_map.png" class="stat-icon-inline" alt="" style="width: 16px; height: 16px;">
+                <span>${esc(tier.map_name)}</span>
+              </div>
+              <div style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.45; background: rgba(0,0,0,0.3); padding: 8px 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06);">
+                <div style="color: #94a3b8; font-weight: 600; margin-bottom: 2px;">
+                  <img src="/images/ui/ui_unlock.png" class="stat-icon-inline" alt="" style="width: 14px; height: 14px;"> การเดินทาง / เงื่อนไข:
+                </div>
+                <span>${esc(tier.unlock_requirement)}</span>
+              </div>
+            </div>
+
+            <!-- Right: Route Details & Monsters Table -->
+            <div style="display: flex; flex-direction: column; gap: 14px;">
+              <div style="background: rgba(15,23,42,0.4); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px 14px;">
+                <div style="font-size: 0.85rem; font-weight: 700; color: #e2e8f0; margin-bottom: 4px;">สรุปแนวทางการฟาร์มช่วงนี้:</div>
+                <div style="font-size: 0.84rem; color: #cbd5e1; line-height: 1.5;">${esc(tier.summary)}</div>
+              </div>
+
+              <!-- Monsters Table -->
+              <div style="overflow-x: auto; border: 1px solid var(--border-color); border-radius: 8px;">
+                <table class="leveling-monsters-table">
+                  <thead>
+                    <tr>
+                      <th style="min-width: 160px;">มอนสเตอร์เป้าหมาย</th>
+                      <th style="width: 100px;">เลเวล</th>
+                      <th style="width: 130px;">ประเภท</th>
+                      <th>จุดเด่น / ความคุ้มค่า EXP</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${monstersRows}
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Pro Tip Box -->
+              <div class="leveling-pro-tip">
+                <img src="/images/ui/ui_gift.png" class="leveling-pro-tip-icon" alt="">
+                <div>
+                  <strong style="color: #fbbf24;">เทคนิคการฟาร์ม (Pro Tip):</strong>
+                  <span> ${esc(tier.pro_tip)}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  });
+
+  container.innerHTML = tiersHtml;
+  const countEl = document.getElementById('leveling-shown-count');
+  if (countEl) countEl.innerText = shownCount.toLocaleString();
+}
+
+function toggleLevelingTier(tierId) {
+  if (STATE.guide.expandedTiers.has(tierId)) {
+    STATE.guide.expandedTiers.delete(tierId);
+  } else {
+    STATE.guide.expandedTiers.add(tierId);
+  }
+  const card = document.getElementById(`leveling-tier-card-${tierId}`);
+  if (card) {
+    const isExp = STATE.guide.expandedTiers.has(tierId);
+    card.classList.toggle('expanded', isExp);
+    const body = card.querySelector('.leveling-tier-body');
+    const toggleBtn = card.querySelector('.chapter-toggle-btn');
+    if (body) body.style.display = isExp ? 'flex' : 'none';
+    if (toggleBtn) toggleBtn.innerText = isExp ? '▲' : '▼';
+  }
+}
+
+function setLevelingActiveTier(tierId) {
+  STATE.guide.activeTier = tierId;
+  if (tierId !== 'all') {
+    STATE.guide.expandedTiers.add(tierId);
+  }
+  renderLevelingGuide();
+}
+
+let _levelingSearchTimeout = null;
+function onLevelingSearchChange() {
+  clearTimeout(_levelingSearchTimeout);
+  _levelingSearchTimeout = setTimeout(() => {
+    const inp = document.getElementById('leveling-search-input');
+    STATE.guide.levelingSearchQuery = inp ? inp.value : '';
+    renderLevelingGuide();
   }, 200);
 }

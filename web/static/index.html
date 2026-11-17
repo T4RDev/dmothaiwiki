@@ -940,58 +940,121 @@
     </section>
 
     <!-- ========================================== -->
-    <!-- TAB: ไกด์เควสหลัก (Main Quest Guideline) -->
+    <!-- TAB: ไกด์ (Guides & Walkthroughs) -->
     <!-- ========================================== -->
     <section id="tab-guide" class="tab-panel">
-      <div id="guide-list-view">
+      <!-- Guide Sub-navigation Switcher -->
+      <div class="guide-mode-nav" style="display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 10px; border: 1px solid var(--border-color);">
+        <button class="filter-pill active" id="btn-guide-mode-quests" onclick="switchGuideMode('quests')" style="font-weight: 600; display: inline-flex; align-items: center; gap: 8px;">
+          <img src="/images/ui/ui_quest.png" class="stat-icon-inline" alt="" style="width: 18px; height: 18px;"> ไกด์เควสหลัก (Main Quests)
+        </button>
+        <button class="filter-pill" id="btn-guide-mode-leveling" onclick="switchGuideMode('leveling')" style="font-weight: 600; display: inline-flex; align-items: center; gap: 8px;">
+          <img src="/images/ui/ui_exp.png" class="stat-icon-inline" alt="" style="width: 18px; height: 18px;"> ไกด์ฟาร์มเวล (Lv. 1 - 180)
+        </button>
+      </div>
+
+      <!-- VIEW 1: เควสหลัก (Main Quests View) -->
+      <div id="guide-quests-view">
+        <div id="guide-list-view">
+          <div class="filter-bar">
+            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 6px;">
+              <h2 style="font-size: 1.25rem; color: #fff; margin: 0; display: flex; align-items: center; gap: 8px;">
+                <img src="/images/ui/ui_quest.png" class="btn-game-icon" alt=""> ไกด์เควสหลัก
+              </h2>
+              <span class="badge" style="background: rgba(245,158,11,0.15); color: #fbbf24; border-color: rgba(245,158,11,0.3);">
+                เซิร์ฟไทย เลเวล 1 - 180 (แพตช์ปัจจุบัน)
+              </span>
+            </div>
+            <p style="font-size: 0.84rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 12px;">
+              คู่มือเควสเนื้อเรื่องหลักที่ผู้เล่นทุกคนต้องทำ รวบรวมจากไฟล์เกมเซิร์ฟไทยแท้ 100% แสดงรูปแผนที่ในเกม (กดซูมดูรูป Map ได้), เงื่อนไขการปลดล็อคเควสในแต่ละแมพ, รูป NPC ผู้มอบและผู้รับส่งเควส, มอนสเตอร์และไอเทมเป้าหมาย, และของรางวัล EXP & เงิน Bit
+            </p>
+
+            <!-- Search Bar -->
+            <div style="margin-bottom: 12px;">
+              <div class="search-box">
+                <svg class="search-icon" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+                <input type="text" id="guide-search-input"
+                  placeholder="ค้นหาชื่อเควส, แผนที่, NPC ผู้มอบ/ผู้ส่ง, มอนสเตอร์เป้าหมาย หรือไอเทมรางวัล..."
+                  oninput="onGuideSearchChange()">
+              </div>
+            </div>
+
+            <!-- Overall Summary Box -->
+            <div class="guide-progress-box" id="guide-progress-card">
+              <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.84rem; flex-wrap: wrap; gap: 8px;">
+                <span>ฐานข้อมูลเควสหลักเซิร์ฟไทย:</span>
+                <strong id="guide-progress-text" style="color: var(--color-primary);">11 บท · 57 แผนที่ · รวม 1,664 เควสหลัก</strong>
+              </div>
+            </div>
+
+            <!-- Chapter Filter Pills -->
+            <div style="margin-top: 12px;">
+              <div class="filter-label">เลือกบทของเนื้อเรื่อง (Timeline Chapters)</div>
+              <div class="filter-pills-row" id="guide-chapter-pills"></div>
+            </div>
+
+            <div class="egg-note" style="margin-top: 10px;">
+              แสดง: <strong id="guide-shown-count" style="color: var(--color-primary);">0</strong> เควสในบทที่เลือก ·
+              กดที่รูปแผนที่เพื่อซูมดูรูป Map ในเกม
+            </div>
+          </div>
+
+          <!-- Chapters List Container -->
+          <div id="guide-chapters-container" style="display: flex; flex-direction: column; gap: 20px; margin-top: 16px;">
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEW 2: ไกด์ฟาร์มเวล (Leveling Guide View) -->
+      <div id="guide-leveling-view" style="display: none;">
         <div class="filter-bar">
           <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 6px;">
             <h2 style="font-size: 1.25rem; color: #fff; margin: 0; display: flex; align-items: center; gap: 8px;">
-              <img src="/images/ui/ui_quest.png" class="btn-game-icon" alt=""> ไกด์
+              <img src="/images/ui/ui_exp.png" class="btn-game-icon" alt=""> ไกด์ฟาร์มเวล (Leveling Guide Lv. 1 - 180)
             </h2>
-            <span class="badge" style="background: rgba(245,158,11,0.15); color: #fbbf24; border-color: rgba(245,158,11,0.3);">
-              เซิร์ฟไทย เลเวล 1 - 180 (แพตช์ปัจจุบัน)
+            <span class="badge" style="background: rgba(16,185,129,0.15); color: #34d399; border-color: rgba(16,185,129,0.3);">
+              เลเวลตันเซิร์ฟไทย Lv. 180 (แพตช์ปัจจุบัน)
             </span>
           </div>
-          <p style="font-size: 0.84rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 12px;">
-            คู่มือเควสเนื้อเรื่องหลักที่ผู้เล่นทุกคนต้องทำ รวบรวมจากไฟล์เกมเซิร์ฟไทยแท้ 100% แสดงรูปแผนที่ในเกม (กดซูมดูรูป Map ได้), เงื่อนไขการปลดล็อคเควสในแต่ละแมพ, รูป NPC ผู้มอบและผู้รับส่งเควส, มอนสเตอร์และไอเทมเป้าหมาย, และของรางวัล EXP & เงิน Bit
+          <p style="font-size: 0.84rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 14px;">
+            คู่มือเส้นทางการเก็บเลเวลที่รวดเร็วและคุ้มค่าที่สุดในเซิร์ฟเวอร์ไทย ตั้งแต่เลเวล 1 จนถึงเลเวล 180 (เลเวลตันปัจจุบัน) วิเคราะห์จากไฟล์เกมแท้ 100% แสดงรูปแผนที่จริงในเกม, จุดเกิดมอนสเตอร์ที่ให้ EXP สูงสุด, และระบบเสริมการบูสต์ EXP
           </p>
 
-          <!-- Search Bar -->
-          <div style="margin-bottom: 12px;">
+          <!-- EXP Mechanics Grid -->
+          <div class="guide-exp-mechanics-grid" id="guide-exp-mechanics-container">
+            <!-- Populated dynamically by JS -->
+          </div>
+
+          <!-- Search Bar for Leveling -->
+          <div style="margin: 16px 0 12px 0;">
             <div class="search-box">
               <svg class="search-icon" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
               </svg>
-              <input type="text" id="guide-search-input"
-                placeholder="ค้นหาชื่อเควส, แผนที่, NPC ผู้มอบ/ผู้ส่ง, มอนสเตอร์เป้าหมาย หรือไอเทมรางวัล..."
-                oninput="onGuideSearchChange()">
+              <input type="text" id="leveling-search-input"
+                placeholder="ค้นหาช่วงเลเวล, ชื่อแผนที่, มอนสเตอร์เป้าหมาย หรือร่างวิวัฒนาการ..."
+                oninput="onLevelingSearchChange()">
             </div>
           </div>
 
-          <!-- Overall Summary Box -->
-          <div class="guide-progress-box" id="guide-progress-card">
-            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.84rem; flex-wrap: wrap; gap: 8px;">
-              <span>ฐานข้อมูลเควสหลักเซิร์ฟไทย:</span>
-              <strong id="guide-progress-text" style="color: var(--color-primary);">11 บท · 57 แผนที่ · รวม 1,664 เควสหลัก</strong>
-            </div>
-          </div>
-
-          <!-- Chapter Filter Pills -->
-          <div style="margin-top: 12px;">
-            <div class="filter-label">เลือกบทของเนื้อเรื่อง (Timeline Chapters)</div>
-            <div class="filter-pills-row" id="guide-chapter-pills"></div>
+          <!-- Level Tier Filter Pills -->
+          <div>
+            <div class="filter-label">เลือกช่วงเลเวล (Level Tiers)</div>
+            <div class="filter-pills-row" id="leveling-tier-pills"></div>
           </div>
 
           <div class="egg-note" style="margin-top: 10px;">
-            แสดง: <strong id="guide-shown-count" style="color: var(--color-primary);">0</strong> เควสในบทที่เลือก ·
+            แสดง: <strong id="leveling-shown-count" style="color: var(--color-primary);">0</strong> ช่วงเลเวล ·
             กดที่รูปแผนที่เพื่อซูมดูรูป Map ในเกม
           </div>
         </div>
 
-        <!-- Chapters List Container -->
-        <div id="guide-chapters-container" style="display: flex; flex-direction: column; gap: 20px; margin-top: 16px;">
+        <!-- Leveling Tiers Container -->
+        <div id="leveling-tiers-container" style="display: flex; flex-direction: column; gap: 20px; margin-top: 16px;">
         </div>
       </div>
     </section>

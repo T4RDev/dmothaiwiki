@@ -17,6 +17,7 @@
     dunits: null,
     npcExchanges: null,
     guide: null,
+    levelingGuide: null,
     patches: null,
     stats: null
   };
@@ -101,6 +102,12 @@
         if (path === '/api/guide') {
           const d = await loadData('guide', '/data/main_quests.json');
           return jsonResponse(d || { chapters: [], total_chapters: 0 });
+        }
+
+        // 4.2 /api/leveling-guide
+        if (path === '/api/leveling-guide') {
+          const d = await loadData('levelingGuide', '/data/leveling_guide.json');
+          return jsonResponse(d || { tiers: [], exp_mechanics: [] });
         }
 
         // 5. /api/decks
