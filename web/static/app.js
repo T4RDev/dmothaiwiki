@@ -5057,9 +5057,6 @@ function renderLevelingGuide() {
             ${esc(m.level)}
           </span>
         </td>
-        <td>
-          <span style="color: #fbbf24; font-family: monospace; font-size: 0.85rem;">${esc(m.hp)}</span>
-        </td>
         <td style="color: #cbd5e1; font-size: 0.83rem; line-height: 1.45;">
           ${esc(m.notes)}
         </td>
@@ -5126,8 +5123,7 @@ function renderLevelingGuide() {
                   <thead>
                     <tr>
                       <th style="min-width: 180px;">มอนสเตอร์ในดันเจี้ยน</th>
-                      <th style="width: 80px;">เลเวล</th>
-                      <th style="width: 110px;">พลังชีวิต (HP)</th>
+                      <th style="width: 100px;">เลเวล</th>
                       <th>จุดเด่น & คำแนะนำในการเก็บเลเวล</th>
                     </tr>
                   </thead>
