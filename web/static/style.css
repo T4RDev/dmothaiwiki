@@ -5697,6 +5697,36 @@ html[data-boot-route="not-found"] #view-not-found { display: block !important; }
   flex-wrap: wrap;
 }
 
+/* ========================================== */
+/* DEDICATED CAT DUNGEON CARD                */
+/* ========================================== */
+.cat-dungeon-card {
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(15, 23, 42, 0.98) 100%);
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(245, 158, 11, 0.12);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.cat-dungeon-header {
+  padding: 14px 18px;
+  background: rgba(245, 158, 11, 0.12);
+  border-bottom: 1px solid rgba(245, 158, 11, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.cat-dungeon-body {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
 .guide-exp-mechanics-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
