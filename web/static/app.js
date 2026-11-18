@@ -5171,7 +5171,7 @@ function renderLevelingGuide() {
   if (pillsBox) {
     let pillsHtml = `
       <button class="filter-pill ${activeTier === 'all' ? 'active' : ''}" onclick="setLevelingActiveTier('all')">
-        ทั้งหมด (8 ช่วงเลเวล)
+        ทั้งหมด (${tiers.length} เส้นทางแนะนำ)
       </button>
     `;
     tiers.forEach((t) => {
