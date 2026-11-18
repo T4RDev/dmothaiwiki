@@ -5004,11 +5004,33 @@ function renderLevelingGuide() {
   if (!tiers.length) return;
 
   const data = STATE.guide.levelingData || {};
+  const goldenRules = data.golden_rules || [];
   const mechanics = data.exp_mechanics || [];
   const searchQ = (STATE.guide.levelingSearchQuery || '').trim().toLowerCase();
   const activeTier = STATE.guide.activeTier || 'all';
 
-  // 1. Render EXP Mechanics Cards
+  // 1. Render Golden Rules
+  const goldenContainer = document.getElementById('guide-golden-rules-container');
+  if (goldenContainer && goldenRules.length) {
+    goldenContainer.innerHTML = goldenRules.map(r => `
+      <div class="guide-golden-rule-card">
+        <div class="guide-golden-rule-header">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <img src="${r.icon}" class="stat-icon-inline" alt="" style="width: 18px; height: 18px;">
+            <strong style="color: #fff; font-size: 0.95rem;">${esc(r.title)}</strong>
+          </div>
+          <span class="badge" style="background: rgba(239,68,68,0.2); color: #f87171; border-color: rgba(239,68,68,0.4); font-weight: 700;">
+            ${esc(r.badge)}
+          </span>
+        </div>
+        <div style="font-size: 0.84rem; color: #cbd5e1; line-height: 1.5; margin-top: 6px;">
+          ${esc(r.desc)}
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // 2. Render EXP Mechanics Cards
   const mechContainer = document.getElementById('guide-exp-mechanics-container');
   if (mechContainer && mechanics.length) {
     mechContainer.innerHTML = mechanics.map(m => `

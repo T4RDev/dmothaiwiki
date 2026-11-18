@@ -179,7 +179,8 @@ CHAPTER_MAP_SPECS = [
         "maps": [
             ("D-เทอร์มินัล", "/images/maps/d_terminel_main01_zone.png", lambda q: "D-เทอร์มินัล" in q["raw_map_name"]),
             ("หมู่บ้านพายุหิมะ", "/images/maps/ice_land01_zone.png", lambda q: "หมู่บ้านพายุหิมะ" in q["raw_map_name"]),
-            ("หมู่บ้านมนุษย์หิมะ", "/images/maps/ice_land03_zone.png", lambda q: any(k in q["raw_map_name"] for k in ["มนุษย์หิมะ", "กำแพงน้ำแข็ง", "ดินแดนน้ำแข็ง"])),
+            ("หมู่บ้านมนุษย์หิมะ", "/images/maps/ice_land03_zone.png", lambda q: "หมู่บ้านมนุษย์หิมะ" in q["raw_map_name"]),
+            ("กำแพงน้ำแข็งนิรันดร์", "/images/maps/ice_land_05_zone.png", lambda q: any(k in q["raw_map_name"] for k in ["กำแพงน้ำแข็ง", "ดินแดนน้ำแข็ง"])),
         ]
     },
     # 4. File Island
