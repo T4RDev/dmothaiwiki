@@ -110,7 +110,7 @@ dungeons_list = [
         "npc_icon": "/images/taichi_npc.png",
         "location": "พื้นที่แห่งความว่างเปล่า (สไปรอลเมาท์เทน)",
         "map_name": "พื้นที่แห่งความว่างเปล่า",
-        "map_image": "/images/maps/1906_zone.png",
+        "map_image": "/images/maps/1915_zone.png",
         "players": "ปาร์ตี้ 4 คน (ดันเจี้ยนอินสแตนซ์)",
         "level_range": "Lv. 150 - 165+",
         "ticket": "ผ่านเควสเนื้อเรื่องสไปรอลเมาท์เทน",
