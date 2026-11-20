@@ -32,7 +32,9 @@ const STATE = {
     levelingTiers: [],
     activeTier: 'all',
     levelingSearchQuery: '',
-    expandedTiers: new Set(['tier1', 'tier2', 'tier3', 'tier4', 'tier5', 'tier6', 'tier7', 'tier8'])
+    expandedTiers: new Set(['tier1', 'tier2', 'tier3', 'tier4', 'tier5', 'tier6', 'tier7', 'tier8']),
+    activeDungeonId: 'all',
+    expandedDungeons: new Set(['cat_dungeon', 'mugen_dungeon', 'apo_dungeon'])
   }
 };
 
@@ -5037,113 +5039,191 @@ function renderLevelingGuide() {
     `).join('');
   }
 
-  // 1.5 Render Dedicated Cat Dungeon Section (สวนลับแห่งโยโกฮาม่า Solo Lv. 1 - 140)
-  const catContainer = document.getElementById('guide-cat-dungeon-container');
-  const catData = data.cat_dungeon;
-  if (catContainer && catData) {
-    const catMonstersRows = (catData.monsters || []).map(m => `
-      <tr>
-        <td style="font-weight: 600; color: #fff;">
+  // 1.5 Render Dedicated Leveling Dungeons Section (ดันเจี้ยนแมว, ดันเจี้ยนมุเกน, ดันเจี้ยนอาโพ)
+  const dungeonsContainer = document.getElementById('guide-cat-dungeon-container');
+  const dungeonsList = data.dungeons || (data.cat_dungeon ? [data.cat_dungeon] : []);
+  if (dungeonsContainer && dungeonsList.length) {
+    const activeDId = STATE.guide.activeDungeonId || 'all';
+    const filteredDungeons = activeDId === 'all'
+      ? dungeonsList
+      : dungeonsList.filter(d => d.id === activeDId);
+
+    const themeStyles = {
+      amber: {
+        border: 'rgba(245, 158, 11, 0.4)',
+        headerBg: 'rgba(245, 158, 11, 0.12)',
+        badgeBg: 'rgba(245, 158, 11, 0.25)',
+        badgeColor: '#fbbf24',
+        badgeBorder: 'rgba(245, 158, 11, 0.5)',
+        npcBorder: 'rgba(245, 158, 11, 0.5)',
+        boxBorder: 'rgba(245, 158, 11, 0.25)',
+        boxTitle: '#fbbf24',
+        proTipBg: 'rgba(16, 185, 129, 0.08)',
+        proTipBorder: 'rgba(16, 185, 129, 0.3)',
+        proTipColor: '#34d399',
+        proTipSummary: '#a7f3d0'
+      },
+      cyan: {
+        border: 'rgba(6, 182, 212, 0.4)',
+        headerBg: 'rgba(6, 182, 212, 0.12)',
+        badgeBg: 'rgba(6, 182, 212, 0.25)',
+        badgeColor: '#22d3ee',
+        badgeBorder: 'rgba(6, 182, 212, 0.5)',
+        npcBorder: 'rgba(6, 182, 212, 0.5)',
+        boxBorder: 'rgba(6, 182, 212, 0.25)',
+        boxTitle: '#38bdf8',
+        proTipBg: 'rgba(6, 182, 212, 0.08)',
+        proTipBorder: 'rgba(6, 182, 212, 0.3)',
+        proTipColor: '#22d3ee',
+        proTipSummary: '#bae6fd'
+      },
+      purple: {
+        border: 'rgba(168, 85, 247, 0.4)',
+        headerBg: 'rgba(168, 85, 247, 0.12)',
+        badgeBg: 'rgba(168, 85, 247, 0.25)',
+        badgeColor: '#c084fc',
+        badgeBorder: 'rgba(168, 85, 247, 0.5)',
+        npcBorder: 'rgba(168, 85, 247, 0.5)',
+        boxBorder: 'rgba(168, 85, 247, 0.25)',
+        boxTitle: '#c084fc',
+        proTipBg: 'rgba(168, 85, 247, 0.08)',
+        proTipBorder: 'rgba(168, 85, 247, 0.3)',
+        proTipColor: '#c084fc',
+        proTipSummary: '#e9d5ff'
+      }
+    };
+
+    const dungeonCardsHtml = filteredDungeons.map(d => {
+      const th = themeStyles[d.theme || 'amber'] || themeStyles.amber;
+      const mRows = (d.monsters || []).map(m => `
+        <tr>
+          <td style="font-weight: 600; color: #fff;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <img src="${m.icon || '/images/ui/ui_digimon.png'}" class="stat-icon-inline" alt="" style="width: 24px; height: 24px; border-radius: 4px;" onerror="this.src='/images/ui/ui_digimon.png';">
+              <div>
+                <span style="display: block; font-size: 0.9rem;">${esc(m.name)}</span>
+                <span style="font-size: 0.75rem; color: #38bdf8;">${esc(m.stage)}</span>
+              </div>
+            </div>
+          </td>
+          <td>
+            <span class="badge" style="background: rgba(16,185,129,0.2); color: #34d399; border-color: rgba(16,185,129,0.4); font-weight: 700;">
+              ${esc(m.level)}
+            </span>
+          </td>
+          <td style="color: #cbd5e1; font-size: 0.83rem; line-height: 1.45;">
+            ${esc(m.notes)}
+          </td>
+        </tr>
+      `).join('');
+
+      return `
+        <div class="cat-dungeon-card" style="border-color: ${th.border}; margin-bottom: 16px;">
+          <div class="cat-dungeon-header" style="background: ${th.headerBg}; border-bottom-color: ${th.border};">
+            <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+              <img src="${d.npc_icon}" class="stat-icon-inline" alt="" style="width: 38px; height: 38px; border-radius: 8px; border: 1px solid ${th.npcBorder}; background: #000;" onerror="this.src='/images/ui/ui_tamer.png';">
+              <div>
+                <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                  <span style="font-size: 1.12rem; font-weight: 800; color: #fff;">${esc(d.title)}</span>
+                  <span class="badge" style="background: ${th.badgeBg}; color: ${th.badgeColor}; border-color: ${th.badgeBorder}; font-weight: 700;">
+                    ${esc(d.badge)}
+                  </span>
+                  <span class="badge" style="background: rgba(16,185,129,0.2); color: #34d399; border-color: rgba(16,185,129,0.4); font-weight: 700;">
+                    ${esc(d.level_range)}
+                  </span>
+                </div>
+                <div style="font-size: 0.82rem; color: var(--text-muted); margin-top: 3px;">
+                  NPC นำทาง: <strong style="color: #f1f5f9;">${esc(d.npc_name)} &lt;${esc(d.npc_title)}&gt;</strong> · พิกัด: <strong style="color: #38bdf8;">${esc(d.location)}</strong> · โหมด: <strong style="color: #a78bfa;">${esc(d.players)}</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cat-dungeon-body">
+            <div class="leveling-layout-grid">
+              <!-- Left: Map Preview & Access Box -->
+              <div class="leveling-map-box">
+                <div class="leveling-map-thumb-wrap" data-map-name="ทางเข้า ${esc(d.title)} (${esc(d.location)})" data-map-image="${esc(d.map_image)}" onclick="openGuideMapByElem(this); event.stopPropagation();" title="กดเพื่อดูรูปแผนที่ขนาดใหญ่">
+                  <img src="${d.map_image}" class="leveling-map-thumb-img" alt="${esc(d.title)}" onerror="this.src='/images/maps/105_zone.png';">
+                  <div class="leveling-map-thumb-overlay">
+                    <img src="/images/ui/ui_map.png" class="stat-icon-inline" alt="" style="width: 14px; height: 14px; vertical-align: middle;"> คลิกเพื่อซูมรูปแผนที่
+                  </div>
+                </div>
+                <div style="font-size: 0.92rem; font-weight: 700; color: ${th.boxTitle}; display: flex; align-items: center; gap: 6px;">
+                  <img src="/images/ui/ui_unlock.png" class="stat-icon-inline" alt="" style="width: 16px; height: 16px;">
+                  <span>เงื่อนไข/ตั๋ว: ${esc(d.ticket)}</span>
+                </div>
+                <div style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.45; background: rgba(0,0,0,0.3); padding: 8px 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06);">
+                  <div style="color: #94a3b8; font-weight: 600; margin-bottom: 2px;">
+                    วิธีเดินทาง / NPC นำทาง:
+                  </div>
+                  <span>เดินทางไปที่ ${esc(d.location)} คุยกับ NPC <strong>${esc(d.npc_name)}</strong> &lt;${esc(d.npc_title)}&gt; เพื่อเข้าสู่ดันเจี้ยน</span>
+                </div>
+              </div>
+
+              <!-- Right: Details, Strategy & Leveling Monsters Table -->
+              <div style="display: flex; flex-direction: column; gap: 14px;">
+                <div style="background: rgba(15,23,42,0.5); border: 1px solid ${th.boxBorder}; border-radius: 8px; padding: 12px 14px;">
+                  <div style="font-size: 0.86rem; font-weight: 700; color: ${th.boxTitle}; margin-bottom: 4px;">จุดเด่น & สรุปแนวทางการฟาร์มในดันเจี้ยน:</div>
+                  <div style="font-size: 0.84rem; color: #cbd5e1; line-height: 1.5;">${esc(d.description)}</div>
+                  <div style="font-size: 0.84rem; color: #93c5fd; line-height: 1.5; margin-top: 8px; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 6px;">
+                    <strong>สูตรการฟาร์ม:</strong> ${esc(d.strategy)}
+                  </div>
+                </div>
+
+                <!-- Leveling Monsters Table -->
+                <div style="overflow-x: auto; border: 1px solid var(--border-color); border-radius: 8px;">
+                  <table class="leveling-monsters-table">
+                    <thead>
+                      <tr>
+                        <th style="min-width: 180px;">มอนสเตอร์ในดันเจี้ยน</th>
+                        <th style="width: 100px;">เลเวล</th>
+                        <th>จุดเด่น & คำแนะนำในการเก็บเลเวล</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      ${mRows}
+                    </tbody>
+                  </table>
+                </div>
+
+                <!-- Pro Tip Box -->
+                <div class="leveling-pro-tip" style="background: ${th.proTipBg}; border-color: ${th.proTipBorder}; color: ${th.proTipSummary};">
+                  <img src="/images/ui/ui_gift.png" class="leveling-pro-tip-icon" alt="">
+                  <div>
+                    <strong style="color: ${th.proTipColor};">สรุปความคุ้มค่า:</strong>
+                    <span> ${esc(d.strategy)}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    dungeonsContainer.innerHTML = `
+      <div style="margin-bottom: 12px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">
           <div style="display: flex; align-items: center; gap: 8px;">
-            <img src="${m.icon || '/images/ui/ui_digimon.png'}" class="stat-icon-inline" alt="" style="width: 24px; height: 24px; border-radius: 4px;" onerror="this.src='/images/ui/ui_digimon.png';">
-            <div>
-              <span style="display: block; font-size: 0.9rem;">${esc(m.name)}</span>
-              <span style="font-size: 0.75rem; color: #38bdf8;">${esc(m.stage)}</span>
-            </div>
+            <img src="/images/ui/ui_dungeon.png" class="stat-icon-inline" alt="" style="width: 20px; height: 20px;">
+            <h3 style="margin: 0; font-size: 1.15rem; font-weight: 800; color: #fff;">ดันเจี้ยนฟาร์มเลเวลยอดนิยม</h3>
+            <span class="badge" style="background: rgba(56,189,248,0.15); color: #38bdf8; border-color: rgba(56,189,248,0.3); font-weight: 700;">
+              ${dungeonsList.length} ดันเจี้ยนแนะนำ
+            </span>
           </div>
-        </td>
-        <td>
-          <span class="badge" style="background: rgba(16,185,129,0.2); color: #34d399; border-color: rgba(16,185,129,0.4); font-weight: 700;">
-            ${esc(m.level)}
-          </span>
-        </td>
-        <td style="color: #cbd5e1; font-size: 0.83rem; line-height: 1.45;">
-          ${esc(m.notes)}
-        </td>
-      </tr>
-    `).join('');
-
-    catContainer.innerHTML = `
-      <div class="cat-dungeon-card">
-        <div class="cat-dungeon-header">
-          <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
-            <img src="${catData.npc_icon}" class="stat-icon-inline" alt="" style="width: 38px; height: 38px; border-radius: 8px; border: 1px solid rgba(245,158,11,0.5); background: #000;" onerror="this.src='/images/ui/ui_tamer.png';">
-            <div>
-              <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-                <span style="font-size: 1.12rem; font-weight: 800; color: #fff;">${esc(catData.title)}</span>
-                <span class="badge" style="background: rgba(245,158,11,0.25); color: #fbbf24; border-color: rgba(245,158,11,0.5); font-weight: 700;">
-                  ${esc(catData.badge)}
-                </span>
-                <span class="badge" style="background: rgba(16,185,129,0.2); color: #34d399; border-color: rgba(16,185,129,0.4); font-weight: 700;">
-                  ${esc(catData.level_range)}
-                </span>
-              </div>
-              <div style="font-size: 0.82rem; color: var(--text-muted); margin-top: 3px;">
-                NPC นำทาง: <strong style="color: #f1f5f9;">${esc(catData.npc_name)} &lt;${esc(catData.npc_title)}&gt;</strong> · พิกัด: <strong style="color: #38bdf8;">${esc(catData.location)}</strong> · โหมด: <strong style="color: #a78bfa;">${esc(catData.players)}</strong>
-              </div>
-            </div>
+          <div class="guide-pills-bar" style="margin-bottom: 0;">
+            <button class="guide-pill-btn ${activeDId === 'all' ? 'active' : ''}" onclick="selectGuideDungeon('all')">
+              ทั้งหมด (${dungeonsList.length} ดันเจี้ยน)
+            </button>
+            ${dungeonsList.map(d => `
+              <button class="guide-pill-btn ${activeDId === d.id ? 'active' : ''}" onclick="selectGuideDungeon('${esc(d.id)}')">
+                ${esc(d.name)} (${esc(d.level_range)})
+              </button>
+            `).join('')}
           </div>
         </div>
-
-        <div class="cat-dungeon-body">
-          <div class="leveling-layout-grid">
-            <!-- Left: Map Preview & Access Box -->
-            <div class="leveling-map-box">
-              <div class="leveling-map-thumb-wrap" data-map-name="ทางเข้าดันเจี้ยนแมว (${esc(catData.location)})" data-map-image="${esc(catData.map_image)}" onclick="openGuideMapByElem(this); event.stopPropagation();" title="กดเพื่อดูรูปแผนที่ขนาดใหญ่">
-                <img src="${catData.map_image}" class="leveling-map-thumb-img" alt="ดันเจี้ยนแมว" onerror="this.src='/images/maps/105_zone.png';">
-                <div class="leveling-map-thumb-overlay">
-                  <img src="/images/ui/ui_map.png" class="stat-icon-inline" alt="" style="width: 14px; height: 14px; vertical-align: middle;"> คลิกเพื่อซูมรูปแผนที่ทางเข้า
-                </div>
-              </div>
-              <div style="font-size: 0.92rem; font-weight: 700; color: #fbbf24; display: flex; align-items: center; gap: 6px;">
-                <img src="/images/ui/ui_unlock.png" class="stat-icon-inline" alt="" style="width: 16px; height: 16px;">
-                <span>ตั๋วเข้า: ${esc(catData.ticket)}</span>
-              </div>
-              <div style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.45; background: rgba(0,0,0,0.3); padding: 8px 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06);">
-                <div style="color: #94a3b8; font-weight: 600; margin-bottom: 2px;">
-                  วิธีไปหา NPC แมว:
-                </div>
-                <span>เดินทางไปที่ ${esc(catData.location)} คุยกับแมว <strong>ดัลบง</strong> แล้วเลือกเข้าสู่สวนลับ</span>
-              </div>
-            </div>
-
-            <!-- Right: Details, Strategy & Leveling Stages Table -->
-            <div style="display: flex; flex-direction: column; gap: 14px;">
-              <div style="background: rgba(15,23,42,0.5); border: 1px solid rgba(245,158,11,0.25); border-radius: 8px; padding: 12px 14px;">
-                <div style="font-size: 0.86rem; font-weight: 700; color: #fbbf24; margin-bottom: 4px;">ทำไมดันเจี้ยนแมวถึงฟาร์มเวลได้ 1 - 140 ไวที่สุด?</div>
-                <div style="font-size: 0.84rem; color: #cbd5e1; line-height: 1.5;">${esc(catData.description)}</div>
-                <div style="font-size: 0.84rem; color: #93c5fd; line-height: 1.5; margin-top: 8px; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 6px;">
-                  <strong>สูตรการฟาร์มตามกฎ 29 เลเวล:</strong> ${esc(catData.strategy)}
-                </div>
-              </div>
-
-              <!-- 3-Step Leveling Table -->
-              <div style="overflow-x: auto; border: 1px solid var(--border-color); border-radius: 8px;">
-                <table class="leveling-monsters-table">
-                  <thead>
-                    <tr>
-                      <th style="min-width: 180px;">มอนสเตอร์ในดันเจี้ยน</th>
-                      <th style="width: 100px;">เลเวล</th>
-                      <th>จุดเด่น & คำแนะนำในการเก็บเลเวล</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    ${catMonstersRows}
-                  </tbody>
-                </table>
-              </div>
-
-              <!-- Pro Tip Box -->
-              <div class="leveling-pro-tip" style="background: rgba(16,185,129,0.08); border-color: rgba(16,185,129,0.3); color: #a7f3d0;">
-                <img src="/images/ui/ui_gift.png" class="leveling-pro-tip-icon" alt="">
-                <div>
-                  <strong style="color: #34d399;">สรุปความคุ้มค่า:</strong>
-                  <span> ดันเจี้ยนแมวเหมาะสำหรับทุกคนที่อยากเก็บเลเวลแบบ Solo ตัวคนเดียว สามารถกดบัฟ EXP 1,000% แล้วลงไปตีมอนสเตอร์ 3 สเต็ปนี้ เลเวลจะพุ่งจาก Lv. 1 ไปจนถึง 140 ได้ในเวลาอันรวดเร็วโดยไม่ต้องรอตี้!</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        ${dungeonCardsHtml}
       </div>
     `;
   }
@@ -5347,6 +5427,11 @@ function setLevelingActiveTier(tierId) {
   if (tierId !== 'all') {
     STATE.guide.expandedTiers.add(tierId);
   }
+  renderLevelingGuide();
+}
+
+function selectGuideDungeon(dungeonId) {
+  STATE.guide.activeDungeonId = dungeonId;
   renderLevelingGuide();
 }
 
