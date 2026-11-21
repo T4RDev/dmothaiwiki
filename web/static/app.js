@@ -38,7 +38,7 @@ const STATE = {
     weeklyData: null,
     weeklyActiveCat: 'all',
     weeklySearchQuery: '',
-    expandedWeekly: new Set(['kimeramon_dungeon', 'kaiser_lab', 'susanoomon_dungeon', 'royal_base_hard', 'dark_web', 'neverland_eosmon', 'nightmare_dungeon', 'digimon_arena'])
+    expandedWeekly: new Set(['kimeramon_dungeon', 'blackmetal_dungeon', 'susanoomon_dungeon', 'royal_base_hard', 'dark_web', 'neverland_eosmon', 'nightmare_dungeon', 'digimon_arena'])
   }
 };
 
