@@ -5632,42 +5632,6 @@ function renderWeeklyDungeonsGuide() {
     const isExpanded = STATE.guide.expandedWeekly.has(d.id);
     const th = themeStyles[d.badge_color || 'cyan'] || themeStyles.cyan;
 
-    // Drops table rows
-    const dropsRows = (d.drops || []).map(dr => `
-      <tr>
-        <td style="font-weight: 600; color: #fff;">
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <img src="${dr.icon || '/images/ui/ui_gift.png'}" class="stat-icon-inline" alt="" style="width: 28px; height: 28px; border-radius: 4px; background: rgba(0,0,0,0.5); padding: 2px; border: 1px solid rgba(255,255,255,0.1);" onerror="this.src='/images/ui/ui_gift.png';">
-            <div>
-              <span style="display: block; font-size: 0.9rem; color: #f1f5f9;">${esc(dr.name)}</span>
-              <span style="font-size: 0.76rem; color: #94a3b8;">${esc(dr.desc)}</span>
-            </div>
-          </div>
-        </td>
-        <td style="width: 140px; text-align: right;">
-          <span class="badge" style="background: rgba(16,185,129,0.18); color: #34d399; border-color: rgba(16,185,129,0.35); font-weight: 700;">
-            ${esc(dr.count)}
-          </span>
-        </td>
-      </tr>
-    `).join('');
-
-    // Crafting items cards
-    const craftingCards = (d.crafting || []).map(cr => `
-      <div style="background: rgba(15,23,42,0.6); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 10px 12px; margin-bottom: 8px;">
-        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px; margin-bottom: 4px;">
-          <span style="font-weight: 700; color: #38bdf8; font-size: 0.88rem;">${esc(cr.target)}</span>
-          <span class="badge" style="background: rgba(245,158,11,0.15); color: #fbbf24; border-color: rgba(245,158,11,0.3); font-size: 0.72rem;">Endgame Craft</span>
-        </div>
-        <div style="font-size: 0.8rem; color: #cbd5e1; margin-bottom: 4px;">
-          <strong style="color: #94a3b8;">วัตถุดิบที่ใช้:</strong> ${esc(cr.materials)}
-        </div>
-        <div style="font-size: 0.78rem; color: #a7f3d0; line-height: 1.4;">
-          <strong style="color: #34d399;">คุณสมบัติ / ผลลัพธ์:</strong> ${esc(cr.result_desc)}
-        </div>
-      </div>
-    `).join('');
-
     return `
       <div class="leveling-tier-card ${isExpanded ? 'expanded' : ''}" id="weekly-card-${d.id}" style="border-color: ${th.border};">
         <!-- Header -->
@@ -5685,7 +5649,7 @@ function renderWeeklyDungeonsGuide() {
                 </span>
               </div>
               <div style="font-size: 0.82rem; color: var(--text-muted); margin-top: 3px;">
-                ${esc(d.sub_name)} · โหมด: <strong style="color: #f1f5f9;">${esc(d.party_size)}</strong> · แนะนำเลเวล: <strong style="color: #34d399;">${esc(d.level_recommended)}</strong>
+                ${esc(d.sub_name)} · โหมด: <strong style="color: #f1f5f9;">${esc(d.party_size)}</strong> · เลเวลบังคับขั้นต่ำ: <strong style="color: #f87171;">${esc(d.min_entry_level || d.level_recommended)}</strong>
               </div>
             </div>
           </div>
@@ -5721,7 +5685,7 @@ function renderWeeklyDungeonsGuide() {
               </div>
             </div>
 
-            <!-- Right Column: Why Must Run, Drops, Crafting, Strategy -->
+            <!-- Right Column: Why Run, Stats Benchmark, Walkthrough, Mechanics Warning -->
             <div style="display: flex; flex-direction: column; gap: 14px; flex: 1;">
               <!-- 1. Why Must Run Weekly -->
               <div style="background: ${th.whyBg}; border: 1px solid ${th.whyBorder}; border-radius: 8px; padding: 12px 14px;">
@@ -5734,42 +5698,72 @@ function renderWeeklyDungeonsGuide() {
                 </div>
               </div>
 
-              <!-- 2. Drops Table (ได้ของอะไร) -->
-              <div>
-                <div style="font-size: 0.86rem; font-weight: 700; color: #fff; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
-                  <img src="/images/ui/ui_inventory.png" class="stat-icon-inline" alt="" style="width: 16px; height: 16px;">
-                  <span>ไอเทมดรอปการันตี & รางวัลสำคัญประจำสัปดาห์:</span>
-                </div>
-                <div style="overflow-x: auto; border: 1px solid var(--border-color); border-radius: 8px;">
-                  <table class="leveling-monsters-table" style="margin-bottom: 0;">
-                    <tbody>
-                      ${dropsRows}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
-              <!-- 3. Crafting Targets (คราฟอะไรได้บ้าง) -->
-              ${d.crafting && d.crafting.length ? `
-                <div>
-                  <div style="font-size: 0.86rem; font-weight: 700; color: #fff; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
-                    <img src="/images/ui/ui_gear.png" class="stat-icon-inline" alt="" style="width: 16px; height: 16px;">
-                    <span>วัตถุดิบคราฟต์อุปกรณ์ระดับ Endgame ที่ต้องใช้ไอเทมจากดันนี้:</span>
+              <!-- 2. Stats Benchmark & Party Roles -->
+              ${d.stat_requirements ? `
+                <div style="background: rgba(15,23,42,0.6); border: 1px solid rgba(56,189,248,0.25); border-radius: 8px; padding: 12px 14px;">
+                  <div style="font-size: 0.88rem; font-weight: 800; color: #38bdf8; display: flex; align-items: center; gap: 6px; margin-bottom: 10px;">
+                    <img src="/images/ui/ui_gear.png" class="stat-icon-inline" alt="" style="width: 18px; height: 18px;">
+                    <span>เกณฑ์สเตตัสดิจิมอนที่แนะนำ & ปาร์ตี้ (Stats Benchmark):</span>
                   </div>
-                  <div>
-                    ${craftingCards}
+                  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 8px; margin-bottom: 10px;">
+                    <div style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.06); border-radius: 6px; padding: 8px 10px;">
+                      <div style="font-size: 0.76rem; color: #f87171; font-weight: 700; text-transform: uppercase;">HP ขั้นต่ำ</div>
+                      <div style="font-size: 0.84rem; color: #f1f5f9; font-weight: 600; margin-top: 2px;">${esc(d.stat_requirements.min_hp)}</div>
+                    </div>
+                    <div style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.06); border-radius: 6px; padding: 8px 10px;">
+                      <div style="font-size: 0.76rem; color: #38bdf8; font-weight: 700; text-transform: uppercase;">HT (Hit Rate) ขั้นต่ำ</div>
+                      <div style="font-size: 0.84rem; color: #f1f5f9; font-weight: 600; margin-top: 2px;">${esc(d.stat_requirements.min_ht)}</div>
+                    </div>
+                    <div style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.06); border-radius: 6px; padding: 8px 10px;">
+                      <div style="font-size: 0.76rem; color: #fbbf24; font-weight: 700; text-transform: uppercase;">CT (Critical Chance)</div>
+                      <div style="font-size: 0.84rem; color: #f1f5f9; font-weight: 600; margin-top: 2px;">${esc(d.stat_requirements.min_ct)}</div>
+                    </div>
+                    <div style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.06); border-radius: 6px; padding: 8px 10px;">
+                      <div style="font-size: 0.76rem; color: #a78bfa; font-weight: 700; text-transform: uppercase;">AT (Base Attack)</div>
+                      <div style="font-size: 0.84rem; color: #f1f5f9; font-weight: 600; margin-top: 2px;">${esc(d.stat_requirements.min_at)}</div>
+                    </div>
+                  </div>
+                  <div style="font-size: 0.82rem; color: #cbd5e1; line-height: 1.5; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 8px; display: flex; flex-direction: column; gap: 4px;">
+                    <div><strong style="color: #34d399;">แรงก์ดิจิมอนแนะนำ:</strong> ${esc(d.stat_requirements.digimon_tier)}</div>
+                    <div><strong style="color: #f43f5e;">บทบาทในปาร์ตี้:</strong> ${esc(d.stat_requirements.party_roles)}</div>
                   </div>
                 </div>
               ` : ''}
 
-              <!-- 4. Strategy & Tip -->
-              <div class="leveling-pro-tip" style="background: rgba(15,23,42,0.6); border-color: rgba(255,255,255,0.1); color: #cbd5e1; margin-top: 0;">
-                <img src="/images/ui/ui_sparkle.png" class="leveling-pro-tip-icon" alt="" onerror="this.src='/images/ui/ui_gift.png';">
-                <div>
-                  <strong style="color: #38bdf8;">สูตรและเทคนิคการลง:</strong>
-                  <span> ${esc(d.strategy)}</span>
+              <!-- 3. Walkthrough Phases -->
+              ${d.walkthrough && d.walkthrough.length ? `
+                <div style="background: rgba(15,23,42,0.6); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 12px 14px;">
+                  <div style="font-size: 0.88rem; font-weight: 800; color: #fff; display: flex; align-items: center; gap: 6px; margin-bottom: 10px;">
+                    <img src="/images/ui/ui_sparkle.png" class="stat-icon-inline" alt="" style="width: 18px; height: 18px;" onerror="this.src='/images/ui/ui_gift.png';">
+                    <span>ขั้นตอนและวิธีลงดันเจี้ยนให้ผ่าน (Walkthrough & Boss Mechanics):</span>
+                  </div>
+                  <div style="display: flex; flex-direction: column; gap: 8px;">
+                    ${d.walkthrough.map(step => `
+                      <div style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05); border-left: 3px solid #38bdf8; border-radius: 6px; padding: 10px 12px;">
+                        <div style="font-weight: 700; color: #38bdf8; font-size: 0.86rem; margin-bottom: 3px;">
+                          ${esc(step.phase)}
+                        </div>
+                        <div style="font-size: 0.82rem; color: #cbd5e1; line-height: 1.5;">
+                          ${esc(step.detail)}
+                        </div>
+                      </div>
+                    `).join('')}
+                  </div>
                 </div>
-              </div>
+              ` : ''}
+
+              <!-- 4. Mechanics Warning & Pro Tips -->
+              ${d.mechanics_warning && d.mechanics_warning.length ? `
+                <div style="background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.25); border-radius: 8px; padding: 12px 14px;">
+                  <div style="font-size: 0.86rem; font-weight: 800; color: #f87171; display: flex; align-items: center; gap: 6px; margin-bottom: 8px;">
+                    <img src="/images/ui/ui_unlock.png" class="stat-icon-inline" alt="" style="width: 16px; height: 16px;">
+                    <span>ข้อควรระวังสำคัญ & กลไกที่ทำให้ตายหมู่ (Mechanics Warning):</span>
+                  </div>
+                  <ul style="margin: 0; padding-left: 20px; font-size: 0.82rem; color: #fca5a5; line-height: 1.55;">
+                    ${d.mechanics_warning.map(w => `<li style="margin-bottom: 4px;">${esc(w)}</li>`).join('')}
+                  </ul>
+                </div>
+              ` : ''}
             </div>
           </div>
         </div>
