@@ -5128,9 +5128,6 @@ function renderLevelingGuide() {
                   <span class="badge" style="background: ${th.badgeBg}; color: ${th.badgeColor}; border-color: ${th.badgeBorder}; font-weight: 700;">
                     ${esc(d.badge)}
                   </span>
-                  <span class="badge" style="background: rgba(16,185,129,0.2); color: #34d399; border-color: rgba(16,185,129,0.4); font-weight: 700;">
-                    ${esc(d.level_range)}
-                  </span>
                 </div>
                 <div style="font-size: 0.82rem; color: var(--text-muted); margin-top: 3px;">
                   NPC นำทาง: <strong style="color: #f1f5f9;">${esc(d.npc_name)} &lt;${esc(d.npc_title)}&gt;</strong> · พิกัด: <strong style="color: #38bdf8;">${esc(d.location)}</strong> · โหมด: <strong style="color: #a78bfa;">${esc(d.players)}</strong>
