@@ -1290,6 +1290,9 @@ def _render_index_html(status_code: int = 200):
 @app.get("/seal/{rest:path}")
 @app.get("/dunits")
 @app.get("/dunits/{rest:path}")
+@app.get("/clones")
+@app.get("/clones/{rest:path}")
+@app.get("/clone")
 def spa_routes(rest: str = ""):
     return _render_index_html(200)
 

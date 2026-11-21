@@ -297,6 +297,10 @@ function handleRoute() {
     showTab('digimon');
     showDexView('dunits');
     loadDUnits();
+  } else if (rawRoute === 'clones' || rawRoute === 'clone' || rawRoute.startsWith('clones/')) {
+    showTab('digimon');
+    showDexView('clones');
+    loadDigicloneGuide();
   } else if (rawRoute === 'jogress' || rawRoute.startsWith('jogress/')) {
     const parts = rawRoute.startsWith('jogress/') ? rawRoute.slice(8).split('/').filter(Boolean) : [];
     if (parts.length > 2) { showNotFoundPage(rawRoute); return; }
@@ -1337,22 +1341,28 @@ function showDexView(view) {
   const dk = view === 'decks';
   const seals = view === 'seals';
   const dunits = view === 'dunits';
+  const clones = view === 'clones';
   document.getElementById('dex-view-eggs').style.display = eggs ? '' : 'none';
   document.getElementById('dex-view-jogress').style.display = jog ? '' : 'none';
   document.getElementById('dex-view-decks').style.display = dk ? '' : 'none';
   document.getElementById('dex-view-seals').style.display = seals ? '' : 'none';
   const duView = document.getElementById('dex-view-dunits');
   if (duView) duView.style.display = dunits ? '' : 'none';
-  document.getElementById('dex-view-digimon').style.display = (eggs || jog || dk || seals || dunits) ? 'none' : '';
+  const cloneView = document.getElementById('dex-view-clones');
+  if (cloneView) cloneView.style.display = clones ? '' : 'none';
+  document.getElementById('dex-view-digimon').style.display = (eggs || jog || dk || seals || dunits || clones) ? 'none' : '';
   document.getElementById('dex-sw-eggs').classList.toggle('active', eggs);
   document.getElementById('dex-sw-jogress').classList.toggle('active', jog);
   document.getElementById('dex-sw-decks').classList.toggle('active', dk);
   document.getElementById('dex-sw-seals').classList.toggle('active', seals);
   const duSw = document.getElementById('dex-sw-dunits');
   if (duSw) duSw.classList.toggle('active', dunits);
-  document.getElementById('dex-sw-digimon').classList.toggle('active', !eggs && !jog && !dk && !seals && !dunits);
+  const cloneSw = document.getElementById('dex-sw-clones');
+  if (cloneSw) cloneSw.classList.toggle('active', clones);
+  document.getElementById('dex-sw-digimon').classList.toggle('active', !eggs && !jog && !dk && !seals && !dunits && !clones);
   if (eggs) return loadEggs();
   if (dunits) return loadDUnits();
+  if (clones) return loadDigicloneGuide();
 }
 
 async function loadEggs() {
@@ -5804,4 +5814,408 @@ function onWeeklySearchChange() {
     STATE.guide.weeklySearchQuery = inp ? inp.value : '';
     renderWeeklyDungeonsGuide();
   }, 200);
+}
+
+
+// ==========================================
+// DIGICLONE GUIDE & PERFECT CLONE TABLE
+// ==========================================
+const DIGICLONE_DEFAULT_TABLE = [
+  { lv: 1, grade: 'D', gradeName: 'ดิจิโคลน [D]', gradeColor: '#22c55e', bg: 'rgba(34, 197, 94, 0.12)', at: 3, atGain: 3, ct: 15, ctGain: 15, bl: 2, blGain: 2, ev: 12, evGain: 12, hp: 2, hpGain: 2 },
+  { lv: 2, grade: 'D', gradeName: 'ดิจิโคลน [D]', gradeColor: '#22c55e', bg: 'rgba(34, 197, 94, 0.12)', at: 6, atGain: 3, ct: 30, ctGain: 15, bl: 4, blGain: 2, ev: 24, evGain: 12, hp: 4, hpGain: 2 },
+  { lv: 3, grade: 'D', gradeName: 'ดิจิโคลน [D]', gradeColor: '#22c55e', bg: 'rgba(34, 197, 94, 0.12)', at: 9, atGain: 3, ct: 45, ctGain: 15, bl: 6, blGain: 2, ev: 36, evGain: 12, hp: 6, hpGain: 2 },
+  { lv: 4, grade: 'C', gradeName: 'ดิจิโคลน [C]', gradeColor: '#3b82f6', bg: 'rgba(59, 130, 246, 0.12)', at: 14, atGain: 5, ct: 70, ctGain: 25, bl: 9, blGain: 3, ev: 56, evGain: 20, hp: 9, hpGain: 3 },
+  { lv: 5, grade: 'C', gradeName: 'ดิจิโคลน [C]', gradeColor: '#3b82f6', bg: 'rgba(59, 130, 246, 0.12)', at: 19, atGain: 5, ct: 95, ctGain: 25, bl: 12, blGain: 3, ev: 76, evGain: 20, hp: 12, hpGain: 3 },
+  { lv: 6, grade: 'C', gradeName: 'ดิจิโคลน [C]', gradeColor: '#3b82f6', bg: 'rgba(59, 130, 246, 0.12)', at: 24, atGain: 5, ct: 120, ctGain: 25, bl: 15, blGain: 3, ev: 96, evGain: 20, hp: 15, hpGain: 3 },
+  { lv: 7, grade: 'B', gradeName: 'ดิจิโคลน [B]', gradeColor: '#a855f7', bg: 'rgba(168, 85, 247, 0.12)', at: 34, atGain: 10, ct: 170, ctGain: 50, bl: 21, blGain: 6, ev: 136, evGain: 40, hp: 19, hpGain: 4 },
+  { lv: 8, grade: 'B', gradeName: 'ดิจิโคลน [B]', gradeColor: '#a855f7', bg: 'rgba(168, 85, 247, 0.12)', at: 44, atGain: 10, ct: 220, ctGain: 50, bl: 27, blGain: 6, ev: 176, evGain: 40, hp: 23, hpGain: 4 },
+  { lv: 9, grade: 'B', gradeName: 'ดิจิโคลน [B]', gradeColor: '#a855f7', bg: 'rgba(168, 85, 247, 0.12)', at: 54, atGain: 10, ct: 270, ctGain: 50, bl: 33, blGain: 6, ev: 216, evGain: 40, hp: 27, hpGain: 4 },
+  { lv: 10, grade: 'A', gradeName: 'ดิจิโคลน [A]', gradeColor: '#f43f5e', bg: 'rgba(244, 63, 94, 0.12)', at: 69, atGain: 15, ct: 345, ctGain: 75, bl: 42, blGain: 9, ev: 276, evGain: 60, hp: 31, hpGain: 4 },
+  { lv: 11, grade: 'A', gradeName: 'ดิจิโคลน [A]', gradeColor: '#f43f5e', bg: 'rgba(244, 63, 94, 0.12)', at: 84, atGain: 15, ct: 420, ctGain: 75, bl: 51, blGain: 9, ev: 336, evGain: 60, hp: 35, hpGain: 4 },
+  { lv: 12, grade: 'A', gradeName: 'ดิจิโคลน [A]', gradeColor: '#f43f5e', bg: 'rgba(244, 63, 94, 0.12)', at: 99, atGain: 15, ct: 495, ctGain: 75, bl: 60, blGain: 9, ev: 396, evGain: 60, hp: 39, hpGain: 4 },
+  { lv: 13, grade: 'S', gradeName: 'ดิจิโคลน [S]', gradeColor: '#f59e0b', bg: 'rgba(245, 158, 11, 0.12)', at: 114, atGain: 15, ct: 570, ctGain: 75, bl: 69, blGain: 9, ev: 456, evGain: 60, hp: 44, hpGain: 5 },
+  { lv: 14, grade: 'S', gradeName: 'ดิจิโคลน [S]', gradeColor: '#f59e0b', bg: 'rgba(245, 158, 11, 0.12)', at: 129, atGain: 15, ct: 645, ctGain: 75, bl: 78, blGain: 9, ev: 516, evGain: 60, hp: 49, hpGain: 5 },
+  { lv: 15, grade: 'S', gradeName: 'ดิจิโคลน [S]', gradeColor: '#f59e0b', bg: 'rgba(245, 158, 11, 0.12)', at: 144, atGain: 15, ct: 720, ctGain: 75, bl: 87, blGain: 9, ev: 576, evGain: 60, hp: 54, hpGain: 5 }
+];
+
+let DIGICLONE_STATE = {
+  data: null,
+  calcStat: 'AT',
+  calcBase: 3500,
+  calcLv: 15
+};
+
+async function loadDigicloneGuide() {
+  const container = document.getElementById('digiclone-guide-container');
+  if (!container) return;
+
+  if (!DIGICLONE_STATE.data) {
+    try {
+      let res = await fetch('/static/data/digiclone_guide.json');
+      if (!res.ok) res = await fetch('/data/digiclone_guide.json');
+      if (res.ok) {
+        DIGICLONE_STATE.data = await res.json();
+      }
+    } catch (e) {
+      console.warn('Failed to fetch digiclone_guide.json, using built-in table:', e);
+    }
+  }
+
+  renderDigicloneGuide();
+}
+
+function renderDigicloneGuide() {
+  const container = document.getElementById('digiclone-guide-container');
+  if (!container) return;
+
+  const tableData = (DIGICLONE_STATE.data && DIGICLONE_STATE.data.clone_table) ? DIGICLONE_STATE.data.clone_table : DIGICLONE_DEFAULT_TABLE;
+
+  // Calculate current interactive calculator values
+  const curRow = tableData.find(r => r.lv === DIGICLONE_STATE.calcLv) || tableData[tableData.length - 1];
+  const statKey = DIGICLONE_STATE.calcStat.toLowerCase();
+  const pct = curRow[statKey] || 0;
+  const baseVal = Math.max(0, parseFloat(DIGICLONE_STATE.calcBase) || 0);
+
+  let bonusVal = 0;
+  let totalVal = 0;
+  if (DIGICLONE_STATE.calcStat === 'BL') {
+    bonusVal = pct;
+    totalVal = Math.min(100, Math.round((baseVal + pct) * 10) / 10);
+  } else {
+    bonusVal = Math.round(baseVal * (pct / 100));
+    totalVal = Math.round(baseVal + bonusVal);
+  }
+
+  container.innerHTML = `
+    <div style="display: flex; flex-direction: column; gap: 20px; max-width: 1200px; margin: 0 auto; padding-bottom: 40px;">
+      
+      <!-- 1. Header Banner -->
+      <div style="background: linear-gradient(135deg, rgba(30,58,138,0.3) 0%, rgba(15,23,42,0.85) 100%); border: 1px solid rgba(56,189,248,0.3); border-radius: 12px; padding: 22px 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <img src="/images/ui/ui_clone.png" alt="" style="width: 52px; height: 52px; object-fit: contain; flex-shrink: 0;" onerror="this.src='/images/ui/ui_gear.png';">
+          <div>
+            <h2 style="margin: 0; font-size: 1.45rem; font-weight: 800; color: #fff; letter-spacing: -0.02em;">
+              ระบบการตีบวกดิจิโคลน (Digiclone Enhancement System)
+            </h2>
+            <div style="color: #94a3b8; font-size: 0.88rem; margin-top: 4px; line-height: 1.5;">
+              คู่มือการเสริมพลังดิจิโคลน ตารางเปอร์เซ็นต์ค่าสถานะ Perfect Clone สูงสุด (Lv. 1 - 15) ลำดับความสำคัญในการตีบวก และสูตรคำนวณตามเซิร์ฟเวอร์ไทยล่าสุด
+            </div>
+          </div>
+        </div>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <span class="badge" style="background: rgba(245,158,11,0.2); color: #fbbf24; border-color: rgba(245,158,11,0.4); font-size: 0.82rem; padding: 6px 12px;">
+            Max Clone: 15/15/15/15/15 (75 ขั้น)
+          </span>
+          <span class="badge" style="background: rgba(56,189,248,0.2); color: #38bdf8; border-color: rgba(56,189,248,0.4); font-size: 0.82rem; padding: 6px 12px;">
+            เกรดโคลน: D · C · B · A · S
+          </span>
+          <span class="badge" style="background: rgba(168,85,247,0.2); color: #d8b4fe; border-color: rgba(168,85,247,0.4); font-size: 0.82rem; padding: 6px 12px;">
+            มาตรฐานเอนด์เกม: Perfect 15/15
+          </span>
+        </div>
+      </div>
+
+      <!-- 2. Meta Recommendation & Digiclone Types Grid -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 16px;">
+        
+        <!-- Box A: Priority Order -->
+        <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 10px; padding: 18px 20px;">
+          <div style="font-size: 1rem; font-weight: 800; color: #38bdf8; display: flex; align-items: center; gap: 8px; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 10px;">
+            <img src="/images/ui/ui_ach.png" class="stat-icon-inline" alt="" style="width: 20px; height: 20px;">
+            <span>ลำดับความสำคัญในการตีบวกสเตตัส (Clone Stat Priority)</span>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <div style="background: rgba(0,0,0,0.25); border-left: 3px solid #ef4444; border-radius: 6px; padding: 8px 12px;">
+              <div style="font-size: 0.88rem; font-weight: 700; color: #f87171;">
+                1. AT (Attack Power) — สำคัญที่สุดอันดับ 1 ตลอดกาล (+144%)
+              </div>
+              <div style="font-size: 0.82rem; color: #cbd5e1; margin-top: 3px; line-height: 1.45;">
+                เพิ่มพลังโจมตีพื้นฐานโดยตรง ทำให้ทั้งการโจมตีธรรมดาและสกิลทุกท่า (F1 - F4) แรงขึ้นมหาศาล บังคับทำ 15/15 Perfect ก่อนทุกช่องเสมอ!
+              </div>
+            </div>
+
+            <div style="background: rgba(0,0,0,0.25); border-left: 3px solid #f59e0b; border-radius: 6px; padding: 8px 12px;">
+              <div style="font-size: 0.88rem; font-weight: 700; color: #fbbf24;">
+                2. CT (Critical Chance) — จำเป็นสำหรับบอสเอนด์เกม (+720%)
+              </div>
+              <div style="font-size: 0.82rem; color: #cbd5e1; margin-top: 3px; line-height: 1.45;">
+                บอสดันเจี้ยนเอนด์เกมเซิร์ฟไทย (Lv. 140 - 160) มีค่าต้านทานคริติคอลสูงมาก ต้องโคลน CT เต็ม 15/15 เพื่อให้การโจมตีติดคริติคอล 100% ทุกฮิต
+              </div>
+            </div>
+
+            <div style="background: rgba(0,0,0,0.25); border-left: 3px solid #3b82f6; border-radius: 6px; padding: 8px 12px;">
+              <div style="font-size: 0.88rem; font-weight: 700; color: #60a5fa;">
+                3. BL (Block Rate) — หัวใจสายลงดันเจี้ยน (+87% Flat Block)
+              </div>
+              <div style="font-size: 0.82rem; color: #cbd5e1; margin-top: 3px; line-height: 1.45;">
+                เป็นสเตตัสเดียวที่คิดเป็น Flat % บวกตรงๆ! เมื่อโคลนเต็ม 15 รวมกับค่าพื้นฐานจะเกิน 100% บล็อกลดความเสียหายกายภาพลง 50% ตลอดเวลา
+              </div>
+            </div>
+
+            <div style="background: rgba(0,0,0,0.25); border-left: 3px solid #06b6d4; border-radius: 6px; padding: 8px 12px;">
+              <div style="font-size: 0.88rem; font-weight: 700; color: #22d3ee;">
+                4. HP (Max Health) หรือ EV (Evasion) — สายเรดบอส vs สายทั่วไป
+              </div>
+              <div style="font-size: 0.82rem; color: #cbd5e1; margin-top: 3px; line-height: 1.45;">
+                <strong>สายเอนด์เกม:</strong> แนะนำโคลน HP (+54%) เพื่อดันเลือดรวมแตะเกณฑ์ 80k - 120k+ ทนสกิล One-Shot ในดันไกเซอร์/รอยัลเบส/เนเวอร์แลนด์<br>
+                <strong>สายทั่วไป:</strong> โคลน EV (+576%) ช่วยหลบหลีกการโจมตีทั่วไปในแผนที่
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Box B: Digiclone Item Types -->
+        <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 10px; padding: 18px 20px;">
+          <div style="font-size: 1rem; font-weight: 800; color: #fbbf24; display: flex; align-items: center; gap: 8px; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 10px;">
+            <img src="/images/ui/ui_gear.png" class="stat-icon-inline" alt="" style="width: 20px; height: 20px;" onerror="this.src='/images/ui/ui_clone.png';">
+            <span>ประเภทของไอเทมดิจิโคลน & กฎการใช้งาน (Item Types)</span>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <div style="background: rgba(0,0,0,0.25); border-radius: 6px; padding: 8px 12px; border: 1px solid rgba(255,255,255,0.05);">
+              <div style="display: flex; align-items: center; justify-content: space-between;">
+                <strong style="color: #cbd5e1; font-size: 0.86rem;">ดิจิโคลนธรรมดา [D] ~ [S]</strong>
+                <span class="badge" style="background: rgba(148,163,184,0.15); color: #94a3b8; font-size: 0.74rem;">สุ่มค่าสเตตัส / มีโอกาสล้มเหลว</span>
+              </div>
+              <div style="font-size: 0.8rem; color: #94a3b8; margin-top: 3px; line-height: 1.4;">
+                หาได้จากการฟาร์มมอนสเตอร์/การ์ด มีโอกาสล้มเหลวและค่าสเตตัสสุ่ม หากพลาดโดยไม่ใส่ Backup Disk ระดับจะลดลง 1 ขั้น
+              </div>
+            </div>
+
+            <div style="background: rgba(0,0,0,0.25); border-radius: 6px; padding: 8px 12px; border: 1px solid rgba(56,189,248,0.2);">
+              <div style="display: flex; align-items: center; justify-content: space-between;">
+                <strong style="color: #38bdf8; font-size: 0.86rem;">ดิจิโคลนชั้นดี (Reinforced) [D] ~ [S]</strong>
+                <span class="badge" style="background: rgba(56,189,248,0.15); color: #38bdf8; font-size: 0.74rem;">การันตี Perfect เสมอ</span>
+              </div>
+              <div style="font-size: 0.8rem; color: #cbd5e1; margin-top: 3px; line-height: 1.4;">
+                มีโอกาสล้มเหลวเหมือนธรรมดา (ต้องใส่ Backup Disk) แต่หากสำเร็จ จะการันตีสเตตัสสูงสุด Perfect Clone 100% ทันที
+              </div>
+            </div>
+
+            <div style="background: rgba(0,0,0,0.25); border-radius: 6px; padding: 8px 12px; border: 1px solid rgba(245,158,11,0.25);">
+              <div style="display: flex; align-items: center; justify-content: space-between;">
+                <strong style="color: #fbbf24; font-size: 0.86rem;">สุดยอดดิจิโคลน (Mega Reinforced) [D] ~ [S]</strong>
+                <span class="badge" style="background: rgba(245,158,11,0.2); color: #fbbf24; font-size: 0.74rem;">สำเร็จ 100% + Perfect</span>
+              </div>
+              <div style="font-size: 0.8rem; color: #fde68a; margin-top: 3px; line-height: 1.4;">
+                ไอเทมระดับพรีเมียม โอกาสสำเร็จ 100% ไม่ต้องใช้ Backup Disk และได้สเตตัสสูงสุด Perfect Clone เสมอ ประหยัดเวลาที่สุด
+              </div>
+            </div>
+
+            <div style="background: rgba(0,0,0,0.25); border-radius: 6px; padding: 8px 12px; border: 1px solid rgba(168,85,247,0.2);">
+              <div style="display: flex; align-items: center; justify-content: space-between;">
+                <strong style="color: #c084fc; font-size: 0.86rem;">แบ็คอัพ ดิสก์ & รีเซ็ต โคลน (Utility Items)</strong>
+                <span class="badge" style="background: rgba(168,85,247,0.15); color: #c084fc; font-size: 0.74rem;">ป้องกันตก & ล้างค่า</span>
+              </div>
+              <div style="font-size: 0.8rem; color: #cbd5e1; margin-top: 3px; line-height: 1.4;">
+                <strong>Backup Disk:</strong> ป้องกันระดับลดเมื่อตีพลาด · <strong>Reset Clone:</strong> ล้างค่าสเตตัสกลับเป็น 0 เพื่อเริ่มตีใหม่หากได้ค่าไม่เพอร์เฟกต์
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Perfect Clone Table (ตามรูปที่ 2 เป๊ะๆ) -->
+      <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 22px 24px; overflow: hidden;">
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 16px;">
+          <div>
+            <h3 style="margin: 0; font-size: 1.25rem; font-weight: 800; color: #fff;">
+              Perfect Clone Table (ตารางสเตตัสเพอร์เฟกต์โคลน Lv. 1 - 15)
+            </h3>
+            <div style="font-size: 0.84rem; color: #94a3b8; margin-top: 2px;">
+              ค่าเปอร์เซ็นต์โคลนสูงสุดในแต่ละขั้น (ตัวเลขสีทองในเกม) แสดงเกรดโคลนและอัตราเพิ่มขึ้นต่อขั้น
+            </div>
+          </div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap; font-size: 0.78rem;">
+            <span style="background: rgba(34,197,94,0.2); color: #4ade80; padding: 3px 8px; border-radius: 4px; border: 1px solid rgba(34,197,94,0.4);">Lv 1-3: เกรด D</span>
+            <span style="background: rgba(59,130,246,0.2); color: #60a5fa; padding: 3px 8px; border-radius: 4px; border: 1px solid rgba(59,130,246,0.4);">Lv 4-6: เกรด C</span>
+            <span style="background: rgba(168,85,247,0.2); color: #c084fc; padding: 3px 8px; border-radius: 4px; border: 1px solid rgba(168,85,247,0.4);">Lv 7-9: เกรด B</span>
+            <span style="background: rgba(244,63,94,0.2); color: #fb7185; padding: 3px 8px; border-radius: 4px; border: 1px solid rgba(244,63,94,0.4);">Lv 10-12: เกรด A</span>
+            <span style="background: rgba(245,158,11,0.2); color: #fbbf24; padding: 3px 8px; border-radius: 4px; border: 1px solid rgba(245,158,11,0.4);">Lv 13-15: เกรด S</span>
+          </div>
+        </div>
+
+        <div class="table-wrap" style="overflow-x: auto;">
+          <table style="width: 100%; border-collapse: collapse; text-align: center; font-size: 0.88rem;">
+            <thead>
+              <tr style="background: rgba(0,0,0,0.4); border-bottom: 2px solid rgba(255,255,255,0.15); color: #f1f5f9;">
+                <th style="padding: 10px 12px; font-weight: 800;">Clone Lv</th>
+                <th style="padding: 10px 12px; font-weight: 800; color: #f87171;">Attack (AT)</th>
+                <th style="padding: 10px 12px; font-weight: 800; color: #fbbf24;">Critical (CT)</th>
+                <th style="padding: 10px 12px; font-weight: 800; color: #60a5fa;">Block (BL)</th>
+                <th style="padding: 10px 12px; font-weight: 800; color: #34d399;">Evasion (EV)</th>
+                <th style="padding: 10px 12px; font-weight: 800; color: #22d3ee;">Health (HP)</th>
+                <th style="padding: 10px 12px; font-weight: 800; color: #cbd5e1;">เกรดที่ใช้</th>
+                <th style="padding: 10px 12px; font-weight: 800; color: #94a3b8;">อัตราเพิ่ม / ขั้น</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${tableData.map(r => {
+                return `
+                  <tr style="background: ${r.bg || 'transparent'}; border-bottom: 1px solid rgba(255,255,255,0.06); transition: background 0.15s;">
+                    <td style="padding: 9px 12px; font-weight: 800; color: #fff;">
+                      <span style="display: inline-block; width: 26px; height: 26px; line-height: 26px; border-radius: 50%; background: rgba(0,0,0,0.3); border: 1px solid ${r.gradeColor}; color: ${r.gradeColor};">
+                        ${r.lv}
+                      </span>
+                    </td>
+                    <td style="padding: 9px 12px; font-weight: 700; color: #fecaca;">${r.at}%</td>
+                    <td style="padding: 9px 12px; font-weight: 700; color: #fef08a;">${r.ct}%</td>
+                    <td style="padding: 9px 12px; font-weight: 700; color: #bfdbfe;">${r.bl}%</td>
+                    <td style="padding: 9px 12px; font-weight: 700; color: #a7f3d0;">${r.ev}%</td>
+                    <td style="padding: 9px 12px; font-weight: 700; color: #a5f3fc;">${r.hp}%</td>
+                    <td style="padding: 9px 12px;">
+                      <span class="badge" style="background: rgba(0,0,0,0.3); border-color: ${r.gradeColor}; color: ${r.gradeColor}; font-weight: 700;">
+                        ${r.gradeName || `เกรด [${r.grade}]`}
+                      </span>
+                    </td>
+                    <td style="padding: 9px 12px; font-size: 0.78rem; color: #94a3b8;">
+                      AT +${r.atGain}% · CT +${r.ctGain}% · BL +${r.blGain}%
+                    </td>
+                  </tr>
+                `;
+              }).join('')}
+            </tbody>
+          </table>
+        </div>
+
+        <div style="margin-top: 14px; padding: 10px 14px; background: rgba(0,0,0,0.25); border-radius: 6px; border-left: 3px solid #fbbf24; font-size: 0.82rem; color: #fde68a; line-height: 1.5;">
+          <strong>PS (หมายเหตุสำคัญ):</strong> The increase in every stats, except Block, is a percentage to your base value. 
+          (การเพิ่มขึ้นของทุกสเตตัส ยกเว้น Block จะคิดคำนวณเป็นเปอร์เซ็นต์โบนัสจากค่าพื้นฐาน [Base Stat] ของดิจิมอน ส่วน Block จะเป็นการบวกเพิ่มเป็น Flat % ตรงๆ ทันที)
+        </div>
+      </div>
+
+      <!-- 4. Formulas & Mathematical Breakdown -->
+      <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 22px 24px;">
+        <div style="font-size: 1.15rem; font-weight: 800; color: #38bdf8; display: flex; align-items: center; gap: 8px; margin-bottom: 14px;">
+          <img src="/images/ui/ui_sparkle.png" class="stat-icon-inline" alt="" style="width: 20px; height: 20px;" onerror="this.src='/images/ui/ui_gear.png';">
+          <span>สูตรการคำนวณสเตตัสโคลน (Calculation Formulas & Mechanics)</span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px;">
+          
+          <!-- Formula 1: AT, CT, EV, HP -->
+          <div style="background: rgba(0,0,0,0.3); border: 1px solid rgba(56,189,248,0.25); border-radius: 8px; padding: 14px 16px;">
+            <div style="font-weight: 700; color: #38bdf8; font-size: 0.92rem; margin-bottom: 8px;">
+              สูตรคำนวณ AT, CT, EV และ HP (Percentage Bonus)
+            </div>
+            <div style="background: rgba(0,0,0,0.4); padding: 10px 12px; border-radius: 6px; font-family: monospace; font-size: 0.88rem; color: #a5f3fc; line-height: 1.5; margin-bottom: 8px;">
+              โบนัสสเตตัส = ค่าพื้นฐาน (Base Stat) × (เปอร์เซ็นต์โคลน ÷ 100)<br>
+              สเตตัสรวมสุทธิ = ค่าพื้นฐาน + โบนัสสเตตัส
+            </div>
+            <div style="font-size: 0.82rem; color: #cbd5e1; line-height: 1.5;">
+              <strong>ตัวอย่าง:</strong> ดิจิมอนมีค่า Base AT = 3,200 เมื่อทำโคลน AT Lv. 15 Perfect (+144%):<br>
+              • โบนัส AT ที่ได้ = 3,200 × 1.44 = <strong>+4,608 AT</strong><br>
+              • ค่า AT รวมสุทธิ = 3,200 + 4,608 = <strong style="color: #f87171;">7,808 AT</strong>
+            </div>
+          </div>
+
+          <!-- Formula 2: Block -->
+          <div style="background: rgba(0,0,0,0.3); border: 1px solid rgba(59,130,246,0.25); border-radius: 8px; padding: 14px 16px;">
+            <div style="font-weight: 700; color: #60a5fa; font-size: 0.92rem; margin-bottom: 8px;">
+              สูตรคำนวณ Block (Flat Percentage Addition)
+            </div>
+            <div style="background: rgba(0,0,0,0.4); padding: 10px 12px; border-radius: 6px; font-family: monospace; font-size: 0.88rem; color: #bfdbfe; line-height: 1.5; margin-bottom: 8px;">
+              ค่า Block รวม = ค่า Block พื้นฐาน + ค่าเปอร์เซ็นต์โคลนตรงๆ
+            </div>
+            <div style="font-size: 0.82rem; color: #cbd5e1; line-height: 1.5;">
+              <strong>ตัวอย่าง:</strong> ดิจิมอนมีค่า Block พื้นฐาน = 13% เมื่อทำโคลน BL Lv. 15 Perfect (+87%):<br>
+              • ค่า Block รวมสุทธิ = 13% + 87% = <strong style="color: #60a5fa;">100% Block</strong><br>
+              • ผลลัพธ์: การันตีบล็อกการโจมตีกายภาพของมอนสเตอร์และบอสได้ 100% ทุกครั้ง (ลดดาเมจลง 50%)
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top: 14px; font-size: 0.82rem; color: #94a3b8; line-height: 1.55; background: rgba(255,255,255,0.03); padding: 10px 14px; border-radius: 6px;">
+          <strong style="color: #fbbf24;">เกร็ดความรู้เรื่องขนาดตัว (% Size Scale):</strong> สเตตัสพื้นฐาน (Base Stat) จะขึ้นอยู่กับขนาดตัวของดิจิมอน เช่น ดิจิมอนขนาด 140% จะมีค่า Base AT และ Base HP สูงกว่าขนาด 125% เป็นอย่างมาก ดังนั้น เมื่อคูณด้วยโบนัสโคลน +144% AT ดิจิมอนตัวใหญ่จะได้รับค่าพลังโจมตีที่สูงกว่าดิจิมอนตัวเล็กอย่างเห็นได้ชัด
+        </div>
+      </div>
+
+      <!-- 5. Interactive Clone Calculator -->
+      <div style="background: linear-gradient(135deg, rgba(15,23,42,0.95) 0%, rgba(30,41,59,0.9) 100%); border: 1px solid rgba(56,189,248,0.35); border-radius: 12px; padding: 22px 24px;">
+        <div style="font-size: 1.15rem; font-weight: 800; color: #38bdf8; display: flex; align-items: center; gap: 8px; margin-bottom: 14px;">
+          <img src="/images/ui/ui_money.png" class="stat-icon-inline" alt="" style="width: 20px; height: 20px;">
+          <span>เครื่องคำนวณสเตตัสโคลนจำลอง (Interactive Clone Calculator)</span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; align-items: center;">
+          <!-- Controls -->
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <div>
+              <label style="font-size: 0.82rem; color: var(--text-muted); display: block; margin-bottom: 6px; font-weight: 700;">
+                1. เลือกสเตตัสที่ต้องการคำนวณ
+              </label>
+              <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                ${['AT', 'CT', 'BL', 'EV', 'HP'].map(st => `
+                  <button class="filter-pill ${DIGICLONE_STATE.calcStat === st ? 'active' : ''}" onclick="setCloneCalcStat('${st}')" style="min-width: 52px; font-weight: 700;">
+                    ${st}
+                  </button>
+                `).join('')}
+              </div>
+            </div>
+
+            <div>
+              <label style="font-size: 0.82rem; color: var(--text-muted); display: block; margin-bottom: 6px; font-weight: 700;">
+                2. ค่าสเตตัสพื้นฐานของดิจิมอน (Base Stat ในเกม)
+              </label>
+              <input type="number" id="clone-calc-base-input" value="${DIGICLONE_STATE.calcBase}" min="1" max="999999" oninput="onCloneCalcBaseChange(this.value)" style="width: 100%; max-width: 280px; padding: 8px 12px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; color: #fff; font-size: 0.95rem; font-weight: 700;">
+            </div>
+
+            <div>
+              <div style="display: flex; align-items: center; justify-content: space-between; max-width: 280px; margin-bottom: 6px;">
+                <label style="font-size: 0.82rem; color: var(--text-muted); font-weight: 700;">
+                  3. ระดับโคลน: <strong style="color: #38bdf8;">Lv. ${DIGICLONE_STATE.calcLv}</strong>
+                </label>
+                <button onclick="setCloneCalcLv(15)" style="background: rgba(245,158,11,0.2); border: 1px solid rgba(245,158,11,0.4); color: #fbbf24; border-radius: 4px; padding: 2px 8px; font-size: 0.74rem; cursor: pointer; font-weight: 700;">
+                  Max Lv.15
+                </button>
+              </div>
+              <input type="range" min="1" max="15" value="${DIGICLONE_STATE.calcLv}" oninput="setCloneCalcLv(this.value)" style="width: 100%; max-width: 280px; cursor: pointer;">
+            </div>
+          </div>
+
+          <!-- Result Card -->
+          <div style="background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 18px 20px; display: flex; flex-direction: column; gap: 10px;">
+            <div style="font-size: 0.84rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700; letter-spacing: 0.05em;">
+              ผลการคำนวณ ${DIGICLONE_STATE.calcStat} (Perfect Lv. ${curRow.lv})
+            </div>
+
+            <div style="display: flex; align-items: baseline; gap: 12px;">
+              <span style="font-size: 2rem; font-weight: 900; color: #38bdf8;">
+                ${totalVal.toLocaleString()}${DIGICLONE_STATE.calcStat === 'BL' ? '%' : ''}
+              </span>
+              <span style="font-size: 1rem; font-weight: 700; color: #34d399;">
+                (+${bonusVal.toLocaleString()}${DIGICLONE_STATE.calcStat === 'BL' ? '%' : ''})
+              </span>
+            </div>
+
+            <div style="border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 10px; font-size: 0.82rem; color: #cbd5e1; display: flex; flex-direction: column; gap: 4px;">
+              <div>• เปอร์เซ็นต์โคลนที่ได้รับ: <strong style="color: #fbbf24;">+${pct}%</strong></div>
+              <div>• ค่าสเตตัสพื้นฐาน: <strong>${baseVal.toLocaleString()}</strong></div>
+              <div>• เกรดไอเทมที่ต้องใช้: <span class="badge" style="background: rgba(0,0,0,0.3); border-color: ${curRow.gradeColor}; color: ${curRow.gradeColor}; font-weight: 700;">${curRow.gradeName}</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  `;
+}
+
+function setCloneCalcStat(stat) {
+  DIGICLONE_STATE.calcStat = stat;
+  if (stat === 'BL') DIGICLONE_STATE.calcBase = 13;
+  else if (stat === 'CT') DIGICLONE_STATE.calcBase = 25;
+  else if (stat === 'EV') DIGICLONE_STATE.calcBase = 22;
+  else if (stat === 'HP') DIGICLONE_STATE.calcBase = 12000;
+  else DIGICLONE_STATE.calcBase = 3500;
+  renderDigicloneGuide();
+}
+
+function onCloneCalcBaseChange(val) {
+  DIGICLONE_STATE.calcBase = parseFloat(val) || 0;
+  renderDigicloneGuide();
+}
+
+function setCloneCalcLv(lv) {
+  DIGICLONE_STATE.calcLv = parseInt(lv, 10) || 15;
+  renderDigicloneGuide();
 }

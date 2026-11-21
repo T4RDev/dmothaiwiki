@@ -26,6 +26,7 @@
       else if (h === 'decks' || h.indexOf('decks/') === 0) r = 'decks';
       else if (h === 'seals' || h.indexOf('seal/') === 0) r = 'seals';
       else if (h === 'dunits' || h.indexOf('dunit') === 0) r = 'dunits';
+      else if (h === 'clones' || h === 'clone' || h.indexOf('clone') === 0) r = 'clones';
       document.documentElement.setAttribute('data-boot-route', r);
     })();
   </script>
@@ -377,6 +378,8 @@
             class="dex-sw-icon" alt=""> ซีลมาสเตอร์</button>
         <button id="dex-sw-dunits" class="dex-sw" onclick="navigateTo('dunits')"><img src="/images/ui/ui_dunit.png"
             class="dex-sw-icon" alt=""> D-ยูนิต</button>
+        <button id="dex-sw-clones" class="dex-sw" onclick="navigateTo('clones')"><img src="/images/ui/ui_clone.png"
+            class="dex-sw-icon" alt="" onerror="this.src='/images/ui/ui_gear.png';"> การตีบวกดิจิโคลน</button>
       </div>
 
       <div id="dex-view-dunits" style="display:none">
@@ -432,6 +435,11 @@
         <!-- Master Tier Title Buff Modal -->
         <div id="dunit-title-modal" class="dunit-modal-overlay" style="display:none"
           onclick="if(event.target===this)closeDUnitTitleModal()"></div>
+      </div>
+
+      <!-- Digiclone Guide View -->
+      <div id="dex-view-clones" style="display:none">
+        <div id="digiclone-guide-container"></div>
       </div>
 
       <div id="dex-view-seals" style="display:none">
