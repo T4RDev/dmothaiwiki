@@ -5636,19 +5636,16 @@ function renderWeeklyDungeonsGuide() {
       <div class="leveling-tier-card ${isExpanded ? 'expanded' : ''}" id="weekly-card-${d.id}" style="border-color: ${th.border};">
         <!-- Header -->
         <div class="leveling-tier-header" onclick="toggleWeeklyDungeon('${d.id}')" style="background: ${th.headerBg}; border-bottom-color: ${isExpanded ? th.border : 'transparent'};">
-          <div style="display: flex; align-items: center; gap: 12px; flex: 1; flex-wrap: wrap;">
-            <img src="${d.boss_icon || '/images/ui/ui_dungeon.png'}" class="stat-icon-inline" alt="" style="width: 44px; height: 44px; border-radius: 8px; border: 1px solid ${th.border}; background: #000; object-fit: contain;" onerror="this.src='/images/ui/ui_dungeon.png';">
-            <div>
+          <div style="display: flex; align-items: center; gap: 14px; flex: 1; min-width: 0;">
+            <img src="${d.boss_icon || '/images/ui/ui_dungeon.png'}" class="stat-icon-inline" alt="" style="width: 46px; height: 46px; border-radius: 8px; border: 1px solid ${th.border}; background: #000; object-fit: contain; flex-shrink: 0;" onerror="this.src='/images/ui/ui_dungeon.png';">
+            <div style="flex: 1; min-width: 0;">
               <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-                <span style="font-size: 1.15rem; font-weight: 800; color: #fff;">${esc(d.name)}</span>
-                <span class="badge" style="background: ${th.badgeBg}; color: ${th.badgeColor}; border-color: ${th.badgeBorder}; font-weight: 700;">
-                  ${esc(d.difficulty)}
-                </span>
+                <span style="font-size: 1.18rem; font-weight: 800; color: #fff;">${esc(d.name)}</span>
                 <span class="badge" style="background: rgba(56,189,248,0.15); color: #38bdf8; border-color: rgba(56,189,248,0.3);">
                   ${esc(d.category)}
                 </span>
               </div>
-              <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 5px;">
+              <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 4px;">
                 ${d.monster_level ? `<span class="badge" style="background: rgba(168,85,247,0.2); color: #d8b4fe; border-color: rgba(168,85,247,0.4); font-weight: 700;">${esc(d.monster_level)}</span>` : ''}
                 <span class="badge" style="background: rgba(239,68,68,0.18); color: #f87171; border-color: rgba(239,68,68,0.4); font-weight: 700;">เลเวลดิจิมอนที่ต้องใช้: ${esc(d.min_entry_level || d.level_recommended)}</span>
                 <span style="font-size: 0.82rem; color: var(--text-muted);">${esc(d.sub_name)} · โหมด: <strong style="color: #f1f5f9;">${esc(d.party_size)}</strong></span>
