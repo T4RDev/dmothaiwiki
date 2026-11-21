@@ -5512,27 +5512,28 @@ function renderWeeklyDungeonsGuide() {
   const activeCat = STATE.guide.weeklyActiveCat || 'all';
   const searchQ = (STATE.guide.weeklySearchQuery || '').toLowerCase().trim();
 
-  // Extract unique categories
-  const categories = ['all', ...Array.from(new Set(dungeons.map(d => d.category).filter(Boolean)))];
-
-  // 1. Render Category Pills
+  // 1. Render Dungeon Name Pills (แก้เป็นชื่อดันเจี้ยนตรงๆ)
   const pillsBox = document.getElementById('weekly-filter-pills');
   if (pillsBox) {
-    pillsBox.innerHTML = categories.map(cat => {
-      const isAct = activeCat === cat;
-      const count = cat === 'all' ? dungeons.length : dungeons.filter(d => d.category === cat).length;
-      const label = cat === 'all' ? `ทั้งหมด (${count} ดันเจี้ยน)` : `${cat} (${count})`;
+    const allBtn = `
+      <button class="filter-pill ${activeCat === 'all' ? 'active' : ''}" onclick="setWeeklyActiveCat('all')">
+        ทั้งหมด (${dungeons.length} ดันเจี้ยน)
+      </button>
+    `;
+    const dBtns = dungeons.map(d => {
+      const isAct = activeCat === d.id;
       return `
-        <button class="filter-pill ${isAct ? 'active' : ''}" onclick="setWeeklyActiveCat('${esc(cat)}')">
-          ${esc(label)}
+        <button class="filter-pill ${isAct ? 'active' : ''}" onclick="setWeeklyActiveCat('${esc(d.id)}')">
+          ${esc(d.name)}
         </button>
       `;
     }).join('');
+    pillsBox.innerHTML = allBtn + dBtns;
   }
 
   // 2. Filter Dungeons
   const filtered = dungeons.filter(d => {
-    if (activeCat !== 'all' && d.category !== activeCat) return false;
+    if (activeCat !== 'all' && d.id !== activeCat) return false;
     if (searchQ) {
       const inName = (d.name || '').toLowerCase().includes(searchQ);
       const inSub = (d.sub_name || '').toLowerCase().includes(searchQ);
@@ -5639,11 +5640,8 @@ function renderWeeklyDungeonsGuide() {
           <div style="display: flex; align-items: center; gap: 14px; flex: 1; min-width: 0;">
             <img src="${d.boss_icon || '/images/ui/ui_dungeon.png'}" class="stat-icon-inline" alt="" style="width: 46px; height: 46px; border-radius: 8px; border: 1px solid ${th.border}; background: #000; object-fit: contain; flex-shrink: 0;" onerror="this.src='/images/ui/ui_dungeon.png';">
             <div style="flex: 1; min-width: 0;">
-              <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+              <div style="display: flex; align-items: center; gap: 8px;">
                 <span style="font-size: 1.18rem; font-weight: 800; color: #fff;">${esc(d.name)}</span>
-                <span class="badge" style="background: rgba(56,189,248,0.15); color: #38bdf8; border-color: rgba(56,189,248,0.3);">
-                  ${esc(d.category)}
-                </span>
               </div>
               <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 4px;">
                 ${d.monster_level ? `<span class="badge" style="background: rgba(168,85,247,0.2); color: #d8b4fe; border-color: rgba(168,85,247,0.4); font-weight: 700;">${esc(d.monster_level)}</span>` : ''}
@@ -5792,6 +5790,9 @@ function toggleWeeklyDungeon(dId) {
 
 function setWeeklyActiveCat(cat) {
   STATE.guide.weeklyActiveCat = cat;
+  if (cat !== 'all') {
+    STATE.guide.expandedWeekly.add(cat);
+  }
   renderWeeklyDungeonsGuide();
 }
 
