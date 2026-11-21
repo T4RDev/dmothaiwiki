@@ -5704,7 +5704,7 @@ function renderWeeklyDungeonsGuide() {
               ${d.stat_requirements ? `
                 <div style="background: rgba(15,23,42,0.6); border: 1px solid rgba(56,189,248,0.25); border-radius: 8px; padding: 12px 14px;">
                   <div style="font-size: 0.88rem; font-weight: 800; color: #38bdf8; display: flex; align-items: center; gap: 6px; margin-bottom: 10px;">
-                    <img src="/images/ui/ui_gear.png" class="stat-icon-inline" alt="" style="width: 18px; height: 18px;">
+                    <img src="/images/ui/ui_gear.png" class="stat-icon-inline" alt="" style="width: 18px; height: 18px;" onerror="this.src='/images/ui/ui_deck.png';">
                     <span>เกณฑ์สเตตัสดิจิมอนที่แนะนำ & ปาร์ตี้ (Stats Benchmark):</span>
                   </div>
                   <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 8px; margin-bottom: 10px;">
