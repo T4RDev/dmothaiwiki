@@ -5648,8 +5648,10 @@ function renderWeeklyDungeonsGuide() {
                   ${esc(d.category)}
                 </span>
               </div>
-              <div style="font-size: 0.82rem; color: var(--text-muted); margin-top: 3px;">
-                ${esc(d.sub_name)} · โหมด: <strong style="color: #f1f5f9;">${esc(d.party_size)}</strong> · เลเวลบังคับขั้นต่ำ: <strong style="color: #f87171;">${esc(d.min_entry_level || d.level_recommended)}</strong>
+              <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 5px;">
+                ${d.monster_level ? `<span class="badge" style="background: rgba(168,85,247,0.2); color: #d8b4fe; border-color: rgba(168,85,247,0.4); font-weight: 700;">${esc(d.monster_level)}</span>` : ''}
+                <span class="badge" style="background: rgba(239,68,68,0.18); color: #f87171; border-color: rgba(239,68,68,0.4); font-weight: 700;">เลเวลดิจิมอนที่ต้องใช้: ${esc(d.min_entry_level || d.level_recommended)}</span>
+                <span style="font-size: 0.82rem; color: var(--text-muted);">${esc(d.sub_name)} · โหมด: <strong style="color: #f1f5f9;">${esc(d.party_size)}</strong></span>
               </div>
             </div>
           </div>
