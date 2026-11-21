@@ -1172,6 +1172,17 @@ def get_leveling_guide():
             return {"tiers": [], "total_tiers": 0}
     return CACHE["leveling_guide"]
 
+@app.get("/api/weekly-dungeons-guide")
+def get_weekly_dungeons_guide():
+    """Weekly Dungeons Guide from Thai client."""
+    if "weekly_dungeons_guide" not in CACHE:
+        f = Path(__file__).resolve().parent / "weekly_dungeons_cache.json"
+        if f.exists():
+            CACHE["weekly_dungeons_guide"] = json.loads(f.read_text(encoding="utf-8"))
+        else:
+            return {"dungeons": [], "total_dungeons": 0}
+    return CACHE["weekly_dungeons_guide"]
+
 @app.get("/api/crafts")
 def get_crafts(q: Optional[str] = Query(None), npc: Optional[str] = Query(None)):
     results = CACHE["crafts"]

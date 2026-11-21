@@ -34,7 +34,11 @@ const STATE = {
     levelingSearchQuery: '',
     expandedTiers: new Set(['tier1', 'tier2', 'tier3', 'tier4', 'tier5', 'tier6', 'tier7', 'tier8']),
     activeDungeonId: 'all',
-    expandedDungeons: new Set(['cat_dungeon', 'mugen_dungeon', 'apo_dungeon'])
+    expandedDungeons: new Set(['cat_dungeon', 'mugen_dungeon', 'apo_dungeon']),
+    weeklyData: null,
+    weeklyActiveCat: 'all',
+    weeklySearchQuery: '',
+    expandedWeekly: new Set(['kimeramon_dungeon', 'kaiser_lab', 'susanoomon_dungeon', 'royal_base_hard', 'dark_web', 'neverland_eosmon', 'nightmare_dungeon', 'digimon_arena'])
   }
 };
 
@@ -331,6 +335,8 @@ function handleRoute() {
     showTab('guide');
     if (chParam === 'leveling') {
       switchGuideMode('leveling');
+    } else if (chParam === 'weekly' || chParam === 'dungeons') {
+      switchGuideMode('weekly');
     } else if (chParam) {
       switchGuideMode('quests');
       if (STATE.guide) {
@@ -4957,13 +4963,29 @@ function switchGuideMode(mode) {
   STATE.guide.mode = mode;
   const questsView = document.getElementById('guide-quests-view');
   const levelingView = document.getElementById('guide-leveling-view');
+  const weeklyView = document.getElementById('guide-weekly-view');
   const btnQuests = document.getElementById('btn-guide-mode-quests');
   const btnLeveling = document.getElementById('btn-guide-mode-leveling');
+  const btnWeekly = document.getElementById('btn-guide-mode-weekly');
 
-  if (mode === 'leveling') {
-    if (questsView) questsView.style.display = 'none';
+  if (btnQuests) btnQuests.classList.remove('active');
+  if (btnLeveling) btnLeveling.classList.remove('active');
+  if (btnWeekly) btnWeekly.classList.remove('active');
+
+  if (questsView) questsView.style.display = 'none';
+  if (levelingView) levelingView.style.display = 'none';
+  if (weeklyView) weeklyView.style.display = 'none';
+
+  if (mode === 'weekly') {
+    if (weeklyView) weeklyView.style.display = 'block';
+    if (btnWeekly) btnWeekly.classList.add('active');
+    if (!STATE.guide.weeklyData) {
+      loadWeeklyDungeonsGuide();
+    } else {
+      renderWeeklyDungeonsGuide();
+    }
+  } else if (mode === 'leveling') {
     if (levelingView) levelingView.style.display = 'block';
-    if (btnQuests) btnQuests.classList.remove('active');
     if (btnLeveling) btnLeveling.classList.add('active');
     if (!STATE.guide.levelingData) {
       loadLevelingGuide();
@@ -4972,9 +4994,7 @@ function switchGuideMode(mode) {
     }
   } else {
     if (questsView) questsView.style.display = 'block';
-    if (levelingView) levelingView.style.display = 'none';
     if (btnQuests) btnQuests.classList.add('active');
-    if (btnLeveling) btnLeveling.classList.remove('active');
     renderGuide();
   }
 }
@@ -5215,7 +5235,7 @@ function renderLevelingGuide() {
             </button>
             ${dungeonsList.map(d => `
               <button class="guide-pill-btn ${activeDId === d.id ? 'active' : ''}" onclick="selectGuideDungeon('${esc(d.id)}')">
-                ${esc(d.name)} (${esc(d.level_range)})
+                ${esc(d.name)}
               </button>
             `).join('')}
           </div>
@@ -5439,5 +5459,355 @@ function onLevelingSearchChange() {
     const inp = document.getElementById('leveling-search-input');
     STATE.guide.levelingSearchQuery = inp ? inp.value : '';
     renderLevelingGuide();
+  }, 200);
+}
+
+// ==========================================
+// WEEKLY DUNGEONS GUIDE (ไกด์การลงดันประจำสัปดาห์)
+// ==========================================
+async function loadWeeklyDungeonsGuide() {
+  const container = document.getElementById('weekly-dungeons-container');
+  if (container) {
+    container.innerHTML = `
+      <div style="padding: 40px; text-align: center; color: var(--text-muted);">
+        <div class="spinner" style="margin: 0 auto 12px auto;"></div>
+        <div>กำลังโหลดข้อมูลดันเจี้ยนประจำสัปดาห์จากเซิร์ฟไทย...</div>
+      </div>
+    `;
+  }
+
+  try {
+    const res = await fetch('/api/weekly-dungeons-guide');
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    STATE.guide.weeklyData = data;
+    renderWeeklyDungeonsGuide();
+  } catch (err) {
+    console.warn('Failed to fetch from API, trying static fallback...', err);
+    try {
+      let fallbackRes = await fetch('/static/data/weekly_dungeons_guide.json');
+      if (!fallbackRes.ok) fallbackRes = await fetch('/data/weekly_dungeons_guide.json');
+      if (!fallbackRes.ok) throw new Error(`Static fallback HTTP ${fallbackRes.status}`);
+      const data = await fallbackRes.json();
+      STATE.guide.weeklyData = data;
+      renderWeeklyDungeonsGuide();
+    } catch (fallbackErr) {
+      console.error('All weekly dungeons fetch attempts failed:', fallbackErr);
+      if (container) {
+        container.innerHTML = `
+          <div style="padding: 30px; text-align: center; color: #ef4444; background: rgba(239,68,68,0.1); border-radius: 8px; border: 1px solid rgba(239,68,68,0.3);">
+            เกิดข้อผิดพลาดในการโหลดข้อมูลดันเจี้ยนประจำสัปดาห์
+          </div>
+        `;
+      }
+    }
+  }
+}
+
+function renderWeeklyDungeonsGuide() {
+  const data = STATE.guide.weeklyData;
+  if (!data || !data.dungeons) return;
+
+  const dungeons = data.dungeons || [];
+  const activeCat = STATE.guide.weeklyActiveCat || 'all';
+  const searchQ = (STATE.guide.weeklySearchQuery || '').toLowerCase().trim();
+
+  // Extract unique categories
+  const categories = ['all', ...Array.from(new Set(dungeons.map(d => d.category).filter(Boolean)))];
+
+  // 1. Render Category Pills
+  const pillsBox = document.getElementById('weekly-filter-pills');
+  if (pillsBox) {
+    pillsBox.innerHTML = categories.map(cat => {
+      const isAct = activeCat === cat;
+      const count = cat === 'all' ? dungeons.length : dungeons.filter(d => d.category === cat).length;
+      const label = cat === 'all' ? `ทั้งหมด (${count} ดันเจี้ยน)` : `${cat} (${count})`;
+      return `
+        <button class="filter-pill ${isAct ? 'active' : ''}" onclick="setWeeklyActiveCat('${esc(cat)}')">
+          ${esc(label)}
+        </button>
+      `;
+    }).join('');
+  }
+
+  // 2. Filter Dungeons
+  const filtered = dungeons.filter(d => {
+    if (activeCat !== 'all' && d.category !== activeCat) return false;
+    if (searchQ) {
+      const inName = (d.name || '').toLowerCase().includes(searchQ);
+      const inSub = (d.sub_name || '').toLowerCase().includes(searchQ);
+      const inBoss = (d.boss_name || '').toLowerCase().includes(searchQ);
+      const inMap = (d.map_name || '').toLowerCase().includes(searchQ);
+      const inWhy = (d.why_weekly || '').toLowerCase().includes(searchQ);
+      const inStrat = (d.strategy || '').toLowerCase().includes(searchQ);
+      const inDrops = (d.drops || []).some(dr => (dr.name || '').toLowerCase().includes(searchQ) || (dr.desc || '').toLowerCase().includes(searchQ));
+      const inCraft = (d.crafting || []).some(cr => (cr.target || '').toLowerCase().includes(searchQ) || (cr.materials || '').toLowerCase().includes(searchQ) || (cr.result_desc || '').toLowerCase().includes(searchQ));
+      return inName || inSub || inBoss || inMap || inWhy || inStrat || inDrops || inCraft;
+    }
+    return true;
+  });
+
+  const container = document.getElementById('weekly-dungeons-container');
+  if (!container) return;
+
+  if (filtered.length === 0) {
+    container.innerHTML = `
+      <div style="padding: 40px; text-align: center; color: var(--text-muted); background: var(--bg-card); border-radius: 8px; border: 1px solid var(--border-color);">
+        ไม่พบดันเจี้ยนที่ตรงกับการค้นหา "${esc(searchQ)}"
+      </div>
+    `;
+    return;
+  }
+
+  const themeStyles = {
+    amber: {
+      border: 'rgba(245, 158, 11, 0.4)',
+      headerBg: 'rgba(245, 158, 11, 0.12)',
+      badgeBg: 'rgba(245, 158, 11, 0.25)',
+      badgeColor: '#fbbf24',
+      badgeBorder: 'rgba(245, 158, 11, 0.5)',
+      boxTitle: '#fbbf24',
+      whyBg: 'rgba(245, 158, 11, 0.08)',
+      whyBorder: 'rgba(245, 158, 11, 0.3)',
+      whyColor: '#fde68a'
+    },
+    cyan: {
+      border: 'rgba(6, 182, 212, 0.4)',
+      headerBg: 'rgba(6, 182, 212, 0.12)',
+      badgeBg: 'rgba(6, 182, 212, 0.25)',
+      badgeColor: '#22d3ee',
+      badgeBorder: 'rgba(6, 182, 212, 0.5)',
+      boxTitle: '#38bdf8',
+      whyBg: 'rgba(6, 182, 212, 0.08)',
+      whyBorder: 'rgba(6, 182, 212, 0.3)',
+      whyColor: '#bae6fd'
+    },
+    purple: {
+      border: 'rgba(168, 85, 247, 0.4)',
+      headerBg: 'rgba(168, 85, 247, 0.12)',
+      badgeBg: 'rgba(168, 85, 247, 0.25)',
+      badgeColor: '#c084fc',
+      badgeBorder: 'rgba(168, 85, 247, 0.5)',
+      boxTitle: '#c084fc',
+      whyBg: 'rgba(168, 85, 247, 0.08)',
+      whyBorder: 'rgba(168, 85, 247, 0.3)',
+      whyColor: '#e9d5ff'
+    },
+    rose: {
+      border: 'rgba(244, 63, 94, 0.4)',
+      headerBg: 'rgba(244, 63, 94, 0.12)',
+      badgeBg: 'rgba(244, 63, 94, 0.25)',
+      badgeColor: '#fb7185',
+      badgeBorder: 'rgba(244, 63, 94, 0.5)',
+      boxTitle: '#fb7185',
+      whyBg: 'rgba(244, 63, 94, 0.08)',
+      whyBorder: 'rgba(244, 63, 94, 0.3)',
+      whyColor: '#fecdd3'
+    },
+    emerald: {
+      border: 'rgba(16, 185, 129, 0.4)',
+      headerBg: 'rgba(16, 185, 129, 0.12)',
+      badgeBg: 'rgba(16, 185, 129, 0.25)',
+      badgeColor: '#34d399',
+      badgeBorder: 'rgba(16, 185, 129, 0.5)',
+      boxTitle: '#34d399',
+      whyBg: 'rgba(16, 185, 129, 0.08)',
+      whyBorder: 'rgba(16, 185, 129, 0.3)',
+      whyColor: '#a7f3d0'
+    },
+    blue: {
+      border: 'rgba(59, 130, 246, 0.4)',
+      headerBg: 'rgba(59, 130, 246, 0.12)',
+      badgeBg: 'rgba(59, 130, 246, 0.25)',
+      badgeColor: '#60a5fa',
+      badgeBorder: 'rgba(59, 130, 246, 0.5)',
+      boxTitle: '#60a5fa',
+      whyBg: 'rgba(59, 130, 246, 0.08)',
+      whyBorder: 'rgba(59, 130, 246, 0.3)',
+      whyColor: '#bfdbfe'
+    }
+  };
+
+  const cardsHtml = filtered.map(d => {
+    const isExpanded = STATE.guide.expandedWeekly.has(d.id);
+    const th = themeStyles[d.badge_color || 'cyan'] || themeStyles.cyan;
+
+    // Drops table rows
+    const dropsRows = (d.drops || []).map(dr => `
+      <tr>
+        <td style="font-weight: 600; color: #fff;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <img src="${dr.icon || '/images/ui/ui_gift.png'}" class="stat-icon-inline" alt="" style="width: 28px; height: 28px; border-radius: 4px; background: rgba(0,0,0,0.5); padding: 2px; border: 1px solid rgba(255,255,255,0.1);" onerror="this.src='/images/ui/ui_gift.png';">
+            <div>
+              <span style="display: block; font-size: 0.9rem; color: #f1f5f9;">${esc(dr.name)}</span>
+              <span style="font-size: 0.76rem; color: #94a3b8;">${esc(dr.desc)}</span>
+            </div>
+          </div>
+        </td>
+        <td style="width: 140px; text-align: right;">
+          <span class="badge" style="background: rgba(16,185,129,0.18); color: #34d399; border-color: rgba(16,185,129,0.35); font-weight: 700;">
+            ${esc(dr.count)}
+          </span>
+        </td>
+      </tr>
+    `).join('');
+
+    // Crafting items cards
+    const craftingCards = (d.crafting || []).map(cr => `
+      <div style="background: rgba(15,23,42,0.6); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 10px 12px; margin-bottom: 8px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px; margin-bottom: 4px;">
+          <span style="font-weight: 700; color: #38bdf8; font-size: 0.88rem;">${esc(cr.target)}</span>
+          <span class="badge" style="background: rgba(245,158,11,0.15); color: #fbbf24; border-color: rgba(245,158,11,0.3); font-size: 0.72rem;">Endgame Craft</span>
+        </div>
+        <div style="font-size: 0.8rem; color: #cbd5e1; margin-bottom: 4px;">
+          <strong style="color: #94a3b8;">วัตถุดิบที่ใช้:</strong> ${esc(cr.materials)}
+        </div>
+        <div style="font-size: 0.78rem; color: #a7f3d0; line-height: 1.4;">
+          <strong style="color: #34d399;">คุณสมบัติ / ผลลัพธ์:</strong> ${esc(cr.result_desc)}
+        </div>
+      </div>
+    `).join('');
+
+    return `
+      <div class="leveling-tier-card ${isExpanded ? 'expanded' : ''}" id="weekly-card-${d.id}" style="border-color: ${th.border};">
+        <!-- Header -->
+        <div class="leveling-tier-header" onclick="toggleWeeklyDungeon('${d.id}')" style="background: ${th.headerBg}; border-bottom-color: ${isExpanded ? th.border : 'transparent'};">
+          <div style="display: flex; align-items: center; gap: 12px; flex: 1; flex-wrap: wrap;">
+            <img src="${d.boss_icon || '/images/ui/ui_dungeon.png'}" class="stat-icon-inline" alt="" style="width: 44px; height: 44px; border-radius: 8px; border: 1px solid ${th.border}; background: #000; object-fit: contain;" onerror="this.src='/images/ui/ui_dungeon.png';">
+            <div>
+              <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                <span style="font-size: 1.15rem; font-weight: 800; color: #fff;">${esc(d.name)}</span>
+                <span class="badge" style="background: ${th.badgeBg}; color: ${th.badgeColor}; border-color: ${th.badgeBorder}; font-weight: 700;">
+                  ${esc(d.difficulty)}
+                </span>
+                <span class="badge" style="background: rgba(56,189,248,0.15); color: #38bdf8; border-color: rgba(56,189,248,0.3);">
+                  ${esc(d.category)}
+                </span>
+              </div>
+              <div style="font-size: 0.82rem; color: var(--text-muted); margin-top: 3px;">
+                ${esc(d.sub_name)} · โหมด: <strong style="color: #f1f5f9;">${esc(d.party_size)}</strong> · แนะนำเลเวล: <strong style="color: #34d399;">${esc(d.level_recommended)}</strong>
+              </div>
+            </div>
+          </div>
+          <button class="chapter-toggle-btn" style="color: ${th.badgeColor}; font-size: 1rem;">
+            ${isExpanded ? '▲' : '▼'}
+          </button>
+        </div>
+
+        <!-- Body -->
+        <div class="leveling-tier-body" style="display: ${isExpanded ? 'flex' : 'none'}; padding: 16px;">
+          <div class="leveling-layout-grid" style="width: 100%;">
+            <!-- Left Column: Map Preview & Access Info -->
+            <div class="leveling-map-box">
+              <div class="leveling-map-thumb-wrap" data-map-name="${esc(d.map_name)}" data-map-image="${esc(d.map_image)}" onclick="openGuideMapByElem(this); event.stopPropagation();" title="กดเพื่อดูรูปแผนที่ขนาดใหญ่">
+                <img src="${d.map_image}" class="leveling-map-thumb-img" alt="${esc(d.map_name)}" onerror="this.src='/images/maps/105_zone.png';">
+                <div class="leveling-map-thumb-overlay">
+                  <img src="/images/ui/ui_map.png" class="stat-icon-inline" alt="" style="width: 14px; height: 14px; vertical-align: middle;"> คลิกเพื่อซูมรูปแผนที่
+                </div>
+              </div>
+              <div style="font-size: 0.95rem; font-weight: 700; color: #fff; margin-top: 4px;">
+                ${esc(d.map_name)}
+              </div>
+              <div style="font-size: 0.82rem; color: #f59e0b; display: flex; align-items: flex-start; gap: 6px; background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.25); border-radius: 6px; padding: 8px 10px;">
+                <img src="/images/ui/ui_unlock.png" class="stat-icon-inline" alt="" style="width: 16px; height: 16px; margin-top: 2px;">
+                <div>
+                  <strong style="color: #fbbf24;">การเข้า / บัตรผ่าน:</strong>
+                  <div style="color: #cbd5e1; margin-top: 2px; font-size: 0.8rem; line-height: 1.4;">${esc(d.ticket_requirement)}</div>
+                </div>
+              </div>
+              <div style="font-size: 0.8rem; color: #94a3b8; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.06); border-radius: 6px; padding: 8px 10px; line-height: 1.45;">
+                <strong style="color: #38bdf8;">บอสประจำดันเจี้ยน:</strong> ${esc(d.boss_name)}<br>
+                <strong style="color: #a78bfa;">การรีเซ็ต:</strong> รีเซ็ตโควต้ารายสัปดาห์ (ทุกวันอังคารหลังเซิร์ฟเวอร์ปิดปรับปรุง)
+              </div>
+            </div>
+
+            <!-- Right Column: Why Must Run, Drops, Crafting, Strategy -->
+            <div style="display: flex; flex-direction: column; gap: 14px; flex: 1;">
+              <!-- 1. Why Must Run Weekly -->
+              <div style="background: ${th.whyBg}; border: 1px solid ${th.whyBorder}; border-radius: 8px; padding: 12px 14px;">
+                <div style="font-size: 0.88rem; font-weight: 800; color: ${th.boxTitle}; display: flex; align-items: center; gap: 6px; margin-bottom: 6px;">
+                  <img src="/images/ui/ui_gift.png" class="stat-icon-inline" alt="" style="width: 18px; height: 18px;">
+                  <span>ทำไมต้องลงทุกสัปดาห์? (เหตุผลความคุ้มค่าระดับห้ามพลาด):</span>
+                </div>
+                <div style="font-size: 0.84rem; color: ${th.whyColor}; line-height: 1.55;">
+                  ${esc(d.why_weekly)}
+                </div>
+              </div>
+
+              <!-- 2. Drops Table (ได้ของอะไร) -->
+              <div>
+                <div style="font-size: 0.86rem; font-weight: 700; color: #fff; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+                  <img src="/images/ui/ui_inventory.png" class="stat-icon-inline" alt="" style="width: 16px; height: 16px;">
+                  <span>ไอเทมดรอปการันตี & รางวัลสำคัญประจำสัปดาห์:</span>
+                </div>
+                <div style="overflow-x: auto; border: 1px solid var(--border-color); border-radius: 8px;">
+                  <table class="leveling-monsters-table" style="margin-bottom: 0;">
+                    <tbody>
+                      ${dropsRows}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <!-- 3. Crafting Targets (คราฟอะไรได้บ้าง) -->
+              ${d.crafting && d.crafting.length ? `
+                <div>
+                  <div style="font-size: 0.86rem; font-weight: 700; color: #fff; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+                    <img src="/images/ui/ui_gear.png" class="stat-icon-inline" alt="" style="width: 16px; height: 16px;">
+                    <span>วัตถุดิบคราฟต์อุปกรณ์ระดับ Endgame ที่ต้องใช้ไอเทมจากดันนี้:</span>
+                  </div>
+                  <div>
+                    ${craftingCards}
+                  </div>
+                </div>
+              ` : ''}
+
+              <!-- 4. Strategy & Tip -->
+              <div class="leveling-pro-tip" style="background: rgba(15,23,42,0.6); border-color: rgba(255,255,255,0.1); color: #cbd5e1; margin-top: 0;">
+                <img src="/images/ui/ui_sparkle.png" class="leveling-pro-tip-icon" alt="" onerror="this.src='/images/ui/ui_gift.png';">
+                <div>
+                  <strong style="color: #38bdf8;">สูตรและเทคนิคการลง:</strong>
+                  <span> ${esc(d.strategy)}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  container.innerHTML = cardsHtml;
+}
+
+function toggleWeeklyDungeon(dId) {
+  if (STATE.guide.expandedWeekly.has(dId)) {
+    STATE.guide.expandedWeekly.delete(dId);
+  } else {
+    STATE.guide.expandedWeekly.add(dId);
+  }
+  const card = document.getElementById(`weekly-card-${dId}`);
+  if (card) {
+    const isExp = STATE.guide.expandedWeekly.has(dId);
+    card.classList.toggle('expanded', isExp);
+    const body = card.querySelector('.leveling-tier-body');
+    const toggleBtn = card.querySelector('.chapter-toggle-btn');
+    if (body) body.style.display = isExp ? 'flex' : 'none';
+    if (toggleBtn) toggleBtn.innerText = isExp ? '▲' : '▼';
+  }
+}
+
+function setWeeklyActiveCat(cat) {
+  STATE.guide.weeklyActiveCat = cat;
+  renderWeeklyDungeonsGuide();
+}
+
+let _weeklySearchTimeout = null;
+function onWeeklySearchChange() {
+  clearTimeout(_weeklySearchTimeout);
+  _weeklySearchTimeout = setTimeout(() => {
+    const inp = document.getElementById('weekly-search-input');
+    STATE.guide.weeklySearchQuery = inp ? inp.value : '';
+    renderWeeklyDungeonsGuide();
   }, 200);
 }
