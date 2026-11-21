@@ -5892,7 +5892,7 @@ function renderDigicloneGuide() {
       <!-- 1. Header Banner -->
       <div style="background: linear-gradient(135deg, rgba(30,58,138,0.3) 0%, rgba(15,23,42,0.85) 100%); border: 1px solid rgba(56,189,248,0.3); border-radius: 12px; padding: 22px 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
         <div style="display: flex; align-items: center; gap: 16px;">
-          <img src="/images/ui/ui_clone.png" alt="" style="width: 52px; height: 52px; object-fit: contain; flex-shrink: 0;" onerror="this.src='/images/ui/ui_gear.png';">
+          <img src="/static/images/ui/ui_clone.png" alt="Satsuma Clone Machine" style="width: 52px; height: 52px; object-fit: contain; flex-shrink: 0; border-radius: 8px; border: 1px solid rgba(56,189,248,0.4); background: #000; padding: 2px;" onerror="this.src='/images/ui/ui_clone.png';">
           <div>
             <h2 style="margin: 0; font-size: 1.45rem; font-weight: 800; color: #fff; letter-spacing: -0.02em;">
               ระบบการตีบวกดิจิโคลน (Digiclone Enhancement System)
@@ -6045,7 +6045,6 @@ function renderDigicloneGuide() {
                 <th style="padding: 10px 12px; font-weight: 800; color: #34d399;">Evasion (EV)</th>
                 <th style="padding: 10px 12px; font-weight: 800; color: #22d3ee;">Health (HP)</th>
                 <th style="padding: 10px 12px; font-weight: 800; color: #cbd5e1;">เกรดที่ใช้</th>
-                <th style="padding: 10px 12px; font-weight: 800; color: #94a3b8;">อัตราเพิ่ม / ขั้น</th>
               </tr>
             </thead>
             <tbody>
@@ -6062,13 +6061,11 @@ function renderDigicloneGuide() {
                     <td style="padding: 9px 12px; font-weight: 700; color: #bfdbfe;">${r.bl}%</td>
                     <td style="padding: 9px 12px; font-weight: 700; color: #a7f3d0;">${r.ev}%</td>
                     <td style="padding: 9px 12px; font-weight: 700; color: #a5f3fc;">${r.hp}%</td>
-                    <td style="padding: 9px 12px;">
-                      <span class="badge" style="background: rgba(0,0,0,0.3); border-color: ${r.gradeColor}; color: ${r.gradeColor}; font-weight: 700;">
-                        ${r.gradeName || `เกรด [${r.grade}]`}
-                      </span>
-                    </td>
-                    <td style="padding: 9px 12px; font-size: 0.78rem; color: #94a3b8;">
-                      AT +${r.atGain}% · CT +${r.ctGain}% · BL +${r.blGain}%
+                    <td style="padding: 6px 12px;">
+                      <div style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+                        <img src="/static/images/clones/clone_${r.grade.toLowerCase()}.png" alt="${r.grade}" title="${r.gradeName || `เกรด [${r.grade}]`}" style="width: 32px; height: 32px; object-fit: contain; vertical-align: middle; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));" onerror="this.src='/static/images/ui/ui_clone.png';">
+                        <span style="font-weight: 700; font-size: 0.82rem; color: ${r.gradeColor};">เกรด [${r.grade}]</span>
+                      </div>
                     </td>
                   </tr>
                 `;
@@ -6132,7 +6129,7 @@ function renderDigicloneGuide() {
       <!-- 5. Interactive Clone Calculator -->
       <div style="background: linear-gradient(135deg, rgba(15,23,42,0.95) 0%, rgba(30,41,59,0.9) 100%); border: 1px solid rgba(56,189,248,0.35); border-radius: 12px; padding: 22px 24px;">
         <div style="font-size: 1.15rem; font-weight: 800; color: #38bdf8; display: flex; align-items: center; gap: 8px; margin-bottom: 14px;">
-          <img src="/images/ui/ui_money.png" class="stat-icon-inline" alt="" style="width: 20px; height: 20px;">
+          <img src="/static/images/ui/ui_calculator.png" class="stat-icon-inline" alt="Calculator" style="width: 22px; height: 22px; vertical-align: middle;" onerror="this.src='/images/ui/ui_calculator.png';">
           <span>เครื่องคำนวณสเตตัสโคลนจำลอง (Interactive Clone Calculator)</span>
         </div>
 
