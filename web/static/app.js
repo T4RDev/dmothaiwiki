@@ -5892,7 +5892,7 @@ function renderDigicloneGuide() {
       <!-- 1. Header Banner -->
       <div style="background: linear-gradient(135deg, rgba(30,58,138,0.3) 0%, rgba(15,23,42,0.85) 100%); border: 1px solid rgba(56,189,248,0.3); border-radius: 12px; padding: 22px 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
         <div style="display: flex; align-items: center; gap: 16px;">
-          <img src="/static/images/ui/ui_clone.png" alt="Satsuma Clone Machine" style="width: 52px; height: 52px; object-fit: contain; flex-shrink: 0; border-radius: 8px; border: 1px solid rgba(56,189,248,0.4); background: #000; padding: 2px;" onerror="this.src='/images/ui/ui_clone.png';">
+          <img src="/static/images/ui/ui_clone.png" alt="Digiclone" style="width: 52px; height: 52px; object-fit: contain; flex-shrink: 0; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));" onerror="this.src='/images/ui/ui_clone.png';">
           <div>
             <h2 style="margin: 0; font-size: 1.45rem; font-weight: 800; color: #fff; letter-spacing: -0.02em;">
               ระบบการตีบวกดิจิโคลน (Digiclone Enhancement System)
