@@ -1,0 +1,429 @@
+{
+  "categories": [
+    {
+      "id": "costumes_kaiser",
+      "name": "ชุดเซ็ตดันเจี้ยนไคเซอร์ (Kaiser Domain)",
+      "icon": "/images/ui/ui_gear.png",
+      "badge": "Dungeon Drop",
+      "desc": "ชุดอุปกรณ์คอสทูมสุดคลาสสิกที่ดรอปจากดันเจี้ยนฐานทัพดิจิมอนไคเซอร์ (Kaiser Lab / Chimairamon)",
+      "items": [
+        {
+          "id": "kaiser_set",
+          "name": "ชุดแล็บดิจิมอนไคเซอร์ (Kaiser Laboratory Suit)",
+          "type": "Costume Set",
+          "source": "ดรอปจากกล่องของรางวัลฐานทัพดิจิมอนไคเซอร์ [Normal / Hero] & ผลิตจาก NPC ผู้ดูแลการแลกเปลี่ยนด้วย [ร่องรอยไคเซอร์]",
+          "stats": {
+            "head": "แว่นตาดิจิมอนไคเซอร์: Hit Rate (HT) +400 ~ +600, AT +150",
+            "top": "เสื้อห้องแล็บไคเซอร์: Max HP +1,200 ~ +1,500, Attribute DMG +5%",
+            "bottom": "กางเกงห้องแล็บไคเซอร์: Defense (DE) +150, AT +100",
+            "gloves": "ถุงมือห้องแล็บไคเซอร์: Attack (AT) +300 ~ +400",
+            "shoes": "รองเท้าห้องแล็บไคเซอร์: Movement Speed (MS) +30% ~ +77%"
+          },
+          "set_bonus": "โบนัสฟูลเซ็ต 5 ชิ้น: Attack (AT) +500, Max HP +1,000, EXP +100%",
+          "notes": "ชุดยอดนิยมสำหรับฟาร์มช่วงต้น-กลางเกม หาได้จากการลงดันเจี้ยนไคเซอร์อย่างต่อเนื่อง"
+        }
+      ]
+    },
+    {
+      "id": "costumes_frontier",
+      "name": "ชุดเซ็ตฟรอนเทียร์ (Frontier Tamer)",
+      "icon": "/images/ui/ui_tamer.png",
+      "badge": "Frontier Box",
+      "desc": "ชุดคอสทูมของเหล่าเด็กผู้ถูกเลือกจาก Digimon Frontier สเตตัสพลังแฝงสูงและมีเอฟเฟกต์เฉพาะตัว",
+      "items": [
+        {
+          "id": "takuya_set",
+          "name": "ชุดทาคุยะ (Takuya Kanbara Set)",
+          "type": "Costume Set",
+          "source": "กล่องสุ่มอุปกรณ์ฟรอนเทียร์ (Frontier Equipment Box) / เควสดันเจี้ยนสปิริต / กิจกรรม",
+          "stats": {
+            "head": "หมวกทาคุยะ: EXP +100%, Skill Damage [Fire] +10%",
+            "top": "แจ็คเก็ตทาคุยะ: Max HP +1,500, Fire Attribute +10%",
+            "bottom": "กางเกงทาคุยะ: Defense +200, AT +150",
+            "gloves": "ถุงมือทาคุยะ: Attack (AT) +350",
+            "shoes": "รองเท้าทาคุยะ: Movement Speed (MS) +77%"
+          },
+          "set_bonus": "โบนัสเซ็ต 5 ชิ้น: Attack (AT) +600, Fire Skill Damage +15%, Max HP +1,500",
+          "notes": "เหมาะอย่างยิ่งกับดิจิมอนธาตุไฟ เช่น KaiserGreymon, Susanoomon, Dukemon"
+        },
+        {
+          "id": "koji_set",
+          "name": "ชุดโคจิ (Koji Minamoto Set)",
+          "type": "Costume Set",
+          "source": "กล่องสุ่มอุปกรณ์ฟรอนเทียร์ / เควสสปิริตแห่งแสง",
+          "stats": {
+            "head": "ผ้าโพกหัวโคจิ: EXP +100%, Skill Damage [Light] +10%",
+            "top": "เสื้อโคจิ: Max HP +1,500, Light Attribute +10%",
+            "bottom": "กางเกงโคจิ: Defense +200, AT +150",
+            "gloves": "ถุงมือโคจิ: Attack (AT) +350",
+            "shoes": "รองเท้าโคจิ: Movement Speed (MS) +77%"
+          },
+          "set_bonus": "โบนัสเซ็ต 5 ชิ้น: Attack (AT) +600, Light Skill Damage +15%, Critical Damage +10%",
+          "notes": "เหมาะกับดิจิมอนธาตุแสงและสาย Speed เช่น MagnaGarurumon, Omegamon"
+        },
+        {
+          "id": "frontier_others",
+          "name": "ชุดอิซึมิ / จุนเป / โทโมกิ / โคอิจิ",
+          "type": "Costume Variations",
+          "source": "กล่องสุ่มอุปกรณ์ฟรอนเทียร์",
+          "stats": {
+            "izumi": "ชุดอิซึมิ: บูสต์ Wind DMG +15%, MS +77%, Max HP +1,500",
+            "junpei": "ชุดจุนเป: บูสต์ Thunder DMG +15%, Defense +400, Max HP +2,000",
+            "tomoki": "ชุดโทโมกิ: บูสต์ Ice/Water DMG +15%, Critical Rate +10%, MS +77%",
+            "koichi": "ชุดโคอิจิ: บูสต์ Darkness DMG +15%, Attack +650, Skill DMG +12%"
+          },
+          "set_bonus": "แต่ละชุดให้โบนัสธาตุเฉพาะสาย +15% และสเตตัสเทมเมอร์ระดับสูง",
+          "notes": "สามารถเลือกใส่ตามสายธาตุของดิจิมอนคู่หูตัวหลักที่ใช้งาน"
+        }
+      ]
+    },
+    {
+      "id": "costumes_holy_beasts",
+      "name": "ชุดเซ็ตดันเจี้ยน 4 เทพ (Four Holy Beasts)",
+      "icon": "/images/ui/ui_dungeon.png",
+      "badge": "Endgame Raid",
+      "desc": "ชุดเกราะและเสื้อคลุมระดับสูงจากดันเจี้ยนสี่สัตว์ศักดิ์สิทธิ์และฮวงหลงมอน บูสต์พลังธาตุขั้นสุดยอด",
+      "items": [
+        {
+          "id": "qinglong_robe",
+          "name": "ชุดคลุมชิงหลงมอน (Qinglongmon Kimono / Robe)",
+          "type": "Raid Costume",
+          "source": "ดรอปจากกล่องของรางวัลดันเจี้ยนชิงหลงมอน (Uprising Flame / Scar) [Easy / Normal / Hard]",
+          "stats": {
+            "main": "Thunder Attribute Damage +15%, Lightning Skill DMG +10%",
+            "bonus": "Attack (AT) +700, Max HP +1,800, Movement Speed +77%",
+            "special": "ลดคูลดาวน์สกิลธาตุสายฟ้าลง 10%"
+          },
+          "notes": "ท็อปเทียร์สำหรับดิจิมอนสาย Thunder / Electric"
+        },
+        {
+          "id": "zhuqia_robe",
+          "name": "ชุดคลุมจูเชียมอน (Zhuqiaomon Fiery Robe)",
+          "type": "Raid Costume",
+          "source": "ดรอปจากกล่องของรางวัลดันเจี้ยนจูเชียมอน (Flame Dragon / Desert)",
+          "stats": {
+            "main": "Fire Attribute Damage +15%, Fire Skill DMG +10%",
+            "bonus": "Attack (AT) +700, Max HP +1,800, Movement Speed +77%",
+            "special": "เพิ่มดาเมจเผาไหม้ต่อเนื่อง (Burn DOT Effect)"
+          },
+          "notes": "สายเบิร์นดาเมจไฟที่ดีที่สุดในเกม"
+        },
+        {
+          "id": "baihu_armor",
+          "name": "ชุดเกราะไป่หูมอน (Baihumon Steel Plate)",
+          "type": "Raid Costume",
+          "source": "ดรอปจากกล่องของรางวัลดันเจี้ยนไป่หูมอน (Steel / Mountain)",
+          "stats": {
+            "main": "Steel Attribute Damage +15%, Defense +500",
+            "bonus": "Attack (AT) +700, Max HP +2,200, Block (BL) +10%",
+            "special": "ทนทานต่อดาเมจการโจมตีกายภาพ"
+          },
+          "notes": "เหมาะสำหรับสายแทงก์และลงดันเจี้ยนระดับสูงที่บอสโจมตีหนัก"
+        },
+        {
+          "id": "xuanwu_robe",
+          "name": "ชุดคลุมเสวียนอู่มอน (Xuanwumon Water Shell)",
+          "type": "Raid Costume",
+          "source": "ดรอปจากกล่องของรางวัลดันเจี้ยนเสวียนอู่มอน (Water / Glacier)",
+          "stats": {
+            "main": "Water Attribute Damage +15%, Healing Recovery +20%",
+            "bonus": "Attack (AT) +700, Max HP +2,000, Movement Speed +77%",
+            "special": "รีเจน HP ต่อเนื่องเมื่ออยู่ในสถานะต่อสู้"
+          },
+          "notes": "สายยืนระยะและซัพพอร์ตทีม"
+        },
+        {
+          "id": "fanglong_imperial",
+          "name": "ชุดมหาจักรพรรดิฮวงหลงมอน (Huanglongmon Imperial Robe)",
+          "type": "Supreme Raid Costume",
+          "source": "ดรอปจากดันเจี้ยนฮวงหลงมอน (Fanglongmon Dungeon) & คราฟต์จากแกนพลัง 4 เทพ",
+          "stats": {
+            "main": "All Attribute Damage +15% (ทุกธาตุในเกม!)",
+            "bonus": "Attack (AT) +900, Max HP +2,500, Movement Speed +88%",
+            "special": "Critical Damage +15%, Skill Damage +15%"
+          },
+          "notes": "ชุดสวมใส่ที่ดีที่สุดของหมวดดันเจี้ยน เร่งดาเมจได้ทุกดิจิมอนทุกสาย"
+        }
+      ]
+    },
+    {
+      "id": "costumes_agumon_halloween",
+      "name": "ชุดอากุมอน & ชุดฮาโลวีน (Special Costumes)",
+      "icon": "/images/ui/ui_sparkle.png",
+      "badge": "Event / Cash",
+      "desc": "ชุดคอสทูมยอดฮิตทั้งสายฟาร์มเวลและสายดาเมจ ชุดนอนเป็ด ชุดอากุมอน และชุดเทศกาลฮาโลวีน",
+      "items": [
+        {
+          "id": "agumon_onesie",
+          "name": "ชุดนอนอากุมอน (Agumon Onesie / Agumon Costume)",
+          "type": "Special Onesie",
+          "source": "Cash Shop / กล่องกิจกรรมครบรอบ DMO / ตั๋วแลกเปลี่ยนพิเศษ",
+          "stats": {
+            "main": "Movement Speed (MS) +77% ~ +100% (วิ่งเร็วระดับท็อป)",
+            "atk": "Attack (AT) +600 ~ +800",
+            "hp": "Max HP +1,500 ~ +2,000",
+            "exp": "EXP บูสต์ +200% ~ +500% (เหมาะมากกับการเก็บเลเวล)"
+          },
+          "notes": "มีทั้งเวอร์ชัน Agumon สีส้มปกติ, BlackAgumon สีดำ, และ PinkAgumon"
+        },
+        {
+          "id": "halloween_witch",
+          "name": "ชุดแม่มดฮาโลวีน & ชุดฟักทอง (Halloween Witch / Pumpkin Suit)",
+          "type": "Seasonal Costume",
+          "source": "กิจกรรมเทศกาลฮาโลวีนประจำปี (Halloween Event) / Halloween Mystery Box",
+          "stats": {
+            "main": "Attack (AT) +700 ~ +1,000",
+            "skill": "Skill Damage +12% ~ +15%",
+            "hp": "Max HP +1,500 ~ +2,000",
+            "speed": "Movement Speed +77%"
+          },
+          "notes": "ให้ค่า Skill Damage สูง นิยมใช้เวลาลงเรดบอสที่ต้องทำ Burst Damage ไวๆ"
+        },
+        {
+          "id": "duck_pajama",
+          "name": "ชุดนอนเป็ด / แมว / ไดโนเสาร์ (Duck Pajama & Animal Suits)",
+          "type": "Utility Costume",
+          "source": "กิจกรรมประจำเดือน / กิจกรรมล็อกอินต่อเนื่อง",
+          "stats": {
+            "main": "Movement Speed (MS) +77% ~ +88%",
+            "bonus": "EXP +100% ~ +300%, Max HP +1,000"
+          },
+          "notes": "ชุดสำหรับสายฟาร์มแมปโลกเปิดและสายเดินเควส"
+        }
+      ]
+    },
+    {
+      "id": "accessories_main",
+      "name": "เครื่องประดับเอนด์เกม (Rings, Necklaces, Earrings, Bracelets)",
+      "icon": "/images/ui/ui_money.png",
+      "badge": "Bis Gear",
+      "desc": "เจาะลึก 4 ชิ้นส่วนสำคัญที่สุดในการดันดาเมจของดิจิมอน พร้อมแนวทางการสุ่มออฟชั่นที่ดีที่สุด (BiS)",
+      "items": [
+        {
+          "id": "rings",
+          "name": "แหวน (Rings)",
+          "type": "Finger Accessory",
+          "source": "แหวนอนันต์ (Infinity) -> แหวน 4 เทพ (ชิงหลง/จูเชีย/ไป่หู/เสวียนอู่) -> แหวนไกเซอร์ (Kaiser Ring) -> แหวนฮวงหลงมอน (Fanglongmon Ring 5-Op) / แหวนปาฏิหาริย์ (Miracle Ring Special)",
+          "slots": "4 ถึง 5 ช่องออฟชั่น (สุ่มด้วย หินเปลี่ยนคุณลักษณะ / Option Change Stone)",
+          "stat_pool": "AT (Attack), Max HP, Max DS, CT (Critical Rate), Attribute DMG",
+          "bis_options": "AT + AT + Max HP + Max HP + Attribute (หรือ AT 2 แถว + HP 2 แถว + CT 1 แถว)",
+          "max_values": "AT +600 ต่อแถว (เบิ้ล 2 แถว = +1,200 AT!), Max HP +1,200 ต่อแถว (เบิ้ล 2 แถว = +2,400 HP!)",
+          "notes": "ห้ามมองข้ามแถว AT เบิ้ล เพราะเป็น Base Attack ดิบที่นำไปคูณกับ % บัฟทั้งหมด"
+        },
+        {
+          "id": "necklaces",
+          "name": "สร้อย (Necklaces)",
+          "type": "Neck Accessory",
+          "source": "สร้อยอนันต์ -> สร้อย 4 เทพ -> สร้อยไกเซอร์ (Kaiser Necklace) -> สร้อยฮวงหลงมอน (Fanglongmon Necklace 5-Op)",
+          "slots": "4 ถึง 5 ช่องออฟชั่น",
+          "stat_pool": "AS (Attack Speed), CD (Critical Damage), AT, Max HP, CT, Attribute DMG",
+          "bis_options": "AS (-15%) + CD (+20~25%) + AT (+600) + Max HP (+1,200) + Attribute",
+          "max_values": "AS -15% (ความเร็วในการตีธรรมดาเร็วขึ้น 15% - ชิ้นเดียวในเกมที่มีออฟนี้!), CD +20% ~ +25%",
+          "notes": "สร้อยต้องมี AS -15% เสมอ หากไม่มี AS ถือว่ายังใช้งานได้ไม่เต็มประสิทธิภาพ"
+        },
+        {
+          "id": "earrings",
+          "name": "ต่างหู (Earrings)",
+          "type": "Ear Accessory",
+          "source": "ต่างหูอนันต์ -> ต่างหู 4 เทพ -> ต่างหูไกเซอร์ (Kaiser Earring) -> ต่างหูฮวงหลงมอน -> ต่างหูปาฏิหาริย์ (Miracle Earring Special Lv1-10)",
+          "slots": "4 ถึง 5 ช่องออฟชั่น",
+          "stat_pool": "CD (Critical Damage), HT (Hit Rate), Max HP, Max DS, Attribute, CT",
+          "bis_options": "CD + CD (Critical Damage เบิ้ล 2 แถว!) + HT + Max HP + Attribute",
+          "max_values": "CD +20% ถึง +25% ต่อแถว (ออกเบิ้ล 2 แถว = +40% ถึง +50% Critical Damage มหาศาล!)",
+          "notes": "ต่างหูเป็นชิ้นหัวใจหลักของสายคริติคอล ต้องรีหา CD 2 แถวให้ได้"
+        },
+        {
+          "id": "bracelets",
+          "name": "กำไล (Bracelets)",
+          "type": "Wrist Accessory",
+          "source": "กำไลซีโร่ยูนิต 5 ออฟชั่น (Zero Unit Bracelet) จากดันเจี้ยน Royal Base (ดรอปจาก Dexmon) / กำไลฮวงหลงมอน / กำไลปาฏิหาริย์ (Miracle Bracelet)",
+          "slots": "5 ช่องออฟชั่นเต็ม",
+          "stat_pool": "CD, AT, HT, Max HP, CT, Attribute, DE, EV",
+          "bis_options": "CD + CD (คริเบิ้ล) + AT + AT (โจมตีเบิ้ล) + HT หรือ Max HP",
+          "max_values": "CD +20% ~ +25% (ออก 2 แถวได้), AT +600 (ออก 2 แถวได้), HT +450",
+          "notes": "กำไลคือไอเทมประดับที่ทรงพลังที่สุดเพราะสามารถเบิ้ลทั้ง CD และ AT ได้ในชิ้นเดียว"
+        }
+      ]
+    },
+    {
+      "id": "keyring_digivice",
+      "name": "คีย์ริง & ดิจิไวซ์ (Keyrings & Digivices)",
+      "icon": "/images/ui/ui_digivice_logo.png",
+      "badge": "Core Device",
+      "desc": "อุปกรณ์เชื่อมต่อคู่หูเทมเมอร์ เพิ่มสล็อตชิปเซ็ตและเร่งพลังการต่อสู้ระดับสูงสุด",
+      "items": [
+        {
+          "id": "keyrings",
+          "name": "คีย์ริง (Key Ring System)",
+          "type": "Sub-Accessory",
+          "source": "เควสเนื้อเรื่องชิบูย่า/โอดะอิบะ (Odaiba Sub-Quests) & คราฟต์จาก NPC ประจำเมือง",
+          "variations": "โกสท์ คีย์ริง [DA], [DR], [DS], [ME], [NSp], [NSo], [VB], [WG], [JT]",
+          "stats": {
+            "slots": "เพิ่มช่องใส่หินคุณลักษณะเฉพาะสาย 1-2 ช่อง",
+            "bonus": "Attack +200 ~ +500, Max HP +500 ~ +1,000",
+            "element": "เพิ่มความเสียหายให้ดิจิมอนสายตระกูลตรงกับคีย์ริง +5% ~ +10%"
+          },
+          "notes": "เลือกใส่คีย์ริงที่ตรงกับตระกูลของดิจิมอนที่เล่น (เช่น โอมิการอน = VB / Virus Busters)"
+        },
+        {
+          "id": "digivices_top",
+          "name": "ดิจิไวซ์เอนด์เกม (High-Tier Digivices)",
+          "type": "Main Device",
+          "source": "เควส 100 วัน (100-Day Digivice), เควสผจญภัยโอดะอิบะ, ดันเจี้ยนกิลด์, Cash Shop",
+          "variations": [
+            "ดิจิไวซ์โอทาดะ (True Digivice [OTADA] / Adventure Digivice): 3-5 Chipset Slots, All Attribute +10%, AT +500",
+            "ดิจิไวซ์แห่งชัยชนะ (Digivice of Victory): ช่อง Chipset 4 ช่อง, Max HP +1,500, AT +400",
+            "ดิจิไวซ์ D-3 & D-Ark: 2-3 Chipset Slots, AT +200, Max DS +500",
+            "ดิจิไวซ์ 5 สี (Courage / Friendship / Hope / Light / Love): บูสต์พลังตามธาตุตราสัญลักษณ์"
+          ],
+          "stats": {
+            "chipsets": "สล็อตติดตั้ง Chipset (AT, HP, HT, DE) เพิ่มพลังแบบ Raw Stat",
+            "aura": "ปลดล็อกเอฟเฟกต์แสงรอบตัวเทมเมอร์"
+          },
+          "notes": "ดิจิไวซ์โอทาดะ (OTADA) ถือเป็นสุดยอดดิจิไวซ์สายฟรีที่คุ้มค่าแก่การทำเควสที่สุด"
+        }
+      ]
+    },
+    {
+      "id": "xai_system",
+      "name": "ระบบ XAI (X-Antibody Indicator)",
+      "icon": "/images/ui/ui_dunit.png",
+      "badge": "X-Antibody",
+      "desc": "อุปกรณ์ตรวจจับและควบคุมพลังงาน X-Antibody จำเป็นอย่างยิ่งสำหรับการคงสภาพร่าง X-Evolution",
+      "items": [
+        {
+          "id": "xai_tiers",
+          "name": "XAI ระดับมาตรฐาน (Ver I ถึง Ver IV)",
+          "type": "X-Indicator",
+          "source": "เควส X-Antibody D-Terminal B2 / แลกเปลี่ยนตั๋ว Verdandi Terminal",
+          "stats": {
+            "ver_1": "XAI Ver I: ความจุ X-Gauge +500, X-คริสตัล +1",
+            "ver_2": "XAI Ver II: ความจุ X-Gauge +1,000, X-คริสตัล +2",
+            "ver_3": "XAI Ver III: ความจุ X-Gauge +2,000, X-คริสตัล +3",
+            "ver_4": "XAI Ver IV: ความจุ X-Gauge +3,000, X-คริสตัล +4"
+          },
+          "notes": "ยิ่ง X-Gauge สูง จะยิ่งคงร่างดิจิมอนสาย X เช่น Omegamon X, Alphamon Ouryuken X ได้นานขึ้น"
+        },
+        {
+          "id": "xai_custom",
+          "name": "XAI ระดับไฮเอนด์ (XAI Storm, Lightning, Ultimate)",
+          "type": "Custom X-Indicator",
+          "source": "กล่องสุ่ม X-Antibody Gacha / กิจกรรมพิเศษ / Battle Pass",
+          "stats": {
+            "storm": "XAI Ver. Storm [1000/1000]: X-Gauge 1,000, Attack (AT) +300, Max HP +1,000",
+            "lightning": "XAI Ver. Lightning: X-Gauge 1,500, Critical Damage +10%, AT +400",
+            "ultimate": "XAI Ver. Ultimate / Ver. X: X-Gauge 4,000 ~ 6,000, AT +500, Max HP +2,000, Skill DMG +10%"
+          },
+          "notes": "สายลงดันเจี้ยนเอนด์เกมจำเป็นต้องใช้ XAI ที่มีสเตตัสเสริม AT และ Critical Damage"
+        }
+      ]
+    },
+    {
+      "id": "aura_cross_chip",
+      "name": "ดิจิออร่า & ดิจิดรอสชิป (Digi-Aura & DigiXros Chip)",
+      "icon": "/images/ui/ui_sparkle.png",
+      "badge": "Sustain Gear",
+      "desc": "ไอเทมรักษาสภาพการวิวัฒนาการโดยไม่ต้องเสียค่า Digisoul (DS) และชิปเฉพาะสำหรับระบบ DigiXros",
+      "items": [
+        {
+          "id": "digi_aura",
+          "name": "ดิจิออร่า (Digi-Aura)",
+          "type": "Aura Item",
+          "source": "เควสประจำวัน DATS Center / กิจกรรมล็อกอิน / Cash Shop (แบบ 1 วัน, 7 วัน, 30 วัน, และถาวร)",
+          "variations": [
+            "ดิจิออร่าปกติ (Standard Digi-Aura): รักษาร่างวิวัฒนาการโดยไม่เสียค่า DS (DS ไม่ลดลงเลย)",
+            "ฮาโลวีน ดิจิออร่า (Halloween Digi-Aura): DS ไม่ลด + เพิ่ม Attack +200, Max HP +500",
+            "รอยัล ดิจิออร่า (Royal Digi-Aura): DS ไม่ลด + เพิ่ม Attack +300, Max HP +1,000, EXP +100%",
+            "ก็อด ดิจิออร่า (God Digi-Aura): DS ไม่ลด + เพิ่ม Attack +500, Max HP +1,500, Skill Damage +10%"
+          ],
+          "notes": "เป็นไอเทมไฟต์บังคับที่เทมเมอร์ทุกคนต้องมีติดตัวเวลาลงดันเจี้ยนหรือบอทฟาร์ม"
+        },
+        {
+          "id": "digixros_chip",
+          "name": "ดิจิดรอสชิป (DigiXros Chip / Code Crown)",
+          "type": "Xros Core",
+          "source": "ร้านค้าแลกเปลี่ยน DATS Center / เควสเนื้อเรื่อง DigiXros Wars",
+          "stats": {
+            "func": "ใช้สำหรับรวมร่างและรักษาร่างดิจิมอนตระกูลครอสวอร์ส (Shoutmon X4, X5, X7, DarknessBagramon)",
+            "unlimited": "เวอร์ชัน Unlimited / ไม่มีจำกัด: รวมร่างครอสได้ตลอดเวลาโดยไม่ต้องเติมชิปทีละชิ้น"
+          },
+          "notes": "จำเป็นสำหรับผู้เล่นที่ใช้สาย Shoutmon X7 หรือเด็คครอสวอร์ส"
+        }
+      ]
+    },
+    {
+      "id": "wings_magnetic",
+      "name": "ปีกป้าย & แมกเนติก ID Card (Wings & Magnetic Badges)",
+      "icon": "/images/ui/ui_ach.png",
+      "badge": "Auto-Loot",
+      "desc": "ป้ายชื่อเทมเมอร์พร้อมเอฟเฟกต์ปีกสุดอลังการ มีระบบแม่เหล็กดูดไอเทมดรอปเข้ากระเป๋าอัตโนมัติ",
+      "items": [
+        {
+          "id": "magnetic_function",
+          "name": "ระบบแม่เหล็กดูดของ (Magnetic Auto-Loot)",
+          "type": "Core Mechanism",
+          "desc": "เมื่อสวมใส่ป้ายแมกเนติก กล่องดรอปและไอเทมจากมอนสเตอร์รอบตัวจะถูกเก็บเข้า Inventory ทันที ไม่ต้องเดินไปกดคลิกเก็บ"
+        },
+        {
+          "id": "wings_tiers",
+          "name": "ปีกป้ายยอดนิยม & สเตตัส (Wings Lineup)",
+          "type": "Equip Wings",
+          "source": "Cash Shop / กล่องกิจกรรมครบรอบ DMO / Battle Pass / Season Pass",
+          "variations": [
+            "Heaven Wings [AT]: ดูดของอัตโนมัติ + เพิ่ม Attack (AT) +500",
+            "Heaven Wings [HP]: ดูดของอัตโนมัติ + เพิ่ม Max HP +1,500",
+            "Heaven Wings [EXP]: ดูดของอัตโนมัติ + เพิ่ม EXP +200%",
+            "Heaven Wings [HT / CT]: ดูดของอัตโนมัติ + Hit Rate +400 หรือ Critical Rate +10%",
+            "Time Ruler [AT / HP / CT]: ดูดของอัตโนมัติ + AT +600, Max HP +2,000, CT +10%",
+            "Digimon King [AT / HP / CT]: ท็อปเทียร์ ดูดของอัตโนมัติ + AT +700, Max HP +2,500, Skill DMG +15%",
+            "บลูวิงส์ (Blue Wings), เรดวิงส์ (Red Wings), เพอร์เพิลวิงส์ (Purple Wings): ออปชั่นความเร็วการเคลื่อนที่ + AT"
+          ],
+          "notes": "ช่วยประหยัดเวลาในการฟาร์มได้มหาศาล และยังเพิ่มพลังรบอย่างชัดเจน"
+        }
+      ]
+    },
+    {
+      "id": "glasses_goggles",
+      "name": "แว่นตาเทมเมอร์ (Goggles & Glasses)",
+      "icon": "/images/ui/ui_book.png",
+      "badge": "Head Accessory",
+      "desc": "อุปกรณ์สวมใส่ส่วนตา เพิ่มค่าความแม่นยำ (Hit Rate) ดาเมจ และสเตตัสเสริม",
+      "items": [
+        {
+          "id": "adventure_goggles",
+          "name": "แว่นตานิรภัยแอดเวนเจอร์ (Adventure Goggles Lv 1 - Lv 5)",
+          "type": "Goggles",
+          "source": "เควสเนื้อเรื่องเกาะไฟล์ (File Island Quests) และเควสต่อเนื่องโอดะอิบะ",
+          "stats": {
+            "lv1": "แว่นนิรภัย Lv 1: Hit Rate (HT) +100",
+            "lv3": "แว่นนิรภัย Lv 3: Hit Rate (HT) +300, Attack +100",
+            "lv5": "แว่นนิรภัย Lv 5 (Max): Hit Rate (HT) +600 ~ +800, Attack +250, Max DS +500"
+          },
+          "notes": "ค่า Hit Rate มีผลอย่างมากในการลงดันเจี้ยนระดับสูงเพื่อไม่ให้โจมตีติด Miss"
+        },
+        {
+          "id": "kaiser_goggles",
+          "name": "แว่นตาดิจิมอนไคเซอร์ (Kaiser Goggles)",
+          "type": "Special Goggles",
+          "source": "ดรอปจากดันเจี้ยนฐานทัพดิจิมอนไคเซอร์ (Kaiser Domain)",
+          "stats": {
+            "main": "Hit Rate (HT) +500, Attack (AT) +200",
+            "bonus": "Max DS +500, Movement Speed +15%"
+          },
+          "notes": "แว่นสายผสมที่ทั้งแม่นยำและเพิ่มพลังโจมตี"
+        },
+        {
+          "id": "sunglasses_special",
+          "name": "แว่นกันแดดซัมเมอร์ & แว่นตาว่ายน้ำ (Summer Sunglasses)",
+          "type": "Seasonal Glasses",
+          "source": "กิจกรรมฤดูร้อน (Summer Event) / Cash Shop",
+          "stats": {
+            "main": "Attack (AT) +150 ~ +300",
+            "bonus": "Movement Speed (MS) +15% ~ +30%, EXP +50%"
+          },
+          "notes": "ไอเทมยอดนิยมสำหรับสายวิ่งเร็วและสายเก็บเลเวล"
+        }
+      ]
+    }
+  ]
+}

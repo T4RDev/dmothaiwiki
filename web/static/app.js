@@ -314,9 +314,12 @@ function handleRoute() {
       if (dv) { dv.style.display = ''; dv.innerHTML = SKEL.digimonDetail(); }
     }
     loadJogressQuests().then(() => slug ? renderJogressDetail(slug, parts[1]) : showJogressList());
-  } else if (rawRoute === 'tamer-status' || rawRoute === 'tamer-equip') {
+  } else if (rawRoute === 'tamer-status') {
     showTab('tamers');
     showTamerView('status');
+  } else if (rawRoute === 'tamer-equipment' || rawRoute === 'tamer-equip') {
+    showTab('tamers');
+    showTamerView('equipment');
   } else if (rawRoute.startsWith('tamer/')) {
     const tref = decodeURIComponent(rawRoute.slice('tamer/'.length)).trim();
     if (!tref || tref.includes('/')) { showNotFoundPage(rawRoute); return; }
@@ -2639,21 +2642,38 @@ function renderTamers() {
 
 function showTamerView(view) {
   const isStatus = view === 'status';
+  const isEquip = view === 'equipment' || view === 'equip';
+  const isList = !isStatus && !isEquip;
+
   const swList = document.getElementById('tm-sw-list');
   const swStatus = document.getElementById('tm-sw-status');
-  if (swList) swList.classList.toggle('active', !isStatus);
+  const swEquip = document.getElementById('tm-sw-equipment');
+  if (swList) swList.classList.toggle('active', isList);
   if (swStatus) swStatus.classList.toggle('active', isStatus);
+  if (swEquip) swEquip.classList.toggle('active', isEquip);
+
   const lv = document.getElementById('tm-list-view');
   const dv = document.getElementById('tm-detail-view');
   const sv = document.getElementById('tm-status-view');
-  if (isStatus) {
-    disposeTamerModelViewer();
+  const ev = document.getElementById('tm-equipment-view');
+
+  disposeTamerModelViewer();
+
+  if (isEquip) {
+    if (lv) lv.style.display = 'none';
+    if (dv) { dv.style.display = 'none'; dv.innerHTML = ''; }
+    if (sv) sv.style.display = 'none';
+    if (ev) ev.style.display = '';
+    openTamerEquipmentView();
+  } else if (isStatus) {
     if (lv) lv.style.display = 'none';
     if (dv) { dv.style.display = 'none'; dv.innerHTML = ''; }
     if (sv) sv.style.display = '';
+    if (ev) ev.style.display = 'none';
     openTamerStatusView();
   } else {
     if (sv) sv.style.display = 'none';
+    if (ev) ev.style.display = 'none';
     showTamerList();
   }
 }
@@ -2662,14 +2682,18 @@ function showTamerList() {
   disposeTamerModelViewer();
   const swList = document.getElementById('tm-sw-list');
   const swStatus = document.getElementById('tm-sw-status');
+  const swEquip = document.getElementById('tm-sw-equipment');
   if (swList) swList.classList.add('active');
   if (swStatus) swStatus.classList.remove('active');
+  if (swEquip) swEquip.classList.remove('active');
   const lv = document.getElementById('tm-list-view');
   const dv = document.getElementById('tm-detail-view');
   const sv = document.getElementById('tm-status-view');
+  const ev = document.getElementById('tm-equipment-view');
   if (lv) lv.style.display = '';
   if (dv) { dv.style.display = 'none'; dv.innerHTML = ''; }
   if (sv) sv.style.display = 'none';
+  if (ev) ev.style.display = 'none';
   loadTamers();
 }
 
@@ -6044,7 +6068,6 @@ function renderDigicloneGuide() {
                 <th style="padding: 10px 12px; font-weight: 800; color: #60a5fa;">Block (BL)</th>
                 <th style="padding: 10px 12px; font-weight: 800; color: #34d399;">Evasion (EV)</th>
                 <th style="padding: 10px 12px; font-weight: 800; color: #22d3ee;">Health (HP)</th>
-                <th style="padding: 10px 12px; font-weight: 800; color: #cbd5e1;">เกรดที่ใช้</th>
               </tr>
             </thead>
             <tbody>
@@ -6052,7 +6075,7 @@ function renderDigicloneGuide() {
                 return `
                   <tr style="background: ${r.bg || 'transparent'}; border-bottom: 1px solid rgba(255,255,255,0.06); transition: background 0.15s;">
                     <td style="padding: 9px 12px; font-weight: 800; color: #fff;">
-                      <span style="display: inline-block; width: 26px; height: 26px; line-height: 26px; border-radius: 50%; background: rgba(0,0,0,0.3); border: 1px solid ${r.gradeColor}; color: ${r.gradeColor};">
+                      <span style="display: inline-block; width: 26px; height: 26px; line-height: 26px; border-radius: 50%; background: rgba(0,0,0,0.3); border: 1px solid #38bdf8; color: #38bdf8;">
                         ${r.lv}
                       </span>
                     </td>
@@ -6061,12 +6084,6 @@ function renderDigicloneGuide() {
                     <td style="padding: 9px 12px; font-weight: 700; color: #bfdbfe;">${r.bl}%</td>
                     <td style="padding: 9px 12px; font-weight: 700; color: #a7f3d0;">${r.ev}%</td>
                     <td style="padding: 9px 12px; font-weight: 700; color: #a5f3fc;">${r.hp}%</td>
-                    <td style="padding: 6px 12px;">
-                      <div style="display: flex; align-items: center; justify-content: center; gap: 8px;">
-                        <img src="/static/images/clones/clone_${r.grade.toLowerCase()}.png" alt="${r.grade}" title="${r.gradeName || `เกรด [${r.grade}]`}" style="width: 32px; height: 32px; object-fit: contain; vertical-align: middle; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));" onerror="this.src='/static/images/ui/ui_clone.png';">
-                        <span style="font-weight: 700; font-size: 0.82rem; color: ${r.gradeColor};">เกรด [${r.grade}]</span>
-                      </div>
-                    </td>
                   </tr>
                 `;
               }).join('')}
@@ -6156,7 +6173,7 @@ function renderDigicloneGuide() {
               <div style="font-size: 0.78rem; color: #94a3b8; margin-bottom: 8px; line-height: 1.4;">
                 <span style="color: #fff; font-weight: 700;">(คือค่าตัวเลขสีขาว</span> ของดิจิมอนในหน้าต่าง Status ในเกม ไม่รวมตัวเลขสีเขียวและเหลือง)
               </div>
-              <input type="number" step="any" id="clone-calc-base-input" value="${DIGICLONE_STATE.calcBase}" min="0" max="999999" oninput="onCloneCalcBaseChange(this.value)" placeholder="กรอกตัวเลขสีขาว เช่น 295..." style="width: 100%; max-width: 280px; padding: 8px 12px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; color: #fff; font-size: 0.95rem; font-weight: 700;">
+              <input type="number" step="any" id="clone-calc-base-input" value="${DIGICLONE_STATE.calcBase}" min="0" max="999999" onkeydown="if(event.key===\'Enter\')event.preventDefault();" oninput="event.stopPropagation();onCloneCalcBaseChange(this.value)" placeholder="กรอกตัวเลขสีขาว เช่น 295..." style="width: 100%; max-width: 280px; padding: 8px 12px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; color: #fff; font-size: 0.95rem; font-weight: 700;">
             </div>
 
             <div>
@@ -6264,4 +6281,344 @@ function setCloneCalcStat(stat) {
   if (baseInput) baseInput.value = DIGICLONE_STATE.calcBase;
 
   updateCloneCalculatorUI();
+}
+
+// ==========================================
+// TAMER EQUIPMENT & COSTUMES GUIDE (100% Comprehensive)
+// ==========================================
+const TAMER_EQUIP_STATE = {
+  data: null,
+  activeCat: 'all',
+  searchQuery: ''
+};
+
+async function openTamerEquipmentView() {
+  document.title = 'อุปกรณ์สวมใส่เทมเมอร์ - DMO Thai Wiki';
+  const container = document.getElementById('tm-equipment-view');
+  if (!container) return;
+
+  if (!TAMER_EQUIP_STATE.data) {
+    container.innerHTML = `
+      <div style="padding: 40px; text-align: center; color: var(--text-muted);">
+        <div class="spinner" style="margin: 0 auto 12px auto;"></div>
+        <div>กำลังโหลดข้อมูลอุปกรณ์สวมใส่เทมเมอร์จากเซิร์ฟไทย...</div>
+      </div>
+    `;
+
+    try {
+      let res = await fetch('/api/tamer-equipment');
+      if (!res.ok) res = await fetch('/static/data/tamer_equipment.json');
+      if (!res.ok) res = await fetch('/data/tamer_equipment.json');
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      TAMER_EQUIP_STATE.data = await res.json();
+    } catch (err) {
+      console.error('Failed to load tamer equipment:', err);
+      container.innerHTML = `
+        <div style="padding: 30px; text-align: center; color: #ef4444; background: rgba(239,68,68,0.1); border-radius: 8px; border: 1px solid rgba(239,68,68,0.3);">
+          เกิดข้อผิดพลาดในการโหลดข้อมูลอุปกรณ์สวมใส่
+        </div>
+      `;
+      return;
+    }
+  }
+
+  renderTamerEquipmentView();
+}
+
+function setTamerEquipmentCat(catId) {
+  TAMER_EQUIP_STATE.activeCat = catId;
+  renderTamerEquipmentView();
+}
+
+function filterTamerEquipment(q) {
+  TAMER_EQUIP_STATE.searchQuery = q || '';
+  renderTamerEquipmentView();
+}
+
+function renderTamerEquipmentView() {
+  const container = document.getElementById('tm-equipment-view');
+  if (!container || !TAMER_EQUIP_STATE.data) return;
+
+  const data = TAMER_EQUIP_STATE.data;
+  const categories = data.categories || [];
+  const activeCat = TAMER_EQUIP_STATE.activeCat || 'all';
+  const searchQ = (TAMER_EQUIP_STATE.searchQuery || '').toLowerCase().trim();
+
+  // Filter Categories
+  const filteredCats = categories.map(cat => {
+    if (activeCat !== 'all' && cat.id !== activeCat) return null;
+    let items = cat.items || [];
+    if (searchQ) {
+      items = items.filter(it => {
+        const inName = (it.name || '').toLowerCase().includes(searchQ);
+        const inDesc = (it.desc || '').toLowerCase().includes(searchQ);
+        const inType = (it.type || '').toLowerCase().includes(searchQ);
+        const inSource = (it.source || '').toLowerCase().includes(searchQ);
+        const inPieces = (it.pieces || []).some(p => (p.name || '').toLowerCase().includes(searchQ) || (p.stats || '').toLowerCase().includes(searchQ));
+        const inBis = (it.bis_options || []).some(b => (b.slot || '').toLowerCase().includes(searchQ) || (b.priority || '').toLowerCase().includes(searchQ));
+        const inModels = (it.models || []).some(m => (m.name || '').toLowerCase().includes(searchQ) || (m.effect || '').toLowerCase().includes(searchQ));
+        const inVariants = (it.variants || []).some(v => (v.name || '').toLowerCase().includes(searchQ) || (v.effect || '').toLowerCase().includes(searchQ));
+        const inTypes = (it.types || []).some(t => (t.name || '').toLowerCase().includes(searchQ) || (t.effect || '').toLowerCase().includes(searchQ));
+        return inName || inDesc || inType || inSource || inPieces || inBis || inModels || inVariants || inTypes;
+      });
+      if (items.length === 0 && !(cat.name || '').toLowerCase().includes(searchQ)) return null;
+    }
+    return { ...cat, items };
+  }).filter(Boolean);
+
+  let pillsHtml = `
+    <button class="filter-pill ${activeCat === 'all' ? 'active' : ''}" onclick="setTamerEquipmentCat('all')">
+      ทั้งหมด (${categories.length} หมวด)
+    </button>
+  `;
+  categories.forEach(c => {
+    const isAct = activeCat === c.id;
+    pillsHtml += `
+      <button class="filter-pill ${isAct ? 'active' : ''}" onclick="setTamerEquipmentCat('${esc(c.id)}')">
+        ${esc(c.name.split(' (')[0])}
+      </button>
+    `;
+  });
+
+  let cardsHtml = '';
+  if (filteredCats.length === 0) {
+    cardsHtml = `
+      <div style="padding: 40px; text-align: center; color: var(--text-muted); background: var(--bg-card); border-radius: 8px; border: 1px solid var(--border-color);">
+        ไม่พบข้อมูลอุปกรณ์สวมใส่ที่ตรงกับการค้นหา "${esc(searchQ)}"
+      </div>
+    `;
+  } else {
+    cardsHtml = filteredCats.map(cat => {
+      const itemsHtml = cat.items.map(it => {
+        let pieceTable = '';
+        if (it.pieces && it.pieces.length > 0) {
+          pieceTable = `
+            <div style="margin-top: 14px; overflow-x: auto;">
+              <table style="width: 100%; border-collapse: collapse; font-size: 0.84rem; text-align: left;">
+                <thead>
+                  <tr style="background: rgba(0,0,0,0.3); border-bottom: 1px solid rgba(255,255,255,0.1); color: #94a3b8;">
+                    <th style="padding: 8px 10px;">ชิ้นส่วน (Piece)</th>
+                    <th style="padding: 8px 10px;">ช่องสวมใส่</th>
+                    <th style="padding: 8px 10px;">สเตตัสที่ได้รับ (Stats)</th>
+                    <th style="padding: 8px 10px;">ระยะเวลา</th>
+                    <th style="padding: 8px 10px;">แหล่งดรอป / หาได้จาก</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${it.pieces.map(p => `
+                    <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                      <td style="padding: 8px 10px; font-weight: 700; color: #fff;">
+                        <img src="${esc(p.icon || '/images/client_items/5050.png')}" style="width: 22px; height: 22px; vertical-align: middle; margin-right: 6px; border-radius: 4px;" onerror="this.src='/images/client_items/5050.png';">
+                        ${esc(p.name)}
+                      </td>
+                      <td style="padding: 8px 10px; color: #38bdf8;">${esc(p.slot)}</td>
+                      <td style="padding: 8px 10px; color: #34d399; font-weight: 700;">${esc(p.stats)}</td>
+                      <td style="padding: 8px 10px; color: #fbbf24;">${esc(p.duration || 'ถาวร')}</td>
+                      <td style="padding: 8px 10px; color: #cbd5e1;">${esc(p.source || it.source || '-')}</td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+          `;
+        }
+
+        let bonusBox = '';
+        if (it.set_bonus) {
+          bonusBox = `
+            <div style="margin-top: 12px; padding: 10px 14px; background: rgba(56,189,248,0.08); border: 1px solid rgba(56,189,248,0.3); border-radius: 8px; font-size: 0.85rem; color: #bae6fd;">
+              <strong style="color: #38bdf8;">โบนัสเซ็ตเมื่อใส่ครบทุกชิ้น (Set Bonus):</strong> ${esc(it.set_bonus)}
+            </div>
+          `;
+        }
+
+        let bisTable = '';
+        if (it.bis_options && it.bis_options.length > 0) {
+          bisTable = `
+            <div style="margin-top: 14px; overflow-x: auto;">
+              <div style="font-size: 0.88rem; font-weight: 800; color: #fbbf24; margin-bottom: 8px;">
+                แนวทางการสุ่มออปชั่นที่ดีที่สุด (Best-in-Slot / BiS Recommendations):
+              </div>
+              <table style="width: 100%; border-collapse: collapse; font-size: 0.84rem; text-align: left;">
+                <thead>
+                  <tr style="background: rgba(0,0,0,0.3); border-bottom: 1px solid rgba(255,255,255,0.1); color: #94a3b8;">
+                    <th style="padding: 8px 10px;">ชิ้นประดับ</th>
+                    <th style="padding: 8px 10px;">จำนวนออป</th>
+                    <th style="padding: 8px 10px;">ออปชั่น BiS แนะนำ</th>
+                    <th style="padding: 8px 10px;">ค่าสูงสุด (Max Roll)</th>
+                    <th style="padding: 8px 10px;">แหล่งดรอป / แลก</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${it.bis_options.map(b => `
+                    <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                      <td style="padding: 8px 10px; font-weight: 800; color: #fff;">${esc(b.slot)}</td>
+                      <td style="padding: 8px 10px; color: #38bdf8; font-weight: 700;">${esc(b.options_count)}</td>
+                      <td style="padding: 8px 10px; color: #4ade80; font-weight: 700;">${esc(b.priority)}</td>
+                      <td style="padding: 8px 10px; color: #fde047;">${esc(b.max_roll)}</td>
+                      <td style="padding: 8px 10px; color: #cbd5e1;">${esc(b.source)}</td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+          `;
+        }
+
+        let modelsTable = '';
+        if (it.models && it.models.length > 0) {
+          modelsTable = `
+            <div style="margin-top: 14px; overflow-x: auto;">
+              <table style="width: 100%; border-collapse: collapse; font-size: 0.84rem; text-align: left;">
+                <thead>
+                  <tr style="background: rgba(0,0,0,0.3); border-bottom: 1px solid rgba(255,255,255,0.1); color: #94a3b8;">
+                    <th style="padding: 8px 10px;">รุ่น / ชื่อไอเทม</th>
+                    <th style="padding: 8px 10px;">ความจุ / สล็อต</th>
+                    <th style="padding: 8px 10px;">สเตตัส / คุณสมบัติพิเศษ</th>
+                    <th style="padding: 8px 10px;">วิธีได้รับ / แหล่งฟาร์ม</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${it.models.map(m => `
+                    <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                      <td style="padding: 8px 10px; font-weight: 700; color: #fff;">${esc(m.name)}</td>
+                      <td style="padding: 8px 10px; color: #38bdf8;">${esc(m.capacity || m.slots || '-')}</td>
+                      <td style="padding: 8px 10px; color: #34d399; font-weight: 700;">${esc(m.stats || m.effect || '-')}</td>
+                      <td style="padding: 8px 10px; color: #cbd5e1;">${esc(m.source || it.source || '-')}</td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+          `;
+        }
+
+        let variantsTable = '';
+        if (it.variants && it.variants.length > 0) {
+          variantsTable = `
+            <div style="margin-top: 14px; overflow-x: auto;">
+              <table style="width: 100%; border-collapse: collapse; font-size: 0.84rem; text-align: left;">
+                <thead>
+                  <tr style="background: rgba(0,0,0,0.3); border-bottom: 1px solid rgba(255,255,255,0.1); color: #94a3b8;">
+                    <th style="padding: 8px 10px;">ประเภท / ออร่า</th>
+                    <th style="padding: 8px 10px;">ผลลัพธ์ / บัฟที่ได้รับ</th>
+                    <th style="padding: 8px 10px;">ระยะเวลา</th>
+                    <th style="padding: 8px 10px;">แหล่งดรอป / แลก</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${it.variants.map(v => `
+                    <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                      <td style="padding: 8px 10px; font-weight: 700; color: #fff;">${esc(v.name)}</td>
+                      <td style="padding: 8px 10px; color: #34d399; font-weight: 700;">${esc(v.effect || v.stats || '-')}</td>
+                      <td style="padding: 8px 10px; color: #fbbf24;">${esc(v.duration || 'ถาวร')}</td>
+                      <td style="padding: 8px 10px; color: #cbd5e1;">${esc(v.source || it.source || '-')}</td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+          `;
+        }
+
+        let typesTable = '';
+        if (it.types && it.types.length > 0) {
+          typesTable = `
+            <div style="margin-top: 14px; overflow-x: auto;">
+              <table style="width: 100%; border-collapse: collapse; font-size: 0.84rem; text-align: left;">
+                <thead>
+                  <tr style="background: rgba(0,0,0,0.3); border-bottom: 1px solid rgba(255,255,255,0.1); color: #94a3b8;">
+                    <th style="padding: 8px 10px;">ประเภท / ซีรีส์</th>
+                    <th style="padding: 8px 10px;">สเตตัส / คุณสมบัติ</th>
+                    <th style="padding: 8px 10px;">แหล่งดรอป / ทำเควสต์</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${it.types.map(t => `
+                    <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                      <td style="padding: 8px 10px; font-weight: 700; color: #fff;">${esc(t.name)}</td>
+                      <td style="padding: 8px 10px; color: #34d399; font-weight: 700;">${esc(t.stats || t.effect || '-')}</td>
+                      <td style="padding: 8px 10px; color: #cbd5e1;">${esc(t.source || it.source || '-')}</td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+          `;
+        }
+
+        return `
+          <div class="panel" style="padding: 16px; margin-bottom: 16px; border-left: 3px solid #38bdf8;">
+            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <img src="${esc(it.icon || '/static/images/ui/ui_equipment.png')}" style="width: 32px; height: 32px; object-fit: contain; border-radius: 6px; background: rgba(0,0,0,0.4); padding: 2px;" onerror="this.src='/static/images/ui/ui_equipment.png';">
+                <div>
+                  <h4 style="margin: 0; font-size: 1.05rem; font-weight: 800; color: #fff;">${esc(it.name)}</h4>
+                  <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 2px;">
+                    ${it.type ? `<span class="badge" style="background: rgba(56,189,248,0.2); color: #38bdf8; margin-right: 6px;">${esc(it.type)}</span>` : ''}
+                    ${it.source ? `<span>แหล่งที่มา: <strong style="color: #f1f5f9;">${esc(it.source)}</strong></span>` : ''}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            ${it.desc ? `<div style="font-size: 0.86rem; color: #cbd5e1; margin-top: 10px; line-height: 1.5;">${esc(it.desc)}</div>` : ''}
+
+            ${bonusBox}
+            ${pieceTable}
+            ${bisTable}
+            ${modelsTable}
+            ${variantsTable}
+            ${typesTable}
+          </div>
+        `;
+      }).join('');
+
+      return `
+        <div style="margin-bottom: 28px;">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px;">
+            <span style="width: 4px; height: 18px; background: #38bdf8; border-radius: 2px;"></span>
+            <h3 style="margin: 0; font-size: 1.15rem; font-weight: 800; color: #fff;">${esc(cat.name)}</h3>
+            <span style="font-size: 0.82rem; color: var(--text-muted);">(${cat.items.length} รายการ)</span>
+          </div>
+          ${itemsHtml}
+        </div>
+      `;
+    }).join('');
+  }
+
+  container.innerHTML = `
+    <div style="margin-bottom: 20px;">
+      <!-- Banner -->
+      <div class="panel" style="padding: 20px; background: linear-gradient(135deg, rgba(56,189,248,0.12) 0%, rgba(15,23,42,0.6) 100%); border-color: rgba(56,189,248,0.3); margin-bottom: 16px;">
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <img src="/static/images/ui/ui_equipment.png?v=20261124_01" style="width: 46px; height: 46px; object-fit: contain; filter: drop-shadow(0 2px 8px rgba(56,189,248,0.4));" onerror="this.src='/images/client_items/5050.png';">
+          <div>
+            <h2 style="margin: 0; font-size: 1.35rem; font-weight: 900; color: #fff;">
+              คู่มืออุปกรณ์สวมใส่เทมเมอร์ & คอสตูม (Tamer Equipment & Costumes Guide)
+            </h2>
+            <div style="font-size: 0.86rem; color: #94a3b8; margin-top: 4px;">
+              รวบรวมไอเทมสวมใส่ของเทมเมอร์ครบถ้วน 100% สเตตัสจริงตามเซิร์ฟเวอร์ไทยล่าสุด ทั้งชุดเซ็ตดันเจี้ยน, เครื่องประดับเอนด์เกม BiS, คีย์ริง, ดิจิไวซ์, XAI, ออร่า, ปีกแม่เหล็ก และแว่นตา
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Controls: Category Pills & Search -->
+      <div style="margin-bottom: 16px;">
+        <div class="filter-pills" style="margin-bottom: 12px; flex-wrap: wrap;">
+          ${pillsHtml}
+        </div>
+        <div style="position: relative; max-width: 450px;">
+          <input type="text" class="search-input" value="${esc(searchQ)}" oninput="filterTamerEquipment(this.value)" placeholder="ค้นหาชื่อชุด, เครื่องประดับ, สเตตัส, หรือดันเจี้ยน..." style="width: 100%; padding: 9px 12px 9px 36px; border-radius: 8px;">
+          <span style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 0.9rem;">🔍</span>
+        </div>
+      </div>
+
+      <!-- Cards Container -->
+      <div id="tamer-equipment-cards">
+        ${cardsHtml}
+      </div>
+    </div>
+  `;
 }

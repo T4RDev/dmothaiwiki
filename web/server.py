@@ -1221,6 +1221,16 @@ def calculate_currency(
         }
     return {"rate": rate, "message": "Specify ?tera= or ?thb="}
 
+@app.get("/api/tamer-equipment")
+def get_tamer_equipment():
+    json_path = STATIC_DIR / "data" / "tamer_equipment.json"
+    if not json_path.exists():
+        json_path = BASE_DIR / "data" / "tamer_equipment.json"
+    if json_path.exists():
+        with open(json_path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    raise HTTPException(status_code=404, detail="Equipment data not found")
+
 @app.get("/images/patch/{filename:path}")
 def get_patch_media(filename: str):
     patch_dir = IMAGES_DIR / "patch"
@@ -1273,6 +1283,8 @@ def _render_index_html(status_code: int = 200):
 @app.get("/tamer/{rest:path}")
 @app.get("/tamer-status")
 @app.get("/tamer-equip")
+@app.get("/tamer-equipment")
+@app.get("/tamer-equipment/{rest:path}")
 @app.get("/dungeons")
 @app.get("/dungeon/{rest:path}")
 @app.get("/guide")
