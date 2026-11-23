@@ -5841,7 +5841,7 @@ const DIGICLONE_DEFAULT_TABLE = [
 let DIGICLONE_STATE = {
   data: null,
   calcStat: 'AT',
-  calcBase: 3500,
+  calcBase: 295,
   calcLv: 15
 };
 
@@ -6142,7 +6142,7 @@ function renderDigicloneGuide() {
               </label>
               <div style="display: flex; gap: 6px; flex-wrap: wrap;">
                 ${['AT', 'CT', 'BL', 'EV', 'HP'].map(st => `
-                  <button class="filter-pill ${DIGICLONE_STATE.calcStat === st ? 'active' : ''}" onclick="setCloneCalcStat('${st}')" style="min-width: 52px; font-weight: 700;">
+                  <button class="filter-pill clone-stat-pill ${DIGICLONE_STATE.calcStat === st ? 'active' : ''}" data-stat="${st}" onclick="setCloneCalcStat('${st}')" style="min-width: 52px; font-weight: 700;">
                     ${st}
                   </button>
                 `).join('')}
@@ -6150,44 +6150,43 @@ function renderDigicloneGuide() {
             </div>
 
             <div>
-              <label style="font-size: 0.82rem; color: var(--text-muted); display: block; margin-bottom: 6px; font-weight: 700;">
+              <label style="font-size: 0.82rem; color: var(--text-muted); display: block; margin-bottom: 4px; font-weight: 700;">
                 2. ค่าสเตตัสพื้นฐานของดิจิมอน (Base Stat ในเกม)
               </label>
-              <input type="number" id="clone-calc-base-input" value="${DIGICLONE_STATE.calcBase}" min="1" max="999999" oninput="onCloneCalcBaseChange(this.value)" style="width: 100%; max-width: 280px; padding: 8px 12px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; color: #fff; font-size: 0.95rem; font-weight: 700;">
+              <div style="font-size: 0.78rem; color: #94a3b8; margin-bottom: 8px; line-height: 1.4;">
+                <span style="color: #fff; font-weight: 700;">(คือค่าตัวเลขสีขาว</span> ของดิจิมอนในหน้าต่าง Status ในเกม ไม่รวมตัวเลขสีเขียวและเหลือง)
+              </div>
+              <input type="number" step="any" id="clone-calc-base-input" value="${DIGICLONE_STATE.calcBase}" min="0" max="999999" oninput="onCloneCalcBaseChange(this.value)" placeholder="กรอกตัวเลขสีขาว เช่น 295..." style="width: 100%; max-width: 280px; padding: 8px 12px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; color: #fff; font-size: 0.95rem; font-weight: 700;">
             </div>
 
             <div>
               <div style="display: flex; align-items: center; justify-content: space-between; max-width: 280px; margin-bottom: 6px;">
                 <label style="font-size: 0.82rem; color: var(--text-muted); font-weight: 700;">
-                  3. ระดับโคลน: <strong style="color: #38bdf8;">Lv. ${DIGICLONE_STATE.calcLv}</strong>
+                  3. ระดับโคลน: <strong id="clone-calc-lv-label" style="color: #38bdf8;">Lv. ${DIGICLONE_STATE.calcLv}</strong>
                 </label>
                 <button onclick="setCloneCalcLv(15)" style="background: rgba(245,158,11,0.2); border: 1px solid rgba(245,158,11,0.4); color: #fbbf24; border-radius: 4px; padding: 2px 8px; font-size: 0.74rem; cursor: pointer; font-weight: 700;">
                   Max Lv.15
                 </button>
               </div>
-              <input type="range" min="1" max="15" value="${DIGICLONE_STATE.calcLv}" oninput="setCloneCalcLv(this.value)" style="width: 100%; max-width: 280px; cursor: pointer;">
+              <input type="range" id="clone-calc-lv-slider" min="1" max="15" value="${DIGICLONE_STATE.calcLv}" oninput="setCloneCalcLv(this.value)" style="width: 100%; max-width: 280px; cursor: pointer;">
             </div>
           </div>
 
           <!-- Result Card -->
           <div style="background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 18px 20px; display: flex; flex-direction: column; gap: 10px;">
-            <div style="font-size: 0.84rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700; letter-spacing: 0.05em;">
-              ผลการคำนวณ ${DIGICLONE_STATE.calcStat} (Perfect Lv. ${curRow.lv})
+            <div id="clone-calc-result-title" style="font-size: 0.84rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700; letter-spacing: 0.05em;">
+              ผลการคำนวณ ${DIGICLONE_STATE.calcStat} (PERFECT LV. ${curRow.lv})
             </div>
 
-            <div style="display: flex; align-items: baseline; gap: 12px;">
-              <span style="font-size: 2rem; font-weight: 900; color: #38bdf8;">
-                ${totalVal.toLocaleString()}${DIGICLONE_STATE.calcStat === 'BL' ? '%' : ''}
-              </span>
-              <span style="font-size: 1rem; font-weight: 700; color: #34d399;">
-                (+${bonusVal.toLocaleString()}${DIGICLONE_STATE.calcStat === 'BL' ? '%' : ''})
+            <div style="display: flex; align-items: baseline; gap: 10px;">
+              <span id="clone-calc-bonus-display" style="font-size: 2.3rem; font-weight: 900; color: #34d399; text-shadow: 0 0 16px rgba(52,211,153,0.35);">
+                +${bonusVal.toLocaleString()}${DIGICLONE_STATE.calcStat === 'BL' ? '%' : ''}
               </span>
             </div>
 
             <div style="border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 10px; font-size: 0.82rem; color: #cbd5e1; display: flex; flex-direction: column; gap: 4px;">
-              <div>• เปอร์เซ็นต์โคลนที่ได้รับ: <strong style="color: #fbbf24;">+${pct}%</strong></div>
-              <div>• ค่าสเตตัสพื้นฐาน: <strong>${baseVal.toLocaleString()}</strong></div>
-              <div>• เกรดไอเทมที่ต้องใช้: <span class="badge" style="background: rgba(0,0,0,0.3); border-color: ${curRow.gradeColor}; color: ${curRow.gradeColor}; font-weight: 700;">${curRow.gradeName}</span></div>
+              <div>• เปอร์เซ็นต์โคลนที่ได้รับ: <strong id="clone-calc-pct-summary" style="color: #fbbf24;">+${pct}%</strong></div>
+              <div>• ค่าสเตตัสพื้นฐาน (สีขาว): <strong id="clone-calc-base-summary">${baseVal.toLocaleString()}</strong></div>
             </div>
           </div>
         </div>
@@ -6197,22 +6196,72 @@ function renderDigicloneGuide() {
   `;
 }
 
-function setCloneCalcStat(stat) {
-  DIGICLONE_STATE.calcStat = stat;
-  if (stat === 'BL') DIGICLONE_STATE.calcBase = 13;
-  else if (stat === 'CT') DIGICLONE_STATE.calcBase = 25;
-  else if (stat === 'EV') DIGICLONE_STATE.calcBase = 22;
-  else if (stat === 'HP') DIGICLONE_STATE.calcBase = 12000;
-  else DIGICLONE_STATE.calcBase = 3500;
-  renderDigicloneGuide();
+function updateCloneCalculatorUI() {
+  const tableData = (DIGICLONE_STATE.data && DIGICLONE_STATE.data.clone_table) ? DIGICLONE_STATE.data.clone_table : DIGICLONE_DEFAULT_TABLE;
+  const curRow = tableData.find(r => r.lv === DIGICLONE_STATE.calcLv) || tableData[tableData.length - 1];
+  const statKey = DIGICLONE_STATE.calcStat.toLowerCase();
+  const pct = curRow[statKey] || 0;
+
+  const rawBase = String(DIGICLONE_STATE.calcBase);
+  const baseVal = Math.max(0, parseFloat(rawBase) || 0);
+
+  let bonusVal = 0;
+  if (DIGICLONE_STATE.calcStat === 'BL') {
+    bonusVal = pct;
+  } else {
+    const calc = baseVal * (pct / 100);
+    bonusVal = Math.round(calc * 100) / 100;
+  }
+
+  const titleEl = document.getElementById('clone-calc-result-title');
+  if (titleEl) titleEl.innerText = `ผลการคำนวณ ${DIGICLONE_STATE.calcStat} (PERFECT LV. ${curRow.lv})`;
+
+  const bonusEl = document.getElementById('clone-calc-bonus-display');
+  if (bonusEl) {
+    const formattedBonus = (bonusVal % 1 === 0) ? bonusVal.toLocaleString() : bonusVal.toFixed(2);
+    bonusEl.innerText = `+${formattedBonus}${DIGICLONE_STATE.calcStat === 'BL' ? '%' : ''}`;
+  }
+
+  const pctEl = document.getElementById('clone-calc-pct-summary');
+  if (pctEl) pctEl.innerText = `+${pct}%`;
+
+  const baseEl = document.getElementById('clone-calc-base-summary');
+  if (baseEl) {
+    baseEl.innerText = (baseVal % 1 === 0) ? baseVal.toLocaleString() : baseVal.toString();
+  }
+
+  const lvLabelEl = document.getElementById('clone-calc-lv-label');
+  if (lvLabelEl) lvLabelEl.innerText = `Lv. ${DIGICLONE_STATE.calcLv}`;
 }
 
 function onCloneCalcBaseChange(val) {
-  DIGICLONE_STATE.calcBase = parseFloat(val) || 0;
-  renderDigicloneGuide();
+  DIGICLONE_STATE.calcBase = val;
+  updateCloneCalculatorUI();
 }
 
 function setCloneCalcLv(lv) {
   DIGICLONE_STATE.calcLv = parseInt(lv, 10) || 15;
-  renderDigicloneGuide();
+  const slider = document.getElementById('clone-calc-lv-slider');
+  if (slider) slider.value = DIGICLONE_STATE.calcLv;
+  updateCloneCalculatorUI();
+}
+
+function setCloneCalcStat(stat) {
+  DIGICLONE_STATE.calcStat = stat;
+  if (stat === 'BL') DIGICLONE_STATE.calcBase = 13;
+  else if (stat === 'CT') DIGICLONE_STATE.calcBase = 25.5;
+  else if (stat === 'EV') DIGICLONE_STATE.calcBase = 22.4;
+  else if (stat === 'HP') DIGICLONE_STATE.calcBase = 12000;
+  else DIGICLONE_STATE.calcBase = 295;
+
+  const pills = document.querySelectorAll('.clone-stat-pill');
+  pills.forEach(p => {
+    if (p.getAttribute('data-stat') === stat) p.classList.add('active');
+    else p.classList.remove('active');
+  });
+
+  const baseInput = document.getElementById('clone-calc-base-input');
+  if (baseInput) baseInput.value = DIGICLONE_STATE.calcBase;
+
+  updateCloneCalculatorUI();
 }
