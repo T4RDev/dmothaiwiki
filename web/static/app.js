@@ -6354,12 +6354,11 @@ function renderTamerEquipmentView() {
         const inDesc = (it.desc || '').toLowerCase().includes(searchQ);
         const inType = (it.type || '').toLowerCase().includes(searchQ);
         const inSource = (it.source || '').toLowerCase().includes(searchQ);
-        const inPieces = (it.pieces || []).some(p => (p.name || '').toLowerCase().includes(searchQ) || (p.stats || '').toLowerCase().includes(searchQ));
-        const inBis = (it.bis_options || []).some(b => (b.slot || '').toLowerCase().includes(searchQ) || (b.priority || '').toLowerCase().includes(searchQ));
-        const inModels = (it.models || []).some(m => (m.name || '').toLowerCase().includes(searchQ) || (m.effect || '').toLowerCase().includes(searchQ));
-        const inVariants = (it.variants || []).some(v => (v.name || '').toLowerCase().includes(searchQ) || (v.effect || '').toLowerCase().includes(searchQ));
-        const inTypes = (it.types || []).some(t => (t.name || '').toLowerCase().includes(searchQ) || (t.effect || '').toLowerCase().includes(searchQ));
-        return inName || inDesc || inType || inSource || inPieces || inBis || inModels || inVariants || inTypes;
+        const inNotes = (it.notes || '').toLowerCase().includes(searchQ);
+        const inBis = (typeof it.bis_options === 'string' ? it.bis_options : '').toLowerCase().includes(searchQ);
+        const inStats = typeof it.stats === 'object' ? JSON.stringify(it.stats).toLowerCase().includes(searchQ) : '';
+        const inVars = typeof it.variations === 'object' ? JSON.stringify(it.variations).toLowerCase().includes(searchQ) : '';
+        return inName || inDesc || inType || inSource || inNotes || inBis || inStats || inVars;
       });
       if (items.length === 0 && !(cat.name || '').toLowerCase().includes(searchQ)) return null;
     }
@@ -6390,171 +6389,103 @@ function renderTamerEquipmentView() {
   } else {
     cardsHtml = filteredCats.map(cat => {
       const itemsHtml = cat.items.map(it => {
-        let pieceTable = '';
-        if (it.pieces && it.pieces.length > 0) {
-          pieceTable = `
-            <div style="margin-top: 14px; overflow-x: auto;">
-              <table style="width: 100%; border-collapse: collapse; font-size: 0.84rem; text-align: left;">
-                <thead>
-                  <tr style="background: rgba(0,0,0,0.3); border-bottom: 1px solid rgba(255,255,255,0.1); color: #94a3b8;">
-                    <th style="padding: 8px 10px;">ชิ้นส่วน (Piece)</th>
-                    <th style="padding: 8px 10px;">ช่องสวมใส่</th>
-                    <th style="padding: 8px 10px;">สเตตัสที่ได้รับ (Stats)</th>
-                    <th style="padding: 8px 10px;">ระยะเวลา</th>
-                    <th style="padding: 8px 10px;">แหล่งดรอป / หาได้จาก</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  ${it.pieces.map(p => `
-                    <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                      <td style="padding: 8px 10px; font-weight: 700; color: #fff;">
-                        <img src="${esc(p.icon || '/images/client_items/5050.png')}" style="width: 22px; height: 22px; vertical-align: middle; margin-right: 6px; border-radius: 4px;" onerror="this.src='/images/client_items/5050.png';">
-                        ${esc(p.name)}
-                      </td>
-                      <td style="padding: 8px 10px; color: #38bdf8;">${esc(p.slot)}</td>
-                      <td style="padding: 8px 10px; color: #34d399; font-weight: 700;">${esc(p.stats)}</td>
-                      <td style="padding: 8px 10px; color: #fbbf24;">${esc(p.duration || 'ถาวร')}</td>
-                      <td style="padding: 8px 10px; color: #cbd5e1;">${esc(p.source || it.source || '-')}</td>
-                    </tr>
-                  `).join('')}
-                </tbody>
-              </table>
+        // 1. Stats rendering (dict or string)
+        let statsHtml = '';
+        if (it.stats && typeof it.stats === 'object') {
+          const entries = Object.entries(it.stats);
+          statsHtml = `
+            <div style="margin-top: 12px; background: rgba(0,0,0,0.25); border-radius: 8px; border: 1px solid rgba(255,255,255,0.08); padding: 12px;">
+              <div style="font-size: 0.84rem; font-weight: 800; color: #38bdf8; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em;">
+                รายละเอียดสเตตัสและชิ้นส่วน (Piece Stats & Attributes)
+              </div>
+              <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 8px;">
+                ${entries.map(([k, v]) => `
+                  <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 6px; padding: 8px 10px; font-size: 0.84rem;">
+                    <div style="font-weight: 700; color: #f1f5f9; display: flex; align-items: baseline; justify-content: space-between;">
+                      <span style="color: #94a3b8; font-size: 0.78rem; text-transform: uppercase;">${esc(k)}</span>
+                    </div>
+                    <div style="color: #34d399; font-weight: 700; margin-top: 3px; line-height: 1.4;">${esc(v)}</div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          `;
+        } else if (it.stats && typeof it.stats === 'string') {
+          statsHtml = `
+            <div style="margin-top: 10px; padding: 8px 12px; background: rgba(52,211,153,0.1); border-left: 3px solid #34d399; border-radius: 4px; font-size: 0.86rem; color: #a7f3d0; font-weight: 700;">
+              ${esc(it.stats)}
             </div>
           `;
         }
 
+        // 2. Set Bonus
         let bonusBox = '';
         if (it.set_bonus) {
           bonusBox = `
-            <div style="margin-top: 12px; padding: 10px 14px; background: rgba(56,189,248,0.08); border: 1px solid rgba(56,189,248,0.3); border-radius: 8px; font-size: 0.85rem; color: #bae6fd;">
+            <div style="margin-top: 12px; padding: 10px 14px; background: rgba(56,189,248,0.1); border: 1px solid rgba(56,189,248,0.3); border-radius: 8px; font-size: 0.86rem; color: #bae6fd;">
               <strong style="color: #38bdf8;">โบนัสเซ็ตเมื่อใส่ครบทุกชิ้น (Set Bonus):</strong> ${esc(it.set_bonus)}
             </div>
           `;
         }
 
-        let bisTable = '';
-        if (it.bis_options && it.bis_options.length > 0) {
-          bisTable = `
-            <div style="margin-top: 14px; overflow-x: auto;">
-              <div style="font-size: 0.88rem; font-weight: 800; color: #fbbf24; margin-bottom: 8px;">
-                แนวทางการสุ่มออปชั่นที่ดีที่สุด (Best-in-Slot / BiS Recommendations):
+        // 3. BiS Options & Max Values
+        let bisBox = '';
+        if (it.bis_options || it.max_values || it.slots || it.stat_pool) {
+          bisBox = `
+            <div style="margin-top: 12px; padding: 12px 14px; background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.3); border-radius: 8px; font-size: 0.86rem;">
+              ${it.slots ? `<div style="margin-bottom: 6px; color: #cbd5e1;">• จำนวนช่องออปชั่น: <strong style="color: #38bdf8;">${esc(it.slots)}</strong></div>` : ''}
+              ${it.bis_options ? `<div style="margin-bottom: 6px; color: #fde68a;">• <strong>ออปชั่นที่ดีที่สุด (BiS Recommendations):</strong> <span style="color: #4ade80; font-weight: 800;">${esc(it.bis_options)}</span></div>` : ''}
+              ${it.max_values ? `<div style="margin-bottom: 6px; color: #fef08a;">• <strong>ค่าสูงสุด (Max Roll):</strong> <span style="color: #fbbf24; font-weight: 700;">${esc(it.max_values)}</span></div>` : ''}
+              ${it.stat_pool ? `<div style="color: #94a3b8; font-size: 0.8rem;">• พูลออปชั่นทั้งหมดที่สุ่มได้: ${esc(it.stat_pool)}</div>` : ''}
+            </div>
+          `;
+        }
+
+        // 4. Variations (List or String)
+        let varsBox = '';
+        if (it.variations) {
+          if (Array.isArray(it.variations)) {
+            varsBox = `
+              <div style="margin-top: 12px; background: rgba(0,0,0,0.25); border-radius: 8px; border: 1px solid rgba(255,255,255,0.08); padding: 12px;">
+                <div style="font-size: 0.84rem; font-weight: 800; color: #fbbf24; margin-bottom: 8px; text-transform: uppercase;">
+                  รุ่น / ประเภทไอเทม (Variants & Types)
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 6px;">
+                  ${it.variations.map(v => `
+                    <div style="font-size: 0.85rem; color: #cbd5e1; line-height: 1.45; padding: 4px 8px; background: rgba(255,255,255,0.03); border-radius: 4px;">
+                      • ${esc(v)}
+                    </div>
+                  `).join('')}
+                </div>
               </div>
-              <table style="width: 100%; border-collapse: collapse; font-size: 0.84rem; text-align: left;">
-                <thead>
-                  <tr style="background: rgba(0,0,0,0.3); border-bottom: 1px solid rgba(255,255,255,0.1); color: #94a3b8;">
-                    <th style="padding: 8px 10px;">ชิ้นประดับ</th>
-                    <th style="padding: 8px 10px;">จำนวนออป</th>
-                    <th style="padding: 8px 10px;">ออปชั่น BiS แนะนำ</th>
-                    <th style="padding: 8px 10px;">ค่าสูงสุด (Max Roll)</th>
-                    <th style="padding: 8px 10px;">แหล่งดรอป / แลก</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  ${it.bis_options.map(b => `
-                    <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                      <td style="padding: 8px 10px; font-weight: 800; color: #fff;">${esc(b.slot)}</td>
-                      <td style="padding: 8px 10px; color: #38bdf8; font-weight: 700;">${esc(b.options_count)}</td>
-                      <td style="padding: 8px 10px; color: #4ade80; font-weight: 700;">${esc(b.priority)}</td>
-                      <td style="padding: 8px 10px; color: #fde047;">${esc(b.max_roll)}</td>
-                      <td style="padding: 8px 10px; color: #cbd5e1;">${esc(b.source)}</td>
-                    </tr>
-                  `).join('')}
-                </tbody>
-              </table>
-            </div>
-          `;
+            `;
+          } else if (typeof it.variations === 'string') {
+            varsBox = `
+              <div style="margin-top: 10px; font-size: 0.85rem; color: #94a3b8;">
+                <strong>รุ่นที่มีในเกม:</strong> <span style="color: #cbd5e1;">${esc(it.variations)}</span>
+              </div>
+            `;
+          }
         }
 
-        let modelsTable = '';
-        if (it.models && it.models.length > 0) {
-          modelsTable = `
-            <div style="margin-top: 14px; overflow-x: auto;">
-              <table style="width: 100%; border-collapse: collapse; font-size: 0.84rem; text-align: left;">
-                <thead>
-                  <tr style="background: rgba(0,0,0,0.3); border-bottom: 1px solid rgba(255,255,255,0.1); color: #94a3b8;">
-                    <th style="padding: 8px 10px;">รุ่น / ชื่อไอเทม</th>
-                    <th style="padding: 8px 10px;">ความจุ / สล็อต</th>
-                    <th style="padding: 8px 10px;">สเตตัส / คุณสมบัติพิเศษ</th>
-                    <th style="padding: 8px 10px;">วิธีได้รับ / แหล่งฟาร์ม</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  ${it.models.map(m => `
-                    <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                      <td style="padding: 8px 10px; font-weight: 700; color: #fff;">${esc(m.name)}</td>
-                      <td style="padding: 8px 10px; color: #38bdf8;">${esc(m.capacity || m.slots || '-')}</td>
-                      <td style="padding: 8px 10px; color: #34d399; font-weight: 700;">${esc(m.stats || m.effect || '-')}</td>
-                      <td style="padding: 8px 10px; color: #cbd5e1;">${esc(m.source || it.source || '-')}</td>
-                    </tr>
-                  `).join('')}
-                </tbody>
-              </table>
-            </div>
-          `;
-        }
-
-        let variantsTable = '';
-        if (it.variants && it.variants.length > 0) {
-          variantsTable = `
-            <div style="margin-top: 14px; overflow-x: auto;">
-              <table style="width: 100%; border-collapse: collapse; font-size: 0.84rem; text-align: left;">
-                <thead>
-                  <tr style="background: rgba(0,0,0,0.3); border-bottom: 1px solid rgba(255,255,255,0.1); color: #94a3b8;">
-                    <th style="padding: 8px 10px;">ประเภท / ออร่า</th>
-                    <th style="padding: 8px 10px;">ผลลัพธ์ / บัฟที่ได้รับ</th>
-                    <th style="padding: 8px 10px;">ระยะเวลา</th>
-                    <th style="padding: 8px 10px;">แหล่งดรอป / แลก</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  ${it.variants.map(v => `
-                    <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                      <td style="padding: 8px 10px; font-weight: 700; color: #fff;">${esc(v.name)}</td>
-                      <td style="padding: 8px 10px; color: #34d399; font-weight: 700;">${esc(v.effect || v.stats || '-')}</td>
-                      <td style="padding: 8px 10px; color: #fbbf24;">${esc(v.duration || 'ถาวร')}</td>
-                      <td style="padding: 8px 10px; color: #cbd5e1;">${esc(v.source || it.source || '-')}</td>
-                    </tr>
-                  `).join('')}
-                </tbody>
-              </table>
-            </div>
-          `;
-        }
-
-        let typesTable = '';
-        if (it.types && it.types.length > 0) {
-          typesTable = `
-            <div style="margin-top: 14px; overflow-x: auto;">
-              <table style="width: 100%; border-collapse: collapse; font-size: 0.84rem; text-align: left;">
-                <thead>
-                  <tr style="background: rgba(0,0,0,0.3); border-bottom: 1px solid rgba(255,255,255,0.1); color: #94a3b8;">
-                    <th style="padding: 8px 10px;">ประเภท / ซีรีส์</th>
-                    <th style="padding: 8px 10px;">สเตตัส / คุณสมบัติ</th>
-                    <th style="padding: 8px 10px;">แหล่งดรอป / ทำเควสต์</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  ${it.types.map(t => `
-                    <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                      <td style="padding: 8px 10px; font-weight: 700; color: #fff;">${esc(t.name)}</td>
-                      <td style="padding: 8px 10px; color: #34d399; font-weight: 700;">${esc(t.stats || t.effect || '-')}</td>
-                      <td style="padding: 8px 10px; color: #cbd5e1;">${esc(t.source || it.source || '-')}</td>
-                    </tr>
-                  `).join('')}
-                </tbody>
-              </table>
+        // 5. Notes
+        let notesBox = '';
+        if (it.notes) {
+          notesBox = `
+            <div style="margin-top: 10px; font-size: 0.82rem; color: #94a3b8; line-height: 1.45;">
+              <strong style="color: #cbd5e1;">หมายเหตุ / คำแนะนำ:</strong> ${esc(it.notes)}
             </div>
           `;
         }
 
         return `
-          <div class="panel" style="padding: 16px; margin-bottom: 16px; border-left: 3px solid #38bdf8;">
+          <div class="panel" style="padding: 18px; margin-bottom: 16px; border-left: 3px solid #38bdf8;">
             <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
-              <div style="display: flex; align-items: center; gap: 10px;">
-                <img src="${esc(it.icon || '/static/images/ui/ui_equipment.png')}" style="width: 32px; height: 32px; object-fit: contain; border-radius: 6px; background: rgba(0,0,0,0.4); padding: 2px;" onerror="this.src='/static/images/ui/ui_equipment.png';">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <img src="/static/images/ui/ui_equipment.png?v=20261124_03" style="width: 32px; height: 32px; object-fit: contain; border-radius: 6px; background: rgba(0,0,0,0.4); padding: 2px;" onerror="this.src='/images/client_items/5050.png';">
                 <div>
-                  <h4 style="margin: 0; font-size: 1.05rem; font-weight: 800; color: #fff;">${esc(it.name)}</h4>
-                  <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 2px;">
+                  <h4 style="margin: 0; font-size: 1.08rem; font-weight: 800; color: #fff;">${esc(it.name)}</h4>
+                  <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 3px;">
                     ${it.type ? `<span class="badge" style="background: rgba(56,189,248,0.2); color: #38bdf8; margin-right: 6px;">${esc(it.type)}</span>` : ''}
                     ${it.source ? `<span>แหล่งที่มา: <strong style="color: #f1f5f9;">${esc(it.source)}</strong></span>` : ''}
                   </div>
@@ -6562,23 +6493,22 @@ function renderTamerEquipmentView() {
               </div>
             </div>
 
-            ${it.desc ? `<div style="font-size: 0.86rem; color: #cbd5e1; margin-top: 10px; line-height: 1.5;">${esc(it.desc)}</div>` : ''}
+            ${it.desc ? `<div style="font-size: 0.88rem; color: #cbd5e1; margin-top: 10px; line-height: 1.5;">${esc(it.desc)}</div>` : ''}
 
             ${bonusBox}
-            ${pieceTable}
-            ${bisTable}
-            ${modelsTable}
-            ${variantsTable}
-            ${typesTable}
+            ${bisBox}
+            ${statsHtml}
+            ${varsBox}
+            ${notesBox}
           </div>
         `;
       }).join('');
 
       return `
-        <div style="margin-bottom: 28px;">
-          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px;">
+        <div style="margin-bottom: 30px;">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 14px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px;">
             <span style="width: 4px; height: 18px; background: #38bdf8; border-radius: 2px;"></span>
-            <h3 style="margin: 0; font-size: 1.15rem; font-weight: 800; color: #fff;">${esc(cat.name)}</h3>
+            <h3 style="margin: 0; font-size: 1.18rem; font-weight: 800; color: #fff;">${esc(cat.name)}</h3>
             <span style="font-size: 0.82rem; color: var(--text-muted);">(${cat.items.length} รายการ)</span>
           </div>
           ${itemsHtml}
@@ -6592,7 +6522,7 @@ function renderTamerEquipmentView() {
       <!-- Banner -->
       <div class="panel" style="padding: 20px; background: linear-gradient(135deg, rgba(56,189,248,0.12) 0%, rgba(15,23,42,0.6) 100%); border-color: rgba(56,189,248,0.3); margin-bottom: 16px;">
         <div style="display: flex; align-items: center; gap: 14px;">
-          <img src="/static/images/ui/ui_equipment.png?v=20261124_01" style="width: 46px; height: 46px; object-fit: contain; filter: drop-shadow(0 2px 8px rgba(56,189,248,0.4));" onerror="this.src='/images/client_items/5050.png';">
+          <img src="/static/images/ui/ui_equipment.png?v=20261124_03" style="width: 46px; height: 46px; object-fit: contain; filter: drop-shadow(0 2px 8px rgba(56,189,248,0.4));" onerror="this.src='/images/client_items/5050.png';">
           <div>
             <h2 style="margin: 0; font-size: 1.35rem; font-weight: 900; color: #fff;">
               คู่มืออุปกรณ์สวมใส่เทมเมอร์ & คอสตูม (Tamer Equipment & Costumes Guide)
